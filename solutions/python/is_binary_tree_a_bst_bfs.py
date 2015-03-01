@@ -4,11 +4,11 @@ from binary_tree_prototype import BinaryTreeNode
 
 
 # @include
-QNode = collections.namedtuple("QNode", ("node", "lower", "upper"))
+QNode = collections.namedtuple('QNode', ('node', 'lower', 'upper'))
 
 def is_binary_tree_BST(tree):
     BFS_queue = collections.deque()
-    BFS_queue.append(QNode(tree, float("-inf"), float("inf")))
+    BFS_queue.append(QNode(tree, float('-inf'), float('inf')))
 
     while BFS_queue:
         front = BFS_queue.popleft()
