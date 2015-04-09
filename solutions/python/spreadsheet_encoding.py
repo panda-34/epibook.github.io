@@ -5,7 +5,7 @@ import string
 
 
 def rand_string(length):
-    ret = [random.choice(string.ascii_uppercase) for i in range(length)]
+    ret = (random.choice(string.ascii_uppercase) for i in range(length))
     return ''.join(ret)
 
 
