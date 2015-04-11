@@ -56,7 +56,7 @@ def main():
             result.next.next.data == 4 and
             result.next.next.next.data == 3 and
             result.next.next.next.next.data == 5 and
-            result.next.next.next.next.next == None)
+            result.next.next.next.next.next is None)
     while result:
         print(result.data)
         result = result.next

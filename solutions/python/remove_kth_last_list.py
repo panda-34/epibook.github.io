@@ -29,7 +29,7 @@ def main():
     L = remove_kth_last(L, 2)
     assert L.data == 1 and L.next.data == 3
     L = remove_kth_last(L, 2)
-    assert L.data == 3 and L.next == None
+    assert L.data == 3 and L.next is None
 
 
 if __name__ == '__main__':
