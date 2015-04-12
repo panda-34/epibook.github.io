@@ -43,8 +43,8 @@ def main():
             curr = ListNode(i, head)
             head = curr
         curr = head
-        if curr is not None:
-            while curr.next is not None:
+        if curr:
+            while curr.next:
                 curr = curr.next
             curr.next = head  # make the list as a circular list.
         res = find_median_sorted_circular_linked_list(head.next)
@@ -57,8 +57,8 @@ def main():
         curr = ListNode(5, head)
         head = curr
     curr = head
-    if curr is not None:
-        while curr.next is not None:
+    if curr:
+        while curr.next:
             curr = curr.next
         curr.next = head  # make the list as a circular list.
     assert 5 == find_median_sorted_circular_linked_list(head)

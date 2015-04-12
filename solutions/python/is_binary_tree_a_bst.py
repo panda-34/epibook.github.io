@@ -7,7 +7,7 @@ def is_binary_tree_BST(tree):
     return are_keys_in_range(tree, float('-inf'), float('inf'))
 
 def are_keys_in_range(tree, low_range, high_range):
-    if tree is None:
+    if not tree:
         return True
     elif not low_range < tree.data < high_range:
         return False
@@ -27,7 +27,7 @@ def main():
     tree.right.left = BinaryTreeNode(4)
     tree.right.right = BinaryTreeNode(6)
     # should output True.
-    assert is_binary_tree_BST(tree) == True
+    assert is_binary_tree_BST(tree)
     print(is_binary_tree_BST(tree))
     #      10
     #    2   5
@@ -37,7 +37,7 @@ def main():
     assert not is_binary_tree_BST(tree)
     print(is_binary_tree_BST(tree))
     # should output True.
-    assert is_binary_tree_BST(None) == True
+    assert is_binary_tree_BST(None)
     print(is_binary_tree_BST(None))
 
 

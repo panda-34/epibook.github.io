@@ -20,11 +20,11 @@ def overlapping_lists(L1, L2):
     temp = root2
     while True:
         temp = temp.next
-        if temp == root1 or temp == root2:
+        if temp is root1 or temp is root2:
             break
 
     # L1 and L2 do not end in the same cycle.
-    if temp != root1:
+    if temp is not root1:
         return None  # Cycles are disjoint.
 
     # L1 and L2 end in the same cycle, locate the overlapping node if they
@@ -35,20 +35,20 @@ def overlapping_lists(L1, L2):
         L2, L1 = L1, L2
         root1, root2 = root2, root1
     L2 = advance_list_by_k(abs(stem1_length - stem2_length), L2)
-    while L1 != L2 and L1 != root1 and L2 != root2:
+    while L1 is not L2 and L1 is not root1 and L2 is not root2:
         L1 = L1.next
         L2 = L2.next
 
     # If L1 == L2 before reaching root1, it means the overlap first occurs
     # before the cycle starts; otherwise, the first overlapping node is not
     # unique, we can return any node on the cycle.
-    return L1 if L1 == L2 else root1
+    return L1 if L1 is L2 else root1
 
 
 # Calculates the distance between a and b.
 def distance(a, b):
     dis = 0
-    while a != b:
+    while a is not b:
         a = a.next
         dis += 1
     return dis

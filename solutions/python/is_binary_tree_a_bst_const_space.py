@@ -47,7 +47,7 @@ def main():
     tree.right.left = BinaryTreeNode(4)
     tree.right.right = BinaryTreeNode(6)
     # should output True.
-    assert is_binary_tree_BST(tree) == True
+    assert is_binary_tree_BST(tree)
     print(is_binary_tree_BST(tree))
     #      10
     #    2   5
@@ -57,7 +57,7 @@ def main():
     assert not is_binary_tree_BST(tree)
     print(is_binary_tree_BST(tree))
     # should output True.
-    assert is_binary_tree_BST(None) == True
+    assert is_binary_tree_BST(None)
     print(is_binary_tree_BST(None))
 
 

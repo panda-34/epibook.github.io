@@ -6,7 +6,7 @@ from postings_list_prototype import ListNode
 
 # @include
 def copy_postings_list(L):
-    if L is None:
+    if not L:
         return None
 
     # Stage 1: Makes a copy of the original list without assigning the jump

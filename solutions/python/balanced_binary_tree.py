@@ -10,7 +10,7 @@ def is_balanced_binary_tree(tree):
 # First value of the return value indicates if tree is balanced, if
 # balanced the second value of the return value is the height of tree.
 def check_balanced(tree):
-    if tree is None:
+    if not tree:
         return (True, -1)  # Base case.
 
     left_result = check_balanced(tree.left)
@@ -38,13 +38,13 @@ def main():
     tree.right = BinaryTreeNode()
     tree.right.left = BinaryTreeNode()
     tree.right.right = BinaryTreeNode()
-    assert is_balanced_binary_tree(tree) == True
+    assert is_balanced_binary_tree(tree)
     print(is_balanced_binary_tree(tree))
     # Non-balanced binary tree test.
     tree = BinaryTreeNode()
     tree.left = BinaryTreeNode()
     tree.left.left = BinaryTreeNode()
-    assert is_balanced_binary_tree(tree) == False
+    assert not is_balanced_binary_tree(tree)
     print(is_balanced_binary_tree(tree))
 
 

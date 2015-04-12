@@ -13,7 +13,7 @@ def overlapping_no_cycle_lists(L1, L2):
     # Advances the longer list to get equal length lists.
     L2 = advance_list_by_k(abs(L1_len - L2_len), L2)
 
-    while L1 and L2 and L1 != L2:
+    while L1 and L2 and L1 is not L2:
         L1 = L1.next
         L2 = L2.next
     return L1  # None implies there is no overlap between L1 and L2.

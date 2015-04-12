@@ -6,7 +6,7 @@ from reverse_linked_list_iterative import reverse_linked_list
 
 # @include
 def is_linked_list_a_palindrome(L):
-    if L is None:
+    if not L:
         return True
 
     # Finds the second half of L.

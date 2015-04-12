@@ -4,7 +4,7 @@ from linked_list_prototype import ListNode
 
 # @include
 def cyclically_right_shift_list(L, k):
-    if L is None:
+    if not L:
         return L
 
     # Computes the length of L and the tail.
