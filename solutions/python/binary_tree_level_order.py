@@ -15,23 +15,23 @@ def print_binary_tree_depth_order(tree):
     while processing_nodes:
         curr = processing_nodes.popleft()
         num_nodes_current_level -= 1
-        if not curr:
-            continue
-        print(curr.data, end=' ')
-        # @exclude
-        one_line_result.append(curr.data)
-        # @include
+        if curr:
+            print(curr.data, end=' ')
+            # @exclude
+            one_line_result.append(curr.data)
+            # @include
 
-        # Defer the null checks to the null test above.
-        processing_nodes.append(curr.left)
-        processing_nodes.append(curr.right)
+            # Defer the null checks to the null test above.
+            processing_nodes.append(curr.left)
+            processing_nodes.append(curr.right)
         # Done with the nodes at the current depth.
         if num_nodes_current_level == 0:
             print()
             num_nodes_current_level = len(processing_nodes)
             # @exclude
-            results.append(one_line_result.copy())
-            one_line_result.clear()
+            if one_line_result:
+                results.append(one_line_result.copy())
+                one_line_result.clear()
             # @include
 # @exclude
 
