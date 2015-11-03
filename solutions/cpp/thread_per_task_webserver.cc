@@ -1,7 +1,7 @@
 // Copyright (c) 2015 Elements of Programming Interviews. All rights reserved.
 
-#include <memory>
 #include <iostream>
+#include <memory>
 #include <thread>
 #include <boost/asio.hpp>
 
@@ -13,7 +13,7 @@ using boost::system::error_code;
 namespace asio = boost::asio;
 using asio::ip::tcp;
 
-void process_req(shared_ptr<tcp::socket> sock) {
+void ProcessReq(shared_ptr<tcp::socket> sock) {
   asio::streambuf sb;
   while (true) {
     error_code e;
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
   while (true) {
     shared_ptr<tcp::socket> sock(new tcp::socket(io_service));
     acceptor.accept(*sock);
-    thread(process_req, sock).detach();
+    thread(ProcessReq, sock).detach();
   }
   return 0;
 }

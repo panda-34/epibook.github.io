@@ -1,13 +1,15 @@
 // Copyright (c) 2015 Elements of Programming Interviews. All rights reserved.
 
-#include <memory>
 #include <functional>
 #include <iostream>
+#include <memory>
 #include <thread>
-#include <boost/thread/sync_bounded_queue.hpp>
+#include <utility>
 #include <boost/asio.hpp>
+#include <boost/thread/sync_bounded_queue.hpp>
 
-using std::shared_ptr;
+using std::move;
+using std::unique_ptr;
 using std::ref;
 using std::cout;
 using std::endl;
@@ -17,9 +19,9 @@ using boost::sync_bounded_queue;
 namespace asio = boost::asio;
 using asio::ip::tcp;
 
-typedef sync_bounded_queue<shared_ptr<tcp::socket>> queue_type;
+typedef sync_bounded_queue<unique_ptr<tcp::socket>> QueueType;
 
-void process_req(shared_ptr<tcp::socket> sock) {
+void ProcessReq(unique_ptr<tcp::socket>& sock) {
   asio::streambuf sb;
   while (true) {
     error_code e;
@@ -34,11 +36,11 @@ void process_req(shared_ptr<tcp::socket> sock) {
 }
 
 // @include
-void thread_func(queue_type& q) {
+void ThreadFunc(QueueType& q) {
   while (true) {
-    shared_ptr<tcp::socket> sock;
+    unique_ptr<tcp::socket> sock;
     q >> sock;
-    process_req(sock);
+    ProcessReq(sock);
   }
 }
 
@@ -46,16 +48,16 @@ const unsigned short SERVERPORT = 8080;
 const int NTHREADS = 2;
 
 int main(int argc, char* argv[]) {
-  queue_type q(NTHREADS);
+  QueueType q(NTHREADS);
   for (int i = 0; i < NTHREADS; ++i) {
-    thread(thread_func, ref(q)).detach();
+    thread(ThreadFunc, ref(q)).detach();
   }
   asio::io_service io_service;
   tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), SERVERPORT));
   while (true) {
-    shared_ptr<tcp::socket> sock(new tcp::socket(io_service));
+    unique_ptr<tcp::socket> sock(new tcp::socket(io_service));
     acceptor.accept(*sock);
-    q << sock;
+    q << move(sock);
   }
   return 0;
 }

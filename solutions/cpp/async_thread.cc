@@ -1,8 +1,8 @@
 // Copyright (c) 2015 Elements of Programming Interviews. All rights reserved.
 
-#include <string>
 #include <functional>
 #include <iostream>
+#include <string>
 #include <boost/chrono.hpp>
 #include <boost/thread/scoped_thread.hpp>
 
@@ -23,46 +23,46 @@ class Requestor {
  public:
   Requestor(const string& request, int delay) : req_(request), delay_(delay) {}
 
-  string finished() {
+  string Finished() {
     return "response:" + req_;
   }
 
-  string error() {
+  string Error() {
     return "response:" + req_ + ":TIMEDOUT";
   }
 
 // @include
-  string execute() {
+  string Execute() {
     try {
       // simulate the time taken to perform a computation
       sleep_for(delay_);
     }
     catch (const thread_interrupted&) {
-      return error();
+      return Error();
     }
-    return finished();
+    return Finished();
   }
 // @exclude
 
-  void process_response(const string& response) {
+  void ProcessResponse(const string& response) {
     cout << "ProcessResponse:" << response << endl;
   }
 
 // @include
-  void actual_task() {
-    string response = execute();
-    process_response(response);
+  void ActualTask() {
+    string response = Execute();
+    ProcessResponse(response);
   }
 
-  void task() {
-    scoped_thread<> inner_thread(&Requestor::actual_task, this);
+  void Task() {
+    scoped_thread<> inner_thread(&Requestor::ActualTask, this);
     if (!inner_thread.try_join_for(TIMEOUT)) {
       inner_thread.interrupt();
     }
   }
 
-  void dispatch() {
-    thread_ = scoped_thread<>(&Requestor::task, this);
+  void Dispatch() {
+    thread_ = scoped_thread<>(&Requestor::Task, this);
   }
 
 // @exclude
@@ -75,10 +75,10 @@ class Requestor {
 // @exclude
 
 int main(int argc, char* argv[]) {
-  Requestor r1("t1", 1000); r1.dispatch();
-  Requestor r2("t2", 100); r2.dispatch();
-  Requestor r3("t3", 10); r3.dispatch();
-  Requestor r4("t4", 1); r4.dispatch();
-  Requestor r5("t5", 2); r5.dispatch();
+  Requestor r1("t1", 1000); r1.Dispatch();
+  Requestor r2("t2", 100); r2.Dispatch();
+  Requestor r3("t3", 10); r3.Dispatch();
+  Requestor r4("t4", 1); r4.Dispatch();
+  Requestor r5("t5", 2); r5.Dispatch();
   return 0;
 }

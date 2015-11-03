@@ -9,7 +9,7 @@ using boost::system::error_code;
 namespace asio = boost::asio;
 using asio::ip::tcp;
 
-void process_req(tcp::socket& sock) {
+void ProcessReq(tcp::socket& sock) {
   asio::streambuf sb;
   while (true) {
     error_code e;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
   while (true) {
     tcp::socket sock(io_service);
     acceptor.accept(sock);
-    process_req(sock);
+    ProcessReq(sock);
   }
   return 0;
 }
