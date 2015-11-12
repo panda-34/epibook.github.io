@@ -6,8 +6,10 @@
 #include <mutex>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
+using std::move;
 using std::string;
 using std::to_string;
 using std::vector;
@@ -61,8 +63,8 @@ class SpellCheckService {
   static void Service(ServiceRequest& req, ServiceResponse& resp) {
     string w = req.ExtractWordToCheckFromRequest();
     if (w != w_last_) {
-      w_last_ = w;
-      closest_to_last_word_ = ClosestInDictionary(w);
+      w_last_ = move(w);
+      closest_to_last_word_ = ClosestInDictionary(w_last_);
     }
     resp.EncodeIntoResponse(closest_to_last_word_);
   }

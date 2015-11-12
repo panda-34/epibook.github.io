@@ -50,7 +50,7 @@ class Requestor {
 
 // @include
   void ActualTask() {
-    string response = Execute();
+    const string& response = Execute();
     ProcessResponse(response);
   }
 

@@ -6,8 +6,10 @@
 #include <mutex>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
+using std::move;
 using std::string;
 using std::to_string;
 using std::vector;
@@ -72,7 +74,7 @@ class SpellCheckService {
     if (!found) {
       result = ClosestInDictionary(w);
       lock_guard<mutex> lock(mx);
-      w_last_ = w;
+      w_last_ = move(w);
       closest_to_last_word_ = result;
     }
     resp.EncodeIntoResponse(result);
