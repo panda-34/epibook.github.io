@@ -53,7 +53,7 @@ def main():
     almost_BST.right.right = BinaryTreeNode(6)
     reconstruct_BST(almost_BST)
     result = generate_inorder(almost_BST)
-    print(*result, sep=' ')
+    print(*result)
     assert all(result[i] <= result[i+1] for i in range(len(result) - 1))
 
 

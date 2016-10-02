@@ -7,3 +7,7 @@ class BinaryTreeNode:
         self.right = right
         self.parent = parent
 # @exclude
+
+    def __repr__(self):
+        return '%s <- %s -> %s' % (self.left and self.left.data, self.data,
+                                   self.right and self.right.data)

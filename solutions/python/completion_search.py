@@ -43,7 +43,7 @@ def main():
             tar = random.randrange(100000)
         A = [random.randrange(10000) for i in range(n)]
         print('A = ', end='')
-        print(*A, sep=' ')
+        print(*A)
         print('tar =', tar)
         ret = find_salary_cap(tar, A)
         A.sort()

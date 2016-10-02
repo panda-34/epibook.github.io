@@ -5,7 +5,7 @@ import random
 
 def print_matrix(A):
     for i in A:
-        print(*i, sep=' ')
+        print(*i)
 
 
 # @include
