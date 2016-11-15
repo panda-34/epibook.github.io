@@ -5,37 +5,39 @@ import itertools
 
 
 # @include
-def print_matrix_in_spiral_order(A):
-    for offset in range((len(A) + 1) // 2):
-        print_matrix_clockwise(A, offset)
+def matrix_in_spiral_order(square_matrix):
+    spiral_ordering = []
+    for offset in range((len(square_matrix) + 1) // 2):
+        matrix_layer_in_clockwise(square_matrix, offset, spiral_ordering)
+    return spiral_ordering
 
 
-def print_matrix_clockwise(A, offset):
-    if offset == len(A) - offset - 1:
-        # A has odd dimension, and we are at the center of the matrix A.
-        print(A[offset][offset])
+def matrix_layer_in_clockwise(square_matrix, offset, spiral_ordering):
+    if offset == len(square_matrix) - offset - 1:
+        # square_matrix has odd dimension, and we are at the center of the matrix square_matrix.
+        spiral_ordering.append(square_matrix[offset][offset])
         return
-    for j in range(offset, len(A) - offset - 1):
-        print(A[offset][j], end=' ')
-    for i in range(offset, len(A) - offset - 1):
-        print(A[i][-1 - offset], end=' ')
-    for j in range(len(A) - offset - 1, offset, -1):
-        print(A[-1 - offset][j], end=' ')
-    for i in range(len(A) - offset - 1, offset, -1):
-        print(A[i][offset], end=' ')
+
+    spiral_ordering.extend(square_matrix[offset][offset:-1 - offset])
+    spiral_ordering.extend(
+        list(zip(*square_matrix))[-1 - offset][offset:-1 - offset])
+    spiral_ordering.extend(square_matrix[-1 - offset][-1 - offset:offset:-1])
+    spiral_ordering.extend(
+        list(zip(*square_matrix))[offset][-1 - offset:offset:-1])
 # @exclude
 
 
+def simple_test():
+    A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    assert matrix_in_spiral_order(A) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
+
+
 def main():
-    if len(sys.argv) == 2:
-        N = int(sys.argv[1])
-    else:
-        N = random.randint(1, 50)
+    simple_test()
+    N = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 50)
     k = itertools.count(1)
-    A = []
-    for i in range(N):
-        A.append([next(k) for j in range(N)])
-    print_matrix_in_spiral_order(A)
+    A = [[next(k) for j in range(N)] for i in range(N)]
+    matrix_in_spiral_order(A)
 
 
 if __name__ == '__main__':

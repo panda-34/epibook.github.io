@@ -5,17 +5,15 @@ import random
 
 # @include
 def online_sampling(n, k):
-    H = {}
+    changed_elements = {}
     for i in range(k):
-        # Generate a random int in [0, n - 1 - i].
-        b = n - 1 - i
-        r = random.randint(0, b)
-        r_mapped = H.get(r, r)  # value to which r is mapped
-        b_mapped = H.get(b, b)  # value to which boundary n - 1 - i is mapped
-        H[r] = b_mapped
-        H[b] = r_mapped
-    res = [H[n - 1 - i] for i in range(k)]
-    return res
+        # Generate a random index in [i, n - 1].
+        rand_idx = random.randrange(i, n)
+        rand_idx_mapped, i_mapped = changed_elements.get(
+            rand_idx, rand_idx), changed_elements.get(i, i)
+        changed_elements[rand_idx], changed_elements[
+            i] = i_mapped, rand_idx_mapped
+    return [changed_elements[i] for i in range(k)]
 # @exclude
 
 

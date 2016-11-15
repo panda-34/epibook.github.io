@@ -8,8 +8,7 @@ def has_cycle(head):
     fast = slow = head
 
     while fast and fast.next and fast.next.next:
-        slow = slow.next
-        fast = fast.next.next
+        slow, fast = slow.next, fast.next.next
         if slow is fast:
             # There is a cycle, now let's calculate the cycle length.
             cycle_len = 0
@@ -34,10 +33,28 @@ def has_cycle(head):
             return it  # iter is the start of cycle.
 
     return None  # No cycle.
+
+
 # @exclude
 
 
+def simple_test():
+    L0 = ListNode(42)
+    L0.next = L0
+    assert has_cycle(L0)
+
+    L1, L2 = ListNode(42), ListNode(42)
+    L1.next, L2.next = L2, L1
+    assert has_cycle(L1) is L1
+    assert has_cycle(L2) is L2
+
+    L2.next = None
+    assert has_cycle(L1) is None
+    assert has_cycle(L2) is None
+
+
 def main():
+    simple_test()
     L3 = ListNode(3, None)
     L2 = ListNode(2, L3)
     L1 = ListNode(1, L2)

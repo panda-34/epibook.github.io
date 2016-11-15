@@ -5,8 +5,7 @@ from linked_list_prototype import ListNode
 
 # @include
 def overlapping_no_cycle_lists(L1, L2):
-    L1_len = length(L1)
-    L2_len = length(L2)
+    L1_len, L2_len = length(L1), length(L2)
 
     if L1_len > L2_len:
         L1, L2 = L2, L1  # L2 is the longer list
@@ -14,8 +13,7 @@ def overlapping_no_cycle_lists(L1, L2):
     L2 = advance_list_by_k(abs(L1_len - L2_len), L2)
 
     while L1 and L2 and L1 is not L2:
-        L1 = L1.next
-        L2 = L2.next
+        L1, L2 = L1.next, L2.next
     return L1  # None implies there is no overlap between L1 and L2.
 
 
@@ -33,21 +31,18 @@ def advance_list_by_k(k, L):
         k -= 1
         L = L.next
     return L
+
+
 # @exclude
 
 
 def main():
-    # L1: 1->2->3->null
-    L1 = ListNode(
-        1, ListNode(
-            2, ListNode(
-                3, None)))
+    # L1: 1->2->3->None
+    L1 = ListNode(1, ListNode(2, ListNode(3, None)))
     L2 = L1.next.next
     assert overlapping_no_cycle_lists(L1, L2).data == 3
-    # L2: 4->5->null
-    L2 = ListNode(
-        4, ListNode(
-            5, None))
+    # L2: 4->5->None
+    L2 = ListNode(4, ListNode(5, None))
     assert not overlapping_no_cycle_lists(L1, L2)
 
 

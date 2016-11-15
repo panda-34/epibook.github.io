@@ -5,17 +5,16 @@ from binary_tree_utils import generate_preorder
 
 # @include
 def preorder_traversal(tree):
-    path_stack = []
-    path_stack.append(tree)
-    result = []
-    while path_stack:
-        curr = path_stack.pop()
-        if not curr:
-            continue
-        result.append(curr.data)
-        path_stack.append(curr.right)
-        path_stack.append(curr.left)
+    path, result = [tree], []
+    while path:
+        curr = path.pop()
+        if curr:
+            result.append(curr.data)
+            path.append(curr.right)
+            path.append(curr.left)
     return result
+
+
 # @exclude
 
 

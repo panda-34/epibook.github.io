@@ -2,9 +2,9 @@
 # @include
 def evaluate(RPN_expression):
     intermediate_results = []
-    k_delimiter = ','
+    DELIMITER = ','
 
-    for token in RPN_expression.split(k_delimiter):
+    for token in RPN_expression.split(DELIMITER):
         if token in '+-*/':
             y = intermediate_results.pop()
             x = intermediate_results.pop()
@@ -19,6 +19,8 @@ def evaluate(RPN_expression):
         else:  # token is a number.
             intermediate_results.append(int(token))
     return intermediate_results[-1]
+
+
 # @exclude
 
 
@@ -31,6 +33,7 @@ def main():
     assert 12 == evaluate('10,2,+')
     assert 15 == evaluate('1,2,+,3,4,*,+')
     assert 42 == evaluate('1,2,3,4,5,+,*,+,+,3,4,*,+')
+    assert -6 == evaluate('1,2,3,4,5,+,*,+,+,3,4,*,+,-7,/')
 
 
 if __name__ == '__main__':

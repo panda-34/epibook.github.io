@@ -7,15 +7,23 @@ import random
 def examine_buildings_with_sunset(it):
     # Stores (building_idx, building_height) pair with sunset views.
     candidates = []
+
+    class BuildingWithHeight:
+        def __init__(self, id, height):
+            self.id = id
+            self.height = height
+
     for building_idx, building_height in enumerate(it):
-        while candidates and building_height >= candidates[-1][1]:
+        while candidates and building_height >= candidates[-1].height:
             candidates.pop()
-        candidates.append((building_idx, building_height))
+        candidates.append(BuildingWithHeight(building_idx, building_height))
 
     buildings_with_sunset = []
     while candidates:
-        buildings_with_sunset.append(candidates.pop()[0])
+        buildings_with_sunset.append(candidates.pop().id)
     return buildings_with_sunset
+
+
 # @exclude
 
 

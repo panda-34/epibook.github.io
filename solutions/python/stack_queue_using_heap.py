@@ -4,7 +4,6 @@ import heapq
 
 # @include
 class Stack:
-
     def __init__(self):
         self._timestamp = 0
         self._max_heap = []
@@ -20,17 +19,19 @@ class Stack:
 
     def peek(self):
         return self._max_heap[0][1]
+
+
 # @exclude
 
-class Queue:
 
+class Queue:
     def __init__(self):
-        self._order = 0
+        self._timestamp = 0
         self._min_heap = []
 
     def enqueue(self, x):
-        heapq.heappush(self._min_heap, (self._order, x))
-        self._order += 1
+        heapq.heappush(self._min_heap, (self._timestamp, x))
+        self._timestamp += 1
 
     def dequeue(self):
         if not self._min_heap:

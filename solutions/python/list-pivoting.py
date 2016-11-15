@@ -4,42 +4,56 @@ from linked_list_prototype import ListNode
 
 # @include
 def list_pivoting(L, x):
-    less_head = ListNode()
-    equal_head = ListNode()
-    greater_head = ListNode()
-    less_iter = [less_head]
-    equal_iter = [equal_head]
-    greater_iter = [greater_head]
+    less_head = less_iter = ListNode()
+    equal_head = equal_iter = ListNode()
+    greater_head = greater_iter = ListNode()
     # Populates the three lists.
-    it = L
-    while it:
-        if it.data < x:
-            append_to = less_iter
-        elif it.data == x:
-            append_to = equal_iter
-        else:  # it.data > x.
-            append_to = greater_iter
-        append_to[0].next = it
-        append_to[0] = it
-        it = it.next
-    less_iter[0].next = equal_iter[0].next = greater_iter[0].next = None
-
+    while L:
+        if L.data < x:
+            less_iter.next = L
+            less_iter = less_iter.next
+        elif L.data == x:
+            equal_iter.next = L
+            equal_iter = equal_iter.next
+        else:  # L.data > x.
+            greater_iter.next = L
+            greater_iter = greater_iter.next
+        L = L.next
     # Combines the three lists.
-    if greater_head.next:
-        equal_iter[0].next = greater_head.next
-    if equal_head.next:
-        less_iter[0].next = equal_head.next
+    greater_iter.next = None
+    equal_iter.next = greater_head.next
+    less_iter.next = equal_head.next
     return less_head.next
+
+
 # @exclude
 
 
+def simple_test():
+    L = ListNode(0)
+    result = list_pivoting(L, 0)
+    assert result is L
+    result = list_pivoting(L, 1)
+    assert result is L
+    result = list_pivoting(L, -1)
+    assert result is L
+
+    L = ListNode(2, ListNode(0))
+    result = list_pivoting(L, -1)
+    assert result is L
+
+    L = ListNode(2, ListNode(0))
+    result = list_pivoting(L, 1)
+    assert result.data == 0 and result.next.data == 2
+
+    L = ListNode(2, ListNode(0, ListNode(-2)))
+    result = list_pivoting(L, 1)
+    assert result.data == 0 and result.next.data == -2 and result.next.next.data == 2
+
+
 def main():
-    L = ListNode(
-        1, ListNode(
-            4, ListNode(
-                3, ListNode(
-                    2, ListNode(
-                        5, None)))))
+    simple_test()
+    L = ListNode(1, ListNode(4, ListNode(3, ListNode(2, ListNode(5, None)))))
     x = 4
     result = list_pivoting(L, x)
     print()

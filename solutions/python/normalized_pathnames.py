@@ -4,6 +4,9 @@ import sys
 
 # @include
 def shortest_equivalent_path(path):
+    if not path:
+        raise ValueError('Empty string is not a valid path.')
+
     path_names = []  # Uses list as a stack.
     # Special case: starts with '/', which is an absolute path.
     if path[0] == '/':
@@ -24,6 +27,8 @@ def shortest_equivalent_path(path):
     if result.startswith('//'):  # Avoid starting '//'.
         result = result[1:]
     return result
+
+
 # @exclude
 
 
@@ -34,6 +39,7 @@ def main():
     assert shortest_equivalent_path('./../') == '..'
     assert shortest_equivalent_path('../../local') == '../../local'
     assert shortest_equivalent_path('./.././../local') == '../../local'
+    assert shortest_equivalent_path('/foo/../foo/./../') == '/'
     try:
         shortest_equivalent_path('/foo.txt')
     except ValueError as e:
@@ -46,8 +52,8 @@ def main():
         shortest_equivalent_path('/cpp_name/bin/')
     except ValueError as e:
         print(e)
-    assert (shortest_equivalent_path('scripts//./../scripts/awkscripts/././') ==
-            'scripts/awkscripts')
+    assert (shortest_equivalent_path('scripts//./../scripts/awkscripts/././')
+            == 'scripts/awkscripts')
     if len(sys.argv) == 2:
         print(shortest_equivalent_path(sys.argv[1]))
 

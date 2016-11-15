@@ -8,18 +8,18 @@ def zero_one_random():
 
 
 # @include
-def uniform_random(a, b):
-    t = b - a + 1
+def uniform_random(lower_bound, upper_bound):
+    number_of_outcomes = upper_bound - lower_bound + 1
     while True:
-        res = 0
+        result = 0
         i = 0
-        while (1 << i) < t:
-            # zero_one_random() is the system-provided random number generator.
-            res = (res * 2) | zero_one_random()
+        while (1 << i) < number_of_outcomes:
+            # zero_one_random() is the provided random number generator.
+            result = (result << 1) | zero_one_random()
             i += 1
-        if res < t:
+        if result < number_of_outcomes:
             break
-    return res + a
+    return result + lower_bound
 # @exclude
 
 

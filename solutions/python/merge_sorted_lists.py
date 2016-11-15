@@ -6,27 +6,47 @@ from linked_list_prototype import ListNode
 
 
 # @include
-def merge_two_sorted_lists(F, L):
+def merge_two_sorted_lists(L1, L2):
     # Creates a placeholder for the result.
     dummy_head = ListNode()
     tail = dummy_head
 
-    LF = [L, F]
-    while all(LF):
-        L_or_F = LF[1].data < LF[0].data
-        tail.next = LF[L_or_F]
+    lists = [L1, L2]
+    while all(lists):
+        cand = min(range(len(lists)), key=lambda i: lists[i].data)
+        tail.next = lists[cand]
         tail = tail.next
-        LF[L_or_F] = tail.next
+        lists[cand] = tail.next
 
-    if LF[1]:  # Appends the remaining nodes of F.
-        tail.next = LF[1]
-    elif LF[0]:  # Appends the remaining nodes of L.
-        tail.next = LF[0]
+    # Appends the remaining nodes of L1 or L2
+    tail.next = lists[0] if lists[0] else lists[1]
     return dummy_head.next
+
+
 # @exclude
 
 
+def simple_test():
+    L1, L2 = None, None
+    assert merge_two_sorted_lists(L1, L2) is None
+
+    L1 = ListNode(123)
+    result = merge_two_sorted_lists(L1, L2)
+    assert result.data == 123 and result.next is None
+
+    L2 = ListNode(123)
+    L1 = None
+    result = merge_two_sorted_lists(L1, L2)
+    assert result.data == 123 and result.next is None
+
+    L1 = ListNode(-123)
+    L2 = ListNode(123)
+    result = merge_two_sorted_lists(L1, L2)
+    assert result.data == -123 and result.next.data == 123 and result.next.next is None
+
+
 def main():
+    simple_test()
     for _ in range(10000):
         F = None
         L = None

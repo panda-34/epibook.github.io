@@ -2,55 +2,50 @@
 import collections
 from binary_tree_prototype import BinaryTreeNode
 
-
 results = []
 one_line_result = []
 
 
 # @include
-def print_binary_tree_depth_order(tree):
-    processing_nodes = collections.deque()
-    processing_nodes.append(tree)
-    num_nodes_current_level = len(processing_nodes)
-    while processing_nodes:
-        curr = processing_nodes.popleft()
-        num_nodes_current_level -= 1
-        if curr:
-            print(curr.data, end=' ')
-            # @exclude
-            one_line_result.append(curr.data)
-            # @include
+def binary_tree_depth_order(tree):
+    result, curr_depth_nodes = [], collections.deque([tree])
+    while curr_depth_nodes:
+        next_depth_nodes, this_level = collections.deque([]), []
+        while curr_depth_nodes:
+            curr = curr_depth_nodes.popleft()
+            if curr:
+                this_level.append(curr.data)
+                # Defer the null checks to the null test above.
+                next_depth_nodes.append(curr.left)
+                next_depth_nodes.append(curr.right)
 
-            # Defer the null checks to the null test above.
-            processing_nodes.append(curr.left)
-            processing_nodes.append(curr.right)
-        # Done with the nodes at the current depth.
-        if num_nodes_current_level == 0:
-            print()
-            num_nodes_current_level = len(processing_nodes)
-            # @exclude
-            if one_line_result:
-                results.append(one_line_result.copy())
-                one_line_result.clear()
-            # @include
-# @exclude
+        if this_level:
+            result.append(this_level)
+        curr_depth_nodes = next_depth_nodes
+    return result
 
 
 def main():
     #      3
     #    2   5
     #  1    4 6
+    # 10
+    # 13
     tree = BinaryTreeNode(3)
     tree.left = BinaryTreeNode(2)
     tree.left.left = BinaryTreeNode(1)
+    tree.left.left.left = BinaryTreeNode(10)
+    tree.left.left.left.right = BinaryTreeNode(13)
     tree.right = BinaryTreeNode(5)
     tree.right.left = BinaryTreeNode(4)
     tree.right.right = BinaryTreeNode(6)
     # should output 3
     #               2 5
     #               1 4 6
-    print_binary_tree_depth_order(tree)
-    assert results == [[3], [2, 5], [1, 4, 6]]
+    #               10
+    #               13
+    assert binary_tree_depth_order(tree) == [[3], [2, 5], [1, 4, 6], [10],
+                                             [13]]
 
 
 if __name__ == '__main__':

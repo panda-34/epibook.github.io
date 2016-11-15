@@ -4,21 +4,22 @@ from binary_tree_with_parent_prototype import BinaryTreeNode
 
 # @include
 def find_successor(node):
-    it = node
-    if it.right:
+    if node.right:
         # Successor is the leftmost element in node's right subtree.
-        it = it.right
-        while it.left:
-            it = it.left
-        return it
+        node = node.right
+        while node.left:
+            node = node.left
+        return node
 
     # Find the closest ancestor whose left subtree contains node.
-    while it.parent and it.parent.right is it:
-        it = it.parent
+    while node.parent and node.parent.right is node:
+        node = node.parent
 
-    # A return value of None means node does not have successor, i.e., it is
+    # A return value of None means node does not have successor, i.e., node is
     # the rightmost node in the tree.
-    return it.parent
+    return node.parent
+
+
 # @exclude
 
 
@@ -28,10 +29,16 @@ def main():
     #  1    4 6
     root = BinaryTreeNode(3)
     root.parent = None
+    assert not find_successor(root)
     root.left = BinaryTreeNode(2)
     root.left.parent = root
+    assert find_successor(root.left).data == 3
+
     root.left.left = BinaryTreeNode(1)
     root.left.left.parent = root.left
+    assert find_successor(root.left).data == 3
+    assert find_successor(root.left.left).data == 2
+
     root.right = BinaryTreeNode(5)
     root.right.parent = root
     root.right.left = BinaryTreeNode(4)

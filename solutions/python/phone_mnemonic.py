@@ -14,16 +14,17 @@ def phone_mnemonic(phone_number):
 
 
 # The mapping from digit to corresponding characters.
-M = ('0', '1', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ')
+MAPPING = ('0', '1', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ')
 
 
 def phone_mnemonic_helper(phone_number, digit, partial_mnemonic, mnemonics):
     if digit == len(phone_number):
         # All digits are processed, so add partial_mnemonic to mnemonics.
+        # (We add a copy since subsequent calls modify partial_mnemonic.)
         mnemonics.append(''.join(partial_mnemonic))
     else:
         # Try all possible characters for this digit.
-        for c in M[ord(phone_number[digit]) - ord('0')]:
+        for c in MAPPING[ord(phone_number[digit]) - ord('0')]:
             partial_mnemonic[digit] = c
             phone_mnemonic_helper(phone_number, digit + 1, partial_mnemonic,
                                   mnemonics)
@@ -32,7 +33,7 @@ def phone_mnemonic_helper(phone_number, digit, partial_mnemonic, mnemonics):
 
 # Pythonic solution
 def phone_mnemonic_pythonic(phone_number):
-    letters = (M[int(digit)] for digit in phone_number)
+    letters = (MAPPING[int(digit)] for digit in phone_number)
     return [''.join(mnemonic) for mnemonic in itertools.product(*letters)]
 
 

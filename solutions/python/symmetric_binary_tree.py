@@ -16,10 +16,24 @@ def check_symmetric(subtree_0, subtree_1):
                 check_symmetric(subtree_0.right, subtree_1.left))
     # One subtree is empty, and the other is not.
     return False
+
+
 # @exclude
 
 
+def simple_test():
+    symm_tree = BinaryTreeNode()
+    assert is_symmetric(symm_tree)
+    symm_tree.left = BinaryTreeNode()
+    assert not is_symmetric(symm_tree)
+    symm_tree.right = BinaryTreeNode()
+    assert is_symmetric(symm_tree)
+    symm_tree.right.right = BinaryTreeNode()
+    assert not is_symmetric(symm_tree)
+
+
 def main():
+    simple_test()
     # Non symmetric tree test.
     #      3
     #    2   5

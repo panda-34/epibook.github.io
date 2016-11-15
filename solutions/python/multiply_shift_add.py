@@ -4,32 +4,27 @@ import random
 
 
 # @include
-def multiply_no_operator(x, y):
-    res = 0
+def multiply(x, y):
+    sum = 0
     while x:  # Examines each bit of x.
         if x & 1:
-            res = add_no_operator(res, y)
+            sum = add(sum, y)
         x >>= 1
         y <<= 1
-    return res
+    return sum
 
 
-def add_no_operator(a, b):
-    res = 0
-    carryin = 0
-    k = 1
-    temp_a = a
-    temp_b = b
+def add(a, b):
+    sum, carryin, k, temp_a, temp_b = 0, 0, 1, a, b
     while temp_a or temp_b:
-        ak = a & k
-        bk = b & k
+        ak, bk = a & k, b & k
         carryout = (ak & bk) | (ak & carryin) | (bk & carryin)
-        res |= ak ^ bk ^ carryin
+        sum |= ak ^ bk ^ carryin
         carryin = carryout << 1
         k <<= 1
         temp_a >>= 1
         temp_b >>= 1
-    return res | carryin
+    return sum | carryin
 # @exclude
 
 
@@ -37,16 +32,15 @@ def main():
     if len(sys.argv) == 3:
         x = int(sys.argv[1])
         y = int(sys.argv[2])
-        res = multiply_no_operator(x, y)
+        res = multiply(x, y)
         assert res == x * y
         print('x = %d, y = %d, prod = %d' % (x, y, res))
     else:
         for _ in range(100000):
-            x = random.randint(0, 65534)
-            y = random.randint(0, 65534)
-            res = multiply_no_operator(x, y)
-            assert res == x * y
-            print('x = %d, y = %d, prod = %d' % (x, y, res))
+            x, y = random.randint(0, 65534), random.randint(0, 65534)
+            prod = multiply(x, y)
+            assert prod == x * y
+            print('x = %d, y = %d, prod = %d' % (x, y, prod))
 
 
 if __name__ == '__main__':

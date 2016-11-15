@@ -3,13 +3,16 @@
 import sys
 import random
 
+
 # @include
 def swap_bits(x, i, j):
-    # Extract the i-th and j-th bits, see if they differ.
+    # Extract the i-th and j-th bits, and see if they differ.
     if (x >> i) & 1 != (x >> j) & 1:
-        # Swap i-th and j-th bits by flipping them.
-        # Select and flip bits by using a bit mask and XOR
-        x ^= (1 << i) | (1 << j)
+        # i-th and j-th bits differ. We will swap them by flipping their values.
+        # Select the bits to flip with bitMask. Since x^1 = 0 when x = 1 and 1
+        # when x = 0, we can perform the flip XOR.
+        bit_mask = (1 << i) | (1 << j)
+        x ^= bit_mask
     return x
 # @exclude
 

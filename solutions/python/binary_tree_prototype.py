@@ -5,6 +5,7 @@ class BinaryTreeNode:
         self.data = data
         self.left = left
         self.right = right
+
 # @exclude
 
     def __repr__(self):

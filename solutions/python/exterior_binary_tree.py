@@ -1,13 +1,15 @@
 # Exterior_binary_tree.cpp 100b4adabfd008775520062bd407c3323ea646af
 from binary_tree_prototype import BinaryTreeNode
+from reconstruct_preorder_with_null import reconstruct_preorder
+
 
 # @include
 def exterior_binary_tree(tree):
     exterior = []
     if tree:
         exterior.append(tree)
-        exterior += left_boundary_and_leaves(tree.left, True)
-        exterior += right_boundary_and_leaves(tree.right, True)
+        exterior += left_boundary_and_leaves(
+            tree.left, True) + right_boundary_and_leaves(tree.right, True)
     return exterior
 
 
@@ -18,9 +20,9 @@ def left_boundary_and_leaves(subtree, is_boundary):
     if subtree:
         if is_boundary or is_leaf(subtree):
             result.append(subtree)
-        result += left_boundary_and_leaves(subtree.left, is_boundary)
-        result += left_boundary_and_leaves(subtree.right,
-                                           is_boundary and not subtree.left)
+        result += left_boundary_and_leaves(
+            subtree.left, is_boundary) + left_boundary_and_leaves(
+                subtree.right, is_boundary and not subtree.left)
     return result
 
 
@@ -29,9 +31,10 @@ def left_boundary_and_leaves(subtree, is_boundary):
 def right_boundary_and_leaves(subtree, is_boundary):
     result = []
     if subtree:
-        result += right_boundary_and_leaves(subtree.left,
-                                            is_boundary and not subtree.right)
-        result += right_boundary_and_leaves(subtree.right, is_boundary)
+        result += right_boundary_and_leaves(
+            subtree.left, is_boundary and
+            not subtree.right) + right_boundary_and_leaves(subtree.right,
+                                                           is_boundary)
         if is_boundary or is_leaf(subtree):
             result.append(subtree)
     return result
@@ -39,16 +42,51 @@ def right_boundary_and_leaves(subtree, is_boundary):
 
 def is_leaf(node):
     return not node.left and not node.right
+
+
 # @exclude
 
 
+def create_output_list(L):
+    return [l.data for l in L]
+
+
+def simple_test():
+    # The example in the book.
+    A = [314, 6, 271, 28, 0, 561, 3, 17, 6, 2, 1, 401, 641, 257, 271, 28]
+    tree = reconstruct_preorder([
+        A[0], A[1], A[2], A[3], None, None, A[4], None, None, A[5], None, A[6],
+        A[7], None, None, None, A[8], A[9], None, A[10], A[11], None, A[12],
+        None, None, A[13], None, None, A[14], None, A[15], None, None
+    ])
+    assert create_output_list(exterior_binary_tree(
+        tree)) == [314, 6, 271, 28, 0, 17, 641, 257, 28, 271, 6]
+
+    tree.left.left = None
+    assert create_output_list(exterior_binary_tree(
+        tree)) == [314, 6, 561, 3, 17, 641, 257, 28, 271, 6]
+
+    tree.right.right = None
+    assert create_output_list(exterior_binary_tree(
+        tree)) == [314, 6, 561, 3, 17, 641, 257, 1, 2, 6]
+
+    tree.right = None
+    assert create_output_list(exterior_binary_tree(
+        tree)) == [314, 6, 561, 3, 17]
+
+
 def main():
+    simple_test()
     #        3
     #    2      5
     #  1  0    4 6
     #   -1 -2
     tree = BinaryTreeNode(3)
+    assert create_output_list(exterior_binary_tree(tree)) == [3]
+
     tree.left = BinaryTreeNode(2)
+    assert create_output_list(exterior_binary_tree(tree)) == [3, 2]
+
     tree.left.right = BinaryTreeNode(0)
     tree.left.right.left = BinaryTreeNode(-1)
     tree.left.right.right = BinaryTreeNode(-2)
@@ -56,14 +94,8 @@ def main():
     tree.right = BinaryTreeNode(5)
     tree.right.left = BinaryTreeNode(4)
     tree.right.right = BinaryTreeNode(6)
-    golden_res = [3, 2, 1, -1, -2, 4, 6, 5]
-    L = exterior_binary_tree(tree)
-    output = []
-    # should output 3 2 1 -1 -2 4 6 5
-    for l in L:
-        output.append(l.data)
-        print(l.data)
-    assert output == golden_res
+    assert create_output_list(exterior_binary_tree(
+        tree)) == [3, 2, 1, -1, -2, 4, 6, 5]
 
 
 if __name__ == '__main__':

@@ -4,30 +4,40 @@ import random
 import itertools
 import heapq
 
+result = []
+
 
 # @include
 def sort_approximately_sorted_array(sequence, k):
     min_heap = []
-    # Adds the first k elements into min_heap. Stop if there are fewer than k
-    # elements.
+    # Adds the first k elements into min_heap. Stop if there are fewer than k elements.
     for x in itertools.islice(sequence, k):
         heapq.heappush(min_heap, x)
 
     # For every new element, add it to min_heap and extract the smallest.
     for x in sequence:
-        top = heapq.heappushpop(min_heap, x)
-        print(top)
+        smallest = heapq.heappushpop(min_heap, x)
+        print(smallest)
+        # @exclude
+        result.append(smallest)
+        # @include
 
     # sequence is exhausted, iteratively extracts the remaining elements.
     while min_heap:
-        print(heapq.heappop(min_heap))
-# @exclude
+        smallest = heapq.heappop(min_heap)
+        print(smallest)
+        # @exclude
+        result.append(smallest)
+        # @include
+
+    # @exclude
 
 
-# It should print 1, 2, 3, 4, 5, 6, 7, 8, 9.
+    # It should print 1, 2, 3, 4, 5, 6, 7, 8, 9.
 def simple_test():
     A = [2, 1, 5, 4, 3, 9, 8, 7, 6]
     sort_approximately_sorted_array(iter(A), 3)
+    assert result == [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
 def main():

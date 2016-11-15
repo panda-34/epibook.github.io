@@ -10,22 +10,36 @@ class BinaryTreeNode:
 # @include
 def construct_right_sibling(tree):
     left_start = tree
-    while left_start:
+    while left_start and left_start.left:
         populate_children_next_field(left_start)
         left_start = left_start.left
 
 
 def populate_children_next_field(start_node):
-    it = start_node
-    while it and it.left:
-        it.left.next = it.right
-        if it.next:
-            it.right.next = it.next.left
-        it = it.next
+    while start_node and start_node.left:
+        # Populate left child's next field.
+        start_node.left.next = start_node.right
+        # Populate right child's next field if iter is not the last node of level.
+        if start_node.next:
+            start_node.right.next = start_node.next.left
+        start_node = start_node.next
+
+
 # @exclude
 
 
+def simple_test():
+    #      3
+    #    2   5
+    root = BinaryTreeNode(3, BinaryTreeNode(2), BinaryTreeNode(5))
+    construct_right_sibling(root)
+    assert not root.next
+    assert root.left.next is root.right
+    assert not root.right.next
+
+
 def main():
+    simple_test()
     #      3
     #    2   5
     #  1  7 4 6

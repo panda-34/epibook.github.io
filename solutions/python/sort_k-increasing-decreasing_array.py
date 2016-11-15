@@ -16,37 +16,52 @@ def sort_k_increasing_decreasing_array(A):
         if (i == len(A) or  # A is ended. Adds the last subarray.
             (A[i - 1] < A[i] and subarray_type == DECREASING) or
             (A[i - 1] >= A[i] and subarray_type == INCREASING)):
-            if subarray_type == INCREASING:
-                sorted_subarrays.append(A[start_idx : i])
-            else:
-                sorted_subarrays.append(A[i - 1 : start_idx - 1 : -1])
+            sorted_subarrays.append(A[start_idx:i] if subarray_type ==
+                                    INCREASING else A[i - 1:start_idx - 1:-1])
             start_idx = i
             subarray_type = DECREASING if subarray_type == INCREASING else INCREASING
     return merge_sorted_arrays(sorted_subarrays)
+
+
 # @exclude
 
 
 class Monotonic:
     def __init__(self):
         self.last = float('-inf')
+
     def __call__(self, curr):
         res = curr < self.last
         self.last = curr
         return res
 
+
 def sort_k_increasing_decreasing_array_pythonic(A):
-    # Decomposes A into a set of sorted arrays.
-    sorted_subarrays = []
-    for is_decreasing, group in itertools.groupby(A, Monotonic()):
-        subarray = list(group)
-        if is_decreasing:
-            subarray.reverse()
-        sorted_subarrays.append(subarray)
-    return merge_sorted_arrays(sorted_subarrays)
+    return merge_sorted_arrays([
+        list(group)[::-1 if is_decreasing else 1]
+        for is_decreasing, group in itertools.groupby(A, Monotonic())
+    ])
+
+
 # @exclude
 
 
+def simple_test():
+    A = [1, 2, 3, 2, 1, 4, 5, 10, 9, 4, 4, 1, -1]
+    assert sorted(A) == sort_k_increasing_decreasing_array(
+        A) == sort_k_increasing_decreasing_array_pythonic(A)
+
+    A = [-2**64, -1, 0, 1, 2, 4, 8, 2**64 - 1]
+    assert sorted(A) == sort_k_increasing_decreasing_array(
+        A) == sort_k_increasing_decreasing_array_pythonic(A)
+
+    A = list(reversed(A))
+    assert sorted(A) == sort_k_increasing_decreasing_array(
+        A) == sort_k_increasing_decreasing_array_pythonic(A)
+
+
 def main():
+    simple_test()
     for _ in range(1000):
         if len(sys.argv) == 2:
             n = int(sys.argv[1])
@@ -55,8 +70,8 @@ def main():
         print('n =', n)
         A = [random.randint(-999999, 999999) for i in range(n)]
         ans = sort_k_increasing_decreasing_array(A)
-#        print(*A)
-#        print(*ans)
+        #        print(*A)
+        #        print(*ans)
         assert len(ans) == len(A)
         assert ans == sorted(ans)
         assert ans == sort_k_increasing_decreasing_array_pythonic(A)

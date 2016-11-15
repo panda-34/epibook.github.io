@@ -4,14 +4,20 @@ import random
 
 
 # @include
-def remove_element(k, A):
+# Returns the number of valid entries after deletion.
+def delete_key(k, A):
     write_idx = 0
-    for i in A:
-        if i != k:
-            A[write_idx] = i
+    for a in A:
+        if a != k:
+            A[write_idx] = a
             write_idx += 1
     return write_idx
 # @exclude
+
+
+def delete_key_pythonic(k, A):
+    A[:] = [a for a in A if a != k]
+    return len(A)
 
 
 def check_ans(A, n, k):
@@ -29,10 +35,10 @@ def main():
         A = [random.randint(-1000, 1000) for i in range(n)]
         copy_A = A.copy()
         target = random.randint(-1000, 1000)
-        size = remove_element(target, A)
-        print('size =', size, 'k =', target)
+        size = delete_key(target, A)
+        print('size =', size, 'key =', target)
         check_ans(A, size, target)
-        copy_A = [x for x in copy_A if x != target]
+        delete_key_pythonic(target, copy_A)
         print(len(copy_A))
         assert size == len(copy_A)
 

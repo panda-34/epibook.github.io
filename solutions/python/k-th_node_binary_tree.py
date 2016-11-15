@@ -6,19 +6,22 @@ class BinaryTreeNode:
         self.right = right
         self.size = size
 
+
 # @include
 def find_kth_node_binary_tree(tree, k):
-    it = tree
-    while it:
-        left_size = it.left.size if it.left else 0
-        if left_size + 1 < k:  # Target node must be in right subtree of it.
+    tree = tree
+    while tree:
+        left_size = tree.left.size if tree.left else 0
+        if left_size + 1 < k:  # k-th node must be in right subtree of tree.
             k -= left_size + 1
-            it = it.right
-        elif left_size == k - 1:  # Target is it itself.
-            return it
-        else:  # Target node must be in left subtree of it.
-            it = it.left
+            tree = tree.right
+        elif left_size == k - 1:  # k-th is iter itself.
+            return tree
+        else:  # k-th node must be in left subtree of iter.
+            tree = tree.left
     return None  # If k is between 1 and the tree size, this is unreachable.
+
+
 # @exclude
 
 

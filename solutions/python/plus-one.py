@@ -12,6 +12,7 @@ def plus_one(A):
         A[i] = 0
         A[i - 1] += 1
     if A[0] == 10:
+        # Need additional digit as the most significant digit (i.e., A[0]) has a carry-out.
         A[0] = 0
         A.insert(0, 1)
     return A
@@ -22,7 +23,7 @@ def rand_vector(length):
     if not length:
         return [0]
     A = [random.randint(1, 9)]
-    A += [random.randint(0, 9) for i in range(length-1)]
+    A += [random.randint(0, 9) for i in range(length - 1)]
     return A
 
 

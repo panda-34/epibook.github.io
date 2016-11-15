@@ -1,21 +1,17 @@
 # Search_postings_list_iterative.cpp b4b3a70d8ab942579f85b4416f980d05831af969
-class ListNode:
-    def __init__(self, order, next_node, jump):
-        self.order = order
-        self.next = next_node
-        self.jump = jump
+from postings_list_prototype import ListNode
 
 
 # @include
 def search_postings_list(L):
-    s = []
-    order = 0
+    s, order = [], 0
     s.append(L)
     while s:
         curr = s.pop()
         if curr and curr.order == -1:
             curr.order = order
             order += 1
+            # Stack is last-in, first-out, and we want to process the jump node first, so push next, then push jump.
             s.append(curr.next)
             s.append(curr.jump)
 # @exclude

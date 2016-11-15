@@ -1,77 +1,71 @@
 # Bignumber_multiplication.cpp b4b3a70d8ab942579f85b4416f980d05831af969
-import sys
+import copy
 import random
-import string
+import sys
 
 
 # @include
 def multiply(num1, num2):
-    is_positive = True
-    if num1[0] == '-':
-        is_positive = not is_positive
-        num1 = num1[1:]
-    if num2[0] == '-':
-        is_positive = not is_positive
-        num2 = num2[1:]
+    print(num1, num2)
+    sign = -1 if (num1[0] < 0) ^ (num2[0] < 0) else 1
+    num1[0], num2[0] = abs(num1[0]), abs(num2[0])
 
-    # Reverses num1 and num2 to make multiplication easier.
-    num1 = num1[::-1]
-    num2 = num2[::-1]
     result = [0] * (len(num1) + len(num2))
-    for i in range(len(num1)):
-        for j in range(len(num2)):
-            result[i + j] += (ord(num1[i]) - ord('0')) * (ord(num2[j]) - ord('0'))
-            result[i + j + 1] += result[i + j] // 10
-            result[i + j] %= 10
+    for i in range(len(num1) - 1, -1, -1):
+        for j in range(len(num2) - 1, -1, -1):
+            result[i + j + 1] += num1[i] * num2[j]
+            result[i + j] += result[i + j + 1] // 10
+            result[i + j + 1] %= 10
 
-    # Converts result to string in reverse order, skips the first 0s and
-    # keeps one 0 if all are 0s.
-    i = len(num1) + len(num2) - 1
-    while result[i] == 0 and i != 0:
-        i -= 1
-    ss = []
-    if not is_positive and result[i] != 0:  # It won't print '-0'.
-        ss.append('-')
-    while i >= 0:
-        ss.append(str(result[i]))
-        i -= 1
-    return ''.join(ss)
+    # Remove the leading zeroes.
+    first_not_zero = 0
+    while first_not_zero < len(result) and result[first_not_zero] == 0:
+        first_not_zero += 1
+    result = result[first_not_zero:]
+    if not result:
+        return [0]
+    result[0] *= sign
+    return result
 # @exclude
 
 
-def rand_string(length):
+def rand_list(length):
     if length == 0:
-        return '0'
+        return [0]
     ret = []
+    ret.append(random.randint(1, 9))
+    for _ in range(length - 1):
+        ret.append(random.randint(0, 9))
     if random.randint(0, 1) == 1:
-        ret.append('-')
-    ret.append(chr(random.randint(ord('1'), ord('9'))))
-    for _ in range(length-1):
-        ret.append(random.choice(string.digits))
-    return ''.join(ret)
+        ret[0] *= -1
+    return ret
 
 
 def simple_test():
-    assert multiply('0', '1000') == '0'
-    print(multiply('131412', '-1313332'))
-    assert multiply('131412', '-1313332') == '-172587584784'
+    assert multiply([0], [-1, 0, 0, 0]) == [0]
+    assert multiply([0], [1, 0, 0, 0]) == [0]
+    assert multiply([9], [9]) == [8, 1]
+    assert multiply([9], [9, 9, 9, 9]) == [8, 9, 9, 9, 1]
+    assert multiply(
+        [1, 3, 1, 4, 1, 2],
+        [-1, 3, 1, 3, 3, 3, 2]) == [-1, 7, 2, 5, 8, 7, 5, 8, 4, 7, 8, 4]
+    assert multiply([7, 3], [-3]) == [-2, 1, 9]
 
 
 def main():
     simple_test()
     for _ in range(1000):
         if len(sys.argv) == 3:
-            s1 = sys.argv[1]
-            s2 = sys.argv[2]
+            s1, s2 = sys.argv[1], sys.argv[2]
         else:
-            s1 = rand_string(random.randint(0, 19))
-            s2 = rand_string(random.randint(0, 19))
-
-        res = multiply(s1, s2)
+            s1, s2 = rand_list(random.randint(0, 19)), rand_list(
+                random.randint(0, 19))
+        temp1, temp2 = copy.deepcopy(s1), copy.deepcopy(s2)
+        res = multiply(temp1, temp2)
         print(s1, '*', s2, '=', res)
-        result = int(s1) * int(s2)
+        result = int(''.join(map(str, s1))) * int(''.join(map(str, s2)))
         print('answer =', result)
-        assert result == int(res)
+        assert result == int(''.join(map(str, res)))
 
 
 if __name__ == '__main__':

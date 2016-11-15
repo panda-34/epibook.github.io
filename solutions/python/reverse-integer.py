@@ -5,13 +5,11 @@ import random
 
 # @include
 def reverse(x):
-    is_negative = x < 0
-    result = 0
-    x_remaining = abs(x)
+    result, x_remaining = 0, abs(x)
     while x_remaining:
         result = result * 10 + x_remaining % 10
         x_remaining //= 10
-    return -result if is_negative else result
+    return -result if x < 0 else result
 # @exclude
 
 

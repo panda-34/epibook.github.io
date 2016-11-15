@@ -4,22 +4,22 @@ import random
 
 
 # @include
-def can_reach(A):
-    furthest_reach = 0
+def can_reach_end(A):
+    furthest_reach_so_far, last_index = 0, len(A) - 1
     i = 0
-    while i <= furthest_reach and furthest_reach < len(A) - 1:
-        furthest_reach = max(furthest_reach, A[i] + i)
+    while i <= furthest_reach_so_far and furthest_reach_so_far < last_index:
+        furthest_reach_so_far = max(furthest_reach_so_far, A[i] + i)
         i += 1
-    return furthest_reach >= len(A) - 1
+    return furthest_reach_so_far >= last_index
 # @exclude
 
 
 def small_test():
-    assert can_reach([2, 3, 1, 1, 4])
-    assert not can_reach([3, 2, 1, 0, 4])
-    assert not can_reach([3, 2, 1, -10, 4])
-    assert can_reach([2, 3, -1, -1, 4])
-    assert not can_reach([2, 2, -1, -1, 100])
+    assert can_reach_end([2, 3, 1, 1, 4])
+    assert not can_reach_end([3, 2, 1, 0, 4])
+    assert not can_reach_end([3, 2, 1, -10, 4])
+    assert can_reach_end([2, 3, -1, -1, 4])
+    assert not can_reach_end([2, 2, -1, -1, 100])
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
         n = random.randint(1, 1000)
 
     A = [random.randint(1, 10) for i in range(n)]
-    print(can_reach(A))
+    print(can_reach_end(A))
 
 
 if __name__ == '__main__':

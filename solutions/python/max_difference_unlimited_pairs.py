@@ -8,10 +8,13 @@ def max_profit_unlimited_pairs(A):
     profit = 0
     for i in range(1, len(A)):
         delta = A[i] - A[i - 1]
-        if delta > 0:
-            profit += delta
+        profit += max(delta, 0)
     return profit
 # @exclude
+
+
+def max_profit_unlimited_pairs_pythonic(A):
+    return sum(max(A[i + 1] - A[i], 0) for i in range(len(A) - 1))
 
 
 def check_ans(A):
@@ -30,7 +33,8 @@ def main():
         print('n =', n)
         print(check_ans(A))
         print(max_profit_unlimited_pairs(A))
-        assert check_ans(A) == max_profit_unlimited_pairs(A)
+        assert check_ans(A) == max_profit_unlimited_pairs(
+            A) == max_profit_unlimited_pairs_pythonic(A)
 
     # For input
     if len(sys.argv) == 2:

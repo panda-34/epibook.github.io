@@ -13,16 +13,30 @@ def remove_duplicates(L):
         it.next = next_distinct
         it = next_distinct
     return L
+
+
 # @exclude
 
 
+def simple_test():
+    L = None
+    assert not remove_duplicates(L)
+    L = ListNode(123)
+    result = remove_duplicates(L)
+    assert result is L
+    L.next = ListNode(123)
+    result = remove_duplicates(L)
+    assert not result.next
+
+    # Creating an invalid input, 123 -> 124 -> 123, algo will not detect dups!
+    L.next = ListNode(124, ListNode(123))
+    result = remove_duplicates(L)
+    assert L.data == 123 and L.next.data == 124 and L.next.next.data == 123
+
+
 def main():
-    L = ListNode(
-        2, ListNode(
-            2, ListNode(
-                2, ListNode(
-                    2, ListNode(
-                        2, None)))))
+    simple_test()
+    L = ListNode(2, ListNode(2, ListNode(2, ListNode(2, ListNode(2, None)))))
     pre = None
     result = remove_duplicates(L)
     count = 0

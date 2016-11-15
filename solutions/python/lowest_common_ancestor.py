@@ -4,25 +4,23 @@ from binary_tree_with_parent_prototype import BinaryTreeNode
 
 # @include
 def LCA(node_0, node_1):
-    iter_0 = node_0
-    iter_1 = node_1
-    depth_0 = get_depth(iter_0)
-    depth_1 = get_depth(iter_1)
-    # Makes iter_0 as the deeper node in order to simplify the code.
+    depth_0 = get_depth(node_0)
+    depth_1 = get_depth(node_1)
+    # Makes node_0 as the deeper node in order to simplify the code.
     if depth_1 > depth_0:
-        iter_0, iter_1 = iter_1, iter_0
+        node_0, node_1 = node_1, node_0
 
     # Ascends from the deeper node.
     depth_diff = abs(depth_0 - depth_1)
     while depth_diff:
-        iter_0 = iter_0.parent
+        node_0 = node_0.parent
         depth_diff -= 1
 
     # Now ascends both nodes until we reach the LCA.
-    while iter_0 is not iter_1:
-        iter_0 = iter_0.parent
-        iter_1 = iter_1.parent
-    return iter_0
+    while node_0 is not node_1:
+        node_0 = node_0.parent
+        node_1 = node_1.parent
+    return node_0
 
 
 def get_depth(node):
@@ -31,6 +29,8 @@ def get_depth(node):
         depth += 1
         node = node.parent
     return depth
+
+
 # @exclude
 
 

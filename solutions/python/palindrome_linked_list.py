@@ -12,26 +12,18 @@ def is_linked_list_a_palindrome(L):
     # Finds the second half of L.
     slow = fast = L
     while fast and fast.next:
-        fast = fast.next.next
-        slow = slow.next
+        fast, slow = fast.next.next, slow.next
 
     # Compares the first half and the reversed second half lists.
-    first_half_iter = L
-    second_half_iter = reverse_linked_list(slow.next)
+    first_half_iter, second_half_iter = L, reverse_linked_list(slow)
     while second_half_iter and first_half_iter:
         if second_half_iter.data != first_half_iter.data:
             return False
-        second_half_iter = second_half_iter.next
-        first_half_iter = first_half_iter.next
+        second_half_iter, first_half_iter = second_half_iter.next, first_half_iter.next
     return True
+
+
 # @exclude
-
-
-def print_list(L):
-    while L:
-        print(L.data, end=' ')
-        L = L.next
-    print()
 
 
 def main():
@@ -42,26 +34,34 @@ def main():
             curr = ListNode(int(i), head)
             head = curr
         print('Yes' if is_linked_list_a_palindrome(head) else 'No')
-    else:
-        # A link list is a palindrome.
-        for i in range(6, 0, -1):
-            curr = ListNode(1, head)
-            head = curr
-        assert is_linked_list_a_palindrome(head)
-        # Still a palindrome linked list.
-        head = None
-        for i in range(5, 0, -1):
-            curr = ListNode(1, head)
-            head = curr
-        head.next.next.data = 3
-        assert is_linked_list_a_palindrome(head)
-        # Not a palindrome linked list.
-        head = None
-        for i in range(5, 0, -1):
-            curr = ListNode(i, head)
-            head = curr
-        assert not is_linked_list_a_palindrome(head)
-        assert is_linked_list_a_palindrome(None)
+    assert is_linked_list_a_palindrome(None) == True
+    assert is_linked_list_a_palindrome(ListNode(1)) == True
+    assert is_linked_list_a_palindrome(ListNode(1, ListNode(1))) == True
+    assert is_linked_list_a_palindrome(ListNode(1, ListNode(2))) == False
+    assert is_linked_list_a_palindrome(
+        ListNode(1, ListNode(3, ListNode(2, ListNode(1))))) == False
+
+    head = None
+    # A link list is a palindrome.
+    for _ in range(6):
+        curr = ListNode(1, head)
+        head = curr
+    assert is_linked_list_a_palindrome(head) == True
+
+    # Still a palindrome linked list.
+    head = None
+    for _ in range(5):
+        curr = ListNode(1, head)
+        head = curr
+    head.next.next.data = 3
+    assert is_linked_list_a_palindrome(head) == True
+
+    # Not a palindrome linked list.
+    head = None
+    for i in range(5, 0, -1):
+        curr = ListNode(i, head)
+        head = curr
+    assert is_linked_list_a_palindrome(head) == False
 
 
 if __name__ == '__main__':

@@ -18,18 +18,19 @@ def remove_kth_last(L, k):
     # second points to the (k + 1)-th last node, deletes its successor.
     second.next = second.next.next
     return dummy_head.next
+
+
 # @exclude
 
 
 def main():
-    L = ListNode(
-        1, ListNode(
-            2, ListNode(
-                3, None)))
+    L = ListNode(1, ListNode(2, ListNode(3, None)))
     L = remove_kth_last(L, 2)
     assert L.data == 1 and L.next.data == 3
     L = remove_kth_last(L, 2)
     assert L.data == 3 and L.next is None
+    L = remove_kth_last(L, 1)
+    assert not L
 
 
 if __name__ == '__main__':

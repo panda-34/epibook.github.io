@@ -3,36 +3,74 @@ from stack_with_max import Stack
 
 
 # @include
-class Queue:
-
+class QueueWithMax:
     def __init__(self):
-        self.__A = Stack()
-        self.__B = Stack()
+        self.__enqueue = Stack()
+        self.__dequeue = Stack()
 
     def enqueue(self, x):
-        self.__A.push(x)
+        self.__enqueue.push(x)
 
     def dequeue(self):
-        if self.__B.empty():
-            while not self.__A.empty():
-                self.__B.push(self.__A.pop())
-        if not self.__B.empty():
-            return self.__B.pop()
+        if self.__dequeue.empty():
+            while not self.__enqueue.empty():
+                self.__dequeue.push(self.__enqueue.pop())
+        if not self.__dequeue.empty():
+            return self.__dequeue.pop()
         raise IndexError('empty queue')
 
     def max(self):
-        if not self.__A.empty():
-            return self.__A.max() if self.__B.empty() else max(
-                self.__A.max(), self.__B.max())
-        else:  # __A.empty() == True.
-            if not self.__B.empty():
-                return self.__B.max()
-            raise IndexError('empty queue')
+        if not self.__enqueue.empty():
+            return self.__enqueue.max() if self.__dequeue.empty() else max(
+                self.__enqueue.max(), self.__dequeue.max())
+        if not self.__dequeue.empty():
+            return self.__dequeue.max()
+        raise IndexError('empty queue')
+
+
 # @exclude
 
 
+def simple_test():
+    Q = QueueWithMax()
+    Q.enqueue(11)
+    Q.enqueue(2)
+    assert 11 == Q.max()
+    assert 11 == Q.dequeue()
+    assert 2 == Q.max()
+    assert 2 == Q.dequeue()
+    Q.enqueue(3)
+    assert 3 == Q.max()
+    assert 3 == Q.dequeue()
+    maxint = 2**64 - 1
+    Q.enqueue(maxint - 1)
+    Q.enqueue(maxint)
+    Q.enqueue(-2)
+    Q.enqueue(-1)
+    Q.enqueue(-1)
+    minint = -2**64
+    Q.enqueue(minint)
+    assert maxint == Q.max()
+    assert maxint - 1 == Q.dequeue()
+    assert maxint == Q.max()
+    assert maxint == Q.dequeue()
+    assert -1 == Q.max()
+    assert -2 == Q.dequeue()
+    assert -1 == Q.max()
+    assert -1 == Q.dequeue()
+    assert -1 == Q.dequeue()
+    assert minint == Q.max()
+    assert minint == Q.dequeue()
+    try:
+        print('Q is empty, max() call should except = ' % Q.max())
+        assert False
+    except IndexError as e:
+        print(e)  # throw
+
+
 def main():
-    Q = Queue()
+    simple_test()
+    Q = QueueWithMax()
     Q.enqueue(1)
     Q.enqueue(2)
     assert 2 == Q.max()
@@ -44,10 +82,12 @@ def main():
     assert 3 == Q.dequeue()  # 3
     try:
         Q.max()
+        assert False
     except IndexError as e:
         print(e)  # throw
     try:
         Q.dequeue()
+        assert False
     except IndexError as e:
         print(e)  # throw
 

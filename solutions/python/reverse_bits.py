@@ -14,17 +14,18 @@ def reverse_x(x, n):
     return x
 
 
-precomputed_reverse = [reverse_x(i, 15) for i in range(1 << 16)]
+_PRECOMPUTED_REVERSE = [reverse_x(i, 15) for i in range(1 << 16)]
 
 
 # @include
 def reverse_bits(x):
-    k_word_size = 16
-    k_bit_mask = 0xFFFF
-    return (precomputed_reverse[x & k_bit_mask] << (3 * k_word_size) |
-            precomputed_reverse[(x >> k_word_size) & k_bit_mask] << (2 * k_word_size) |
-            precomputed_reverse[(x >> (2 * k_word_size)) & k_bit_mask] << k_word_size |
-            precomputed_reverse[(x >> (3 * k_word_size)) & k_bit_mask])
+    WORD_SIZE = 16
+    BIT_MASK = 0xFFFF
+    return (
+        _PRECOMPUTED_REVERSE[x & BIT_MASK] << (3 * WORD_SIZE) |
+        _PRECOMPUTED_REVERSE[(x >> WORD_SIZE) & BIT_MASK] << (2 * WORD_SIZE) |
+        _PRECOMPUTED_REVERSE[(x >> (2 * WORD_SIZE)) & BIT_MASK] << WORD_SIZE |
+        _PRECOMPUTED_REVERSE[(x >> (3 * WORD_SIZE)) & BIT_MASK])
 # @exclude
 
 

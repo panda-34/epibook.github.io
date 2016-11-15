@@ -1,40 +1,43 @@
 # Circular_queue.cpp b4b3a70d8ab942579f85b4416f980d05831af969
 # @include
 class Queue:
-    __k_scale_factor = 2
+    SCALE_FACTOR = 2
 
-    def __init__(self, cap):
-        self.__data = [None] * cap
+    def __init__(self, capacity):
+        self.__entries = [None] * capacity
         self.__head = 0
         self.__tail = 0
         self.__num_queue_elements = 0
 
     def enqueue(self, x):
-        if self.__num_queue_elements == len(self.__data):  # Needs to resize.
+        if self.__num_queue_elements == len(
+                self.__entries):  # Needs to resize.
             # Makes the queue elements appear consecutively.
-            tmp = self.__data[:self.__head]
-            del self.__data[:self.__head]
-            self.__data += tmp
+            self.__entries = self.__entries[
+                self.__head:] + self.__entries[:self.__head]
             # Resets head and tail.
-            self.__head = 0
-            self.__tail = self.__num_queue_elements
-            self.__data += [None] * (len(self.__data) * (self.__k_scale_factor - 1))
+            self.__head, self.__tail = 0, self.__num_queue_elements
+            self.__entries += [None] * (len(self.__entries) *
+                                        self.SCALE_FACTOR)
 
-        self.__data[self.__tail] = x
-        self.__tail = (self.__tail + 1) % len(self.__data)
+        self.__entries[self.__tail] = x
+        self.__tail = (self.__tail + 1) % len(self.__entries)
         self.__num_queue_elements += 1
 
     def dequeue(self):
         if not self.__num_queue_elements:
             raise IndexError('empty queue')
         self.__num_queue_elements -= 1
-        ret = self.__data[self.__head]
-        self.__head = (self.__head + 1) % len(self.__data)
+        ret = self.__entries[self.__head]
+        self.__head = (self.__head + 1) % len(self.__entries)
         return ret
 
     def size(self):
         return self.__num_queue_elements
+
+
 # @exclude
+
 
 def test():
     q = Queue(8)
@@ -59,7 +62,7 @@ def test():
     # Ok till here. Now head = 3 and tail = 3
 
     q.enqueue(14)  # now the vector (data) is resized; but the head and tail.
-                   # (or elements) does not change accordingly.
+    # (or elements) does not change accordingly.
     q.enqueue(15)
     q.enqueue(16)
     q.enqueue(17)
@@ -90,7 +93,7 @@ def main():
         q.dequeue()
     except IndexError as e:
         print(e)
-    # test resize().
+    # test resize.
     q.enqueue(4)
     q.enqueue(4)
     q.enqueue(4)

@@ -8,7 +8,6 @@ import heapq
 
 # @include
 class Star:
-
     def __init__(self, x, y, z):
         self.x = x
         self.y = y
@@ -16,7 +15,7 @@ class Star:
 
     @property
     def distance(self):
-        return self.x ** 2 + self.y ** 2 + self.z ** 2
+        return self.x**2 + self.y**2 + self.z**2
 
     def __lt__(self, rhs):
         return self.distance < rhs.distance
@@ -28,6 +27,7 @@ class Star:
     def __eq__(self, rhs):
         rhs_distance = rhs.distance
         return abs(self.distance - rhs_distance) / rhs_distance < 1.0e-5
+
     # @include
 
 
@@ -51,11 +51,46 @@ def find_closest_k_stars(k, stars):
     while max_heap:
         closest_stars.append(heapq.heappop(max_heap)[1])
 
-    return closest_stars
+    return closest_stars[::-1]
+
+
 # @exclude
 
 
+def simple_test():
+    stars = [
+        Star(1, 2, 3), Star(5, 5, 5), Star(0, 2, 1), Star(9, 2, 1),
+        Star(1, 2, 1), Star(2, 2, 1)
+    ]
+    s = io.StringIO(newline='')
+    ss = csv.writer(s)
+    for star in stars:
+        ss.writerow((star.x, star.y, star.z))
+    s.seek(0)
+    closest_stars = find_closest_k_stars(3, s)
+    assert len(closest_stars) == 3
+    assert closest_stars[0].distance == Star(0, 2, 1).distance
+    assert closest_stars[0].distance == Star(2, 0, 1).distance
+    assert closest_stars[1].distance == Star(1, 2, 1).distance
+    assert closest_stars[1].distance == Star(1, 1, 2).distance
+
+    stars = [
+        Star(1, 2, 3), Star(5, 5, 5), Star(4, 4, 4), Star(3, 2, 1),
+        Star(5, 5, 5), Star(3, 2, 3), Star(3, 2, 3), Star(3, 2, 1)
+    ]
+    s = io.StringIO(newline='')
+    ss = csv.writer(s)
+    for star in stars:
+        ss.writerow((star.x, star.y, star.z))
+    s.seek(0)
+    closest_stars = find_closest_k_stars(2, s)
+    assert len(closest_stars) == 2
+    assert closest_stars[0].distance == Star(1, 2, 3).distance
+    assert closest_stars[1].distance == Star(3, 2, 1).distance
+
+
 def main():
+    simple_test()
     for _ in range(1000):
         if len(sys.argv) == 2:
             num = int(sys.argv[1])
@@ -67,9 +102,12 @@ def main():
             num = random.randint(1, 10000)
             k = random.randint(1, num)
         # Randomly generate num of stars.
-        stars = [Star(random.uniform(0, 10000),
-                      random.uniform(0, 10000),
-                      random.uniform(0, 10000)) for i in range(num)]
+        stars = [
+            Star(
+                random.uniform(0, 10000),
+                random.uniform(0, 10000), random.uniform(0, 10000))
+            for i in range(num)
+        ]
         s = io.StringIO(newline='')
         ss = csv.writer(s)
         for star in stars:

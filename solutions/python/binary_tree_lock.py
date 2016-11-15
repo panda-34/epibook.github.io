@@ -12,17 +12,18 @@ class BinaryTreeNode:
         return self.__locked
 
     def lock(self):
+        # We cannot lock if any of this node's descendants are locked.
         if self.__num_locked_descendants > 0 or self.__locked:
             return False
 
-        # Tests if any of ancestors are not locked.
+        # We cannot lock if any of this node's ancestors are locked.
         it = self.parent
         while it:
             if it.__locked:
                 return False
             it = it.parent
 
-        # Locks itself and increments its ancestors's lock counts.
+        # Lock this node and increments all its ancestors's descendant counts.
         self.__locked = True
         it = self.parent
         while it:
@@ -38,6 +39,8 @@ class BinaryTreeNode:
             while it:
                 it.__num_locked_descendants -= 1
                 it = it.parent
+
+
 # @exclude
 
 

@@ -8,16 +8,17 @@ from binary_tree_utils import generate_rand_binary_tree, generate_preorder, gene
 # @include
 def binary_tree_from_preorder_inorder(preorder, inorder):
     node_to_inorder_idx = {data: i for i, data in enumerate(inorder)}
-    return binary_tree_from_preorder_inorder_helper(preorder, 0, len(preorder),
-                                                    0, len(inorder),
+    return binary_tree_from_preorder_inorder_helper(preorder, 0,
+                                                    len(preorder), 0,
+                                                    len(inorder),
                                                     node_to_inorder_idx)
 
 
 # Builds the subtree with preorder[preorder_start : preorder_end - 1] and
 # inorder[inorder_start : inorder_end - 1].
-def binary_tree_from_preorder_inorder_helper(preorder, preorder_start, preorder_end,
-                                             inorder_start, inorder_end,
-                                             node_to_inorder_idx):
+def binary_tree_from_preorder_inorder_helper(preorder, preorder_start,
+                                             preorder_end, inorder_start,
+                                             inorder_end, node_to_inorder_idx):
     if preorder_end <= preorder_start or inorder_end <= inorder_start:
         return None
 
@@ -28,16 +29,37 @@ def binary_tree_from_preorder_inorder_helper(preorder, preorder_start, preorder_
         preorder[preorder_start],
         # Recursively builds the left subtree.
         binary_tree_from_preorder_inorder_helper(
-            preorder, preorder_start + 1, preorder_start + 1 + left_subtree_size,
-            inorder_start, root_inorder_idx, node_to_inorder_idx),
+            preorder, preorder_start + 1,
+            preorder_start + 1 + left_subtree_size, inorder_start,
+            root_inorder_idx, node_to_inorder_idx),
         # Recursively builds the right subtree.
         binary_tree_from_preorder_inorder_helper(
             preorder, preorder_start + 1 + left_subtree_size, preorder_end,
             root_inorder_idx + 1, inorder_end, node_to_inorder_idx))
+
+
 # @exclude
 
 
+def simple_test():
+    res = binary_tree_from_preorder_inorder([1], [1])
+    assert res.data == 1
+
+    res = binary_tree_from_preorder_inorder([2, 1], [1, 2])
+    assert res.data == 2 and res.left.data == 1 and not res.right
+
+    N = 100
+    inorder, preorder = [], []
+    for i in range(N):
+        inorder.append(i)
+        preorder.append((N - 1) - i)
+
+    res = binary_tree_from_preorder_inorder(preorder, inorder)
+    assert res.data == N - 1 and res.left.data == N - 2 and not res.right
+
+
 def main():
+    simple_test()
     for times in range(1000):
         print(times)
         if len(sys.argv) == 2:

@@ -3,16 +3,18 @@ from binary_tree_prototype import BinaryTreeNode
 
 
 # @include
-def connect_leaves(tree):
+def create_list_of_leaves(tree):
     leaves = []
     if tree:
         if not tree.left and not tree.right:
             leaves.append(tree)
         else:
             # First do the left subtree, and then do the right subtree.
-            leaves += connect_leaves(tree.left)
-            leaves += connect_leaves(tree.right)
+            leaves += create_list_of_leaves(tree.left)
+            leaves += create_list_of_leaves(tree.right)
     return leaves
+
+
 # @exclude
 
 
@@ -22,11 +24,14 @@ def main():
     #  1    4 6
     tree = BinaryTreeNode(3)
     tree.left = BinaryTreeNode(2)
+    L = create_list_of_leaves(tree)
+    assert len(L) == 1 and L[0].data == 2
+
     tree.left.left = BinaryTreeNode(1)
     tree.right = BinaryTreeNode(5)
     tree.right.left = BinaryTreeNode(4)
     tree.right.right = BinaryTreeNode(6)
-    L = connect_leaves(tree)
+    L = create_list_of_leaves(tree)
     output = []
     # should output 1, 4, 6
     for l in L:

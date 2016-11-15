@@ -1,7 +1,8 @@
 # Interconverting_string_integer.cpp 69dab7578339012270872ba200cfff02f59ce894
+from functools import reduce
+import string
 import sys
 import random
-import string
 
 
 def rand_int_string(length):
@@ -11,7 +12,7 @@ def rand_int_string(length):
     if random.randint(0, 1) == 1:
         ret.append('-')
     ret.append(chr(random.randint(ord('1'), ord('9'))))
-    for _ in range(length-1):
+    for _ in range(length - 1):
         ret.append(random.choice(string.digits))
     return ''.join(ret)
 
@@ -32,17 +33,13 @@ def int_to_string(x):
 
     if is_negative:
         s.append('-')  # Adds the negative sign back.
-
-    return ''.join(reversed(s))
+    return ''.join(s[::-1])
 
 
 def string_to_int(s):
-    is_negative = s[0] == '-'
-    result = 0
-    for c in s[1 if is_negative else 0:]:
-        digit = ord(c) - ord('0')
-        result = result * 10 + digit
-    return -result if is_negative else result
+    result = reduce(lambda x, c: x * 10 + ord(c) - ord('0'),
+                    s[1 if s[0] == '-' else 0:], 0)
+    return -result if s[0] == '-' else result
 # @exclude
 
 

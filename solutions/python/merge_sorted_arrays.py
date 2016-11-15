@@ -21,6 +21,7 @@ def merge_sorted_arrays(sorted_arrays):
     while min_heap:
         smallest_entry, smallest_array_i = heapq.heappop(min_heap)
         smallest_array_iter = iters[smallest_array_i]
+        # smallest_array_iter = iters[smallest_array_i]
         result.append(smallest_entry)
         next_element = next(smallest_array_iter, None)
         if next_element is not None:
@@ -28,6 +29,8 @@ def merge_sorted_arrays(sorted_arrays):
             heapq.heappush(min_heap, (next_element, smallest_array_i))
 
     return result
+
+
 # @exclude
 
 
@@ -36,27 +39,37 @@ def merge_sorted_arrays_pythonic(sorted_arrays):
     return list(heapq.merge(*sorted_arrays))
 
 
+def simple_test():
+    S = [[1, 5, 10], [2, 3, 100], [2, 12, 2**64 - 1]]
+    assert merge_sorted_arrays(S) == merge_sorted_arrays_pythonic(
+        S) == [1, 2, 2, 3, 5, 10, 12, 100, 2**64 - 1]
+
+    S = [[1]]
+    assert merge_sorted_arrays(S) == merge_sorted_arrays_pythonic(S) == [1]
+
+    S = [[], [1], [2]]
+    assert merge_sorted_arrays(S) == merge_sorted_arrays_pythonic(S) == [1, 2]
+
+
 def main():
+    simple_test()
     for _ in range(100):
         if len(sys.argv) == 2:
             n = int(sys.argv[1])
         else:
-            n = random.randint(1, 10000)
+            n = random.randint(1, 100)
 
         S = []
-        print('n =', n)
         for i in range(n):
-            S.append(sorted(random.randint(-9999, 9999)
-                            for j in range(random.randint(1, 500))))
-
-##        for i in S:
-##            print(*i)
-
+            S.append(
+                sorted(
+                    random.randint(-9999, 9999)
+                    for j in range(random.randint(1, 500))))
         ans = merge_sorted_arrays(S)
         for i in range(1, len(ans)):
             assert ans[i - 1] <= ans[i]
-
         assert ans == merge_sorted_arrays_pythonic(S)
+
 
 if __name__ == '__main__':
     main()

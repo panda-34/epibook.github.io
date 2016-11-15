@@ -19,14 +19,15 @@ def check_answer(A):
 
 
 # @include
-def rotate_matrix(A):
-    for i in range(len(A) // 2):
-        for j in range(i, len(A) - i - 1):
-            temp = A[i][j]
-            A[i][j] = A[-1 - j][i]
-            A[-1 - j][i] = A[-1 - i][-1 - j]
-            A[-1 - i][-1 - j] = A[j][-1 - i]
-            A[j][-1 - i] = temp
+def rotate_matrix(square_matrix):
+    matrix_size = len(square_matrix) - 1
+    for i in range(len(square_matrix) // 2):
+        for j in range(i, matrix_size - i):
+            # Perform a 4-way exchange.
+            temp = (square_matrix[-1 - j][i], square_matrix[-1 - i][-1 - j],
+                    square_matrix[j][-1 - i], square_matrix[i][j])
+            square_matrix[i][j], square_matrix[-1 - j][i], square_matrix[
+                -1 - i][-1 - j], square_matrix[j][-1 - i] = temp
 # @exclude
 
 

@@ -2,32 +2,36 @@
 from bst_prototype import BSTNode
 
 
-result = []
-
-
 # @include
-def print_BST_in_sorted_order(tree):
-    s = []
-    curr = tree
+def BST_in_sorted_order(tree):
+    s, result = [], []
 
-    while s or curr:
-        if curr:
-            s.append(curr)
+    while s or tree:
+        if tree:
+            s.append(tree)
             # Going left.
-            curr = curr.left
+            tree = tree.left
         else:
             # Going up.
-            curr = s.pop()
-            print(curr.data)
-            # @exclude
-            result.append(curr.data)
-            # @include
+            tree = s.pop()
+            result.append(tree.data)
             # Going right.
-            curr = curr.right
+            tree = tree.right
+    return result
+
+
 # @exclude
 
 
+def simple_test():
+    tree = BSTNode(43)
+    assert BST_in_sorted_order(tree) == [43]
+    tree.left = BSTNode(23)
+    assert BST_in_sorted_order(tree) == [23, 43]
+
+
 def main():
+    simple_test()
     #        43
     #    23     47
     #      37      53
@@ -41,9 +45,7 @@ def main():
     tree.left.right.right = BSTNode(41)
     tree.right = BSTNode(47)
     tree.right.right = BSTNode(53)
-    print_BST_in_sorted_order(tree)
-    golden_res = [23, 29, 31, 37, 41, 43, 47, 53]
-    assert golden_res == result
+    assert BST_in_sorted_order(tree) == [23, 29, 31, 37, 41, 43, 47, 53]
 
 
 if __name__ == '__main__':

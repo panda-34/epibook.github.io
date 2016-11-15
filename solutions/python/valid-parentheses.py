@@ -16,7 +16,7 @@ def is_well_formed(s):
                 (c == ']' and left_chars[-1] != '[')):
                 return False  # Mismatched chars.
             left_chars.pop()
-    return len(left_chars) == 0
+    return not left_chars
 # @exclude
 
 

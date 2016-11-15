@@ -20,11 +20,15 @@ def k_largest_in_binary_heap(A, k):
 
         left_child_idx = 2 * candidate_idx + 1
         if left_child_idx < len(A):
-            heapq.heappush(candidate_max_heap, (-A[left_child_idx], left_child_idx))
+            heapq.heappush(candidate_max_heap,
+                           (-A[left_child_idx], left_child_idx))
         right_child_idx = 2 * candidate_idx + 2
         if right_child_idx < len(A):
-            heapq.heappush(candidate_max_heap, (-A[right_child_idx], right_child_idx))
+            heapq.heappush(candidate_max_heap,
+                           (-A[right_child_idx], right_child_idx))
     return result
+
+
 # @exclude
 
 
@@ -40,6 +44,11 @@ def main():
     max_heap = [97, 84, 93, 83, 81, 90, 79, 83, 55, 42, 21, 73]
     result = k_largest_in_binary_heap(max_heap, 3)
     expected_result = [97, 93, 90]
+    assert result == expected_result
+
+    max_heap = [100, 1, 5, 0, 0]
+    result = k_largest_in_binary_heap(max_heap, 1)
+    expected_result = [100]
     assert result == expected_result
 
 

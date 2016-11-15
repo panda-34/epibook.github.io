@@ -2,39 +2,32 @@
 from binary_tree_with_parent_prototype import BinaryTreeNode
 
 
-result = []
-
-
 # @include
 def inorder_traversal(tree):
-    prev = None
-    curr = tree
-    while curr:
-        if prev is curr.parent:
-            # We came down to curr from prev.
-            if curr.left:  # Keep going left.
-                nxt = curr.left
+    prev, result = None, []
+    while tree:
+        if prev is tree.parent:
+            # We came down to tree from prev.
+            if tree.left:  # Keep going left.
+                next = tree.left
             else:
-                print(curr.data)
-                # @exclude
-                result.append(curr.data)
-                # @include
+                result.append(tree.data)
                 # Done with left, so go right if right is not empty.
                 # Otherwise, go up.
-                nxt = curr.right or curr.parent
-        elif curr.left is prev:
-            # We came up to curr from its left child.
-            print(curr.data)
-            # @exclude
-            result.append(curr.data)
-            # @include
+                next = tree.right or tree.parent
+        elif tree.left is prev:
+            # We came up to tree from its left child.
+            result.append(tree.data)
             # Done with left, so go right if right is not empty. Otherwise, go up.
-            nxt = curr.right or curr.parent
+            next = tree.right or tree.parent
         else:  # Done with both children, so move up.
-            nxt = curr.parent
+            next = tree.parent
 
-        prev = curr
-        curr = nxt
+        prev = tree
+        tree = next
+    return result
+
+
 # @exclude
 
 
@@ -44,10 +37,13 @@ def main():
     #  1    4 6
     root = BinaryTreeNode(3)
     root.parent = None
+    assert inorder_traversal(root) == [3]
     root.left = BinaryTreeNode(2)
     root.left.parent = root
     root.left.left = BinaryTreeNode(1)
     root.left.left.parent = root.left
+    assert inorder_traversal(root) == [1, 2, 3]
+
     root.right = BinaryTreeNode(5)
     root.right.parent = root
     root.right.left = BinaryTreeNode(4)
@@ -55,10 +51,7 @@ def main():
     root.right.right = BinaryTreeNode(6)
     root.right.right.parent = root.right
 
-    # Should output 1 2 3 4 5 6.
-    inorder_traversal(root)
-    golden_res = [1, 2, 3, 4, 5, 6]
-    assert golden_res == result
+    assert inorder_traversal(root) == [1, 2, 3, 4, 5, 6]
 
 
 if __name__ == '__main__':

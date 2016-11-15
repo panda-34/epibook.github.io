@@ -14,10 +14,11 @@ def has_cycle(head):
             slow = head
             # Both pointers advance at the same time.
             while slow is not fast:
-                slow = slow.next
-                fast = fast.next
+                slow, fast = slow.next, fast.next
             return slow  # slow is the start of cycle.
     return None  # No cycle.
+
+
 # @exclude
 
 

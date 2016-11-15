@@ -3,6 +3,8 @@ import sys
 import random
 import heapq
 
+global_result = []
+
 
 # @include
 def online_median(sequence):
@@ -13,24 +15,55 @@ def online_median(sequence):
     max_heap = []
 
     for x in sequence:
-        if min_heap and x < min_heap[0]:
-            heapq.heappush(max_heap, -x)
-        else:
+        if not min_heap:
+            # This is the very first element.
             heapq.heappush(min_heap, x)
+        else:
+            if x >= min_heap[0]:
+                heapq.heappush(min_heap, x)
+            else:
+                heapq.heappush(max_heap, -x)
 
+        # Ensure min_heap and max_heap have equal number of elements if an even number of elements is read; otherwise, min_heap must have one more element than max_heap.
         if len(min_heap) > len(max_heap) + 1:
             heapq.heappush(max_heap, -heapq.heappop(min_heap))
-        elif len(max_heap) > len(min_heap) + 1:
+        elif len(max_heap) > len(min_heap):
             heapq.heappush(min_heap, -heapq.heappop(max_heap))
 
-        if len(min_heap) == len(max_heap):
-            print(0.5 * (min_heap[0] + (-max_heap[0])))
-        else:
-            print(min_heap[0] if len(min_heap) > len(max_heap) else -max_heap[0])
+# @exclude
+        global_result.append(0.5 * (min_heap[0] + (-max_heap[0])) if len(
+            min_heap) == len(max_heap) else min_heap[0])
+        # @include
+        print(0.5 * (min_heap[0] + (-max_heap[0]))
+              if len(min_heap) == len(max_heap) else min_heap[0])
+
+
 # @exclude
 
 
+def small_test():
+    stream = [5, 4, 3, 2, 1]
+    online_median(iter(stream))
+    assert global_result == [5, 4.5, 4, 3.5, 3]
+
+    global_result.clear()
+    stream = [1, 2, 3, 4, 5]
+    online_median(iter(stream))
+    assert global_result == [1, 1.5, 2, 2.5, 3]
+
+    global_result.clear()
+    stream = [1, 0, 3, 5, 2, 0, 1]
+    online_median(iter(stream))
+    assert global_result == [1, 0.5, 1, 2, 2, 1.5, 1]
+
+    global_result.clear()
+    stream = [-1]
+    online_median(iter(stream))
+    assert global_result == [-1]
+
+
 def main():
+    small_test()
     if len(sys.argv) == 2:
         num = int(sys.argv[1])
     else:

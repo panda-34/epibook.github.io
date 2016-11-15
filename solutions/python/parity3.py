@@ -5,10 +5,10 @@ _PRECOMPUTED_PARITY = [parity1.parity(i) for i in range(1 << 16)]
 
 # @include
 def parity(x):
-    word_size = 16
-    bit_mask = 0xFFFF
-    return (_PRECOMPUTED_PARITY[x >> (3 * word_size)] ^
-            _PRECOMPUTED_PARITY[(x >> (2 * word_size)) & bit_mask] ^
-            _PRECOMPUTED_PARITY[(x >> word_size) & bit_mask] ^
-            _PRECOMPUTED_PARITY[x & bit_mask])
+    WORD_SIZE = 16
+    BIT_MASK = 0xFFFF
+    return (_PRECOMPUTED_PARITY[x >> (3 * WORD_SIZE)] ^
+            _PRECOMPUTED_PARITY[(x >> (2 * WORD_SIZE)) & BIT_MASK] ^
+            _PRECOMPUTED_PARITY[(x >> WORD_SIZE) & BIT_MASK] ^
+            _PRECOMPUTED_PARITY[x & BIT_MASK])
 # @exclude
