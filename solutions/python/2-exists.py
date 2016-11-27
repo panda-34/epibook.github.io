@@ -1,0 +1,182 @@
+# 2-exists.cc 884568f491146065472fafc32923e8aa73dd8076
+import sys
+import random
+
+
+# @include
+class GraphVertex:
+
+    white, gray, black = range(3)
+
+    def __init__(self):
+        self.color = GraphVertex.white
+        self.edges = []
+# @exclude
+
+    def __repr__(self):
+        return '(%d)%d(%s)' % (self.color, id(self), ','.join(str(id(x)) for x in self.edges))
+# @include
+
+
+def is_deadlocked(G):
+    return any(vertex.color == GraphVertex.white and has_cycle(vertex) for vertex in G)
+
+
+def has_cycle(cur):
+    # Visiting a gray vertex means a cycle.
+    if cur.color == GraphVertex.gray:
+        return True
+
+    cur.color = GraphVertex.gray  # Marks current vertex as a gray one.
+    # Traverse the neighbor vertices.
+    for next in cur.edges:
+        if next.color != GraphVertex.black:
+            if has_cycle(next):
+                return True
+    cur.color = GraphVertex.black  # Marks current vertex as black.
+    return False
+# @exclude
+
+
+def has_cycle_exclusion(cur):
+    if cur.color == GraphVertex.black:
+        return True
+    cur.color = GraphVertex.black
+    for next in cur.edges:
+        if has_cycle_exclusion(next):
+            return True
+    return False
+
+
+# O(n^2) check answer.
+def check_answer(G):
+    # marks all vertices as white.
+    for n in G:
+        n.color = GraphVertex.white
+
+    for g in G:
+        if has_cycle_exclusion(g):
+            return True
+        # Reset color to white.
+        for n in G:
+            n.color = GraphVertex.white
+    return False
+
+
+def test_two_nodes_cycle():
+    G = [GraphVertex() for i in range(2)]
+    G[0].edges.append(G[1])
+    G[1].edges.append(G[0])
+    result = is_deadlocked(G)
+    print(result)
+    assert check_answer(G) == result
+    assert result
+
+
+def test_directed_cycle():
+    G = [GraphVertex() for i in range(3)]
+    G[0].edges.append(G[1])
+    G[1].edges.append(G[2])
+    G[2].edges.append(G[0])
+    result = is_deadlocked(G)
+    print(result)
+    assert check_answer(G) == result
+    assert result
+
+
+def test_directed_star_tree():
+    G = [GraphVertex() for i in range(4)]
+    G[0].edges.append(G[1])
+    G[0].edges.append(G[2])
+    G[0].edges.append(G[3])
+    result = is_deadlocked(G)
+    print(result)
+    assert check_answer(G) == result
+    assert not result
+
+
+def test_directed_line_tree():
+    G = [GraphVertex() for i in range(4)]
+    G[0].edges.append(G[1])
+    G[1].edges.append(G[2])
+    G[2].edges.append(G[3])
+    result = is_deadlocked(G)
+    print(result)
+    assert check_answer(G) == result
+    assert not result
+    G[3].edges.append(G[1])
+    result = is_deadlocked(G)
+    assert result
+
+
+def test_directed_binary_tree():
+    G = [GraphVertex() for i in range(7)]
+    G[0].edges.append(G[1])
+    G[0].edges.append(G[2])
+    G[1].edges.append(G[3])
+    G[1].edges.append(G[4])
+    G[2].edges.append(G[5])
+    G[2].edges.append(G[6])
+    result = is_deadlocked(G)
+    print(result)
+    assert check_answer(G) == result
+    assert not result
+    G[4].edges.append(G[6])
+    G[6].edges.append(G[1])
+    result = is_deadlocked(G)
+    assert result
+
+
+def test_directed_two_separate_cycles():
+    G = [GraphVertex() for i in range(6)]
+    G[0].edges.append(G[1])
+    G[1].edges.append(G[2])
+    G[2].edges.append(G[0])
+    G[3].edges.append(G[4])
+    G[4].edges.append(G[5])
+    G[5].edges.append(G[3])
+    result = is_deadlocked(G)
+    assert result
+
+
+def main():
+    test_two_nodes_cycle()
+    test_directed_cycle()
+    test_directed_star_tree()
+    test_directed_line_tree()
+    test_directed_binary_tree()
+    test_directed_two_separate_cycles()
+    for times in range(100):
+        if len(sys.argv) == 2:
+            n = int(sys.argv[1])
+        else:
+            n = random.randint(2, 2000)
+        G = [GraphVertex() for i in range(n)]
+        m = random.randint(1, n * (n - 1) // 2)
+        is_edge_exist = [[False] * n for i in range(n)]
+        # Make the graph become connected.
+        for i in range(1, n):
+            G[i - 1].edges.append(G[i])
+            G[i].edges.append(G[i - 1])
+            is_edge_exist[i - 1][i] = is_edge_exist[i][i - 1] = True
+
+        # Generate edges randomly.
+        m -= (n - 1)
+        while m > 0:
+            m -= 1
+            while True:
+                a = random.randrange(n)
+                b = random.randrange(n)
+                if a != b and is_edge_exist[a][b] == False:
+                    break
+            is_edge_exist[a][b] = is_edge_exist[b][a] = True
+            G[a].edges.append(G[b])
+            G[b].edges.append(G[a])
+
+        result = is_deadlocked(G)
+        print(result)
+        assert check_answer(G) == result
+
+
+if __name__ == '__main__':
+    main()
