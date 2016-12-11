@@ -24,10 +24,8 @@ def calculate_largest_rectangle_alternative(heights):
         s.append(i)
 
     # For each heights[i], find its maximum area include it.
-    max_rectangle_area = 0
-    for i in range(len(heights)):
-        max_rectangle_area = max(max_rectangle_area, heights[i] * (R[i] - L[i] - 1))
-    return max_rectangle_area
+    return max(heights[i] * (R[i] - L[i] - 1)
+               for i in range(len(heights)) or [0])
 
 
 # @include
@@ -35,13 +33,13 @@ def calculate_largest_rectangle(heights):
     pillar_indices = []
     max_rectangle_area = 0
     for i in range(len(heights) + 1):
-        if pillar_indices and i < len(heights) and heights[i] == heights[pillar_indices[-1]]:
-            # Replace earlier building with same height by current building. This
-            # ensures the later buildings have the correct left endpoint.
+        if pillar_indices and i < len(heights) and heights[i] == heights[
+                pillar_indices[-1]]:
+            # Replace earlier building with same height by current building. This ensures the later buildings have the correct left endpoint.
             pillar_indices[-1] = i
-        # By iterating to len(heights) instead of len(heights) - 1, we can
-        # uniformly handle the computation for rectangle area here.
-        while pillar_indices and is_new_pillar_or_reach_end(heights, i, pillar_indices[-1]):
+        # By iterating to len(heights) instead of len(heights) - 1, we can uniformly handle the computation for rectangle area here.
+        while pillar_indices and is_new_pillar_or_reach_end(
+                heights, i, pillar_indices[-1]):
             height = heights[pillar_indices.pop()]
             width = i if not pillar_indices else i - pillar_indices[-1] - 1
             max_rectangle_area = max(max_rectangle_area, height * width)
@@ -50,7 +48,10 @@ def calculate_largest_rectangle(heights):
 
 
 def is_new_pillar_or_reach_end(heights, curr_idx, last_pillar_idx):
-    return heights[curr_idx] < heights[last_pillar_idx] if curr_idx < len(heights) else True
+    return heights[curr_idx] < heights[last_pillar_idx] if curr_idx < len(
+        heights) else True
+
+
 # @exclude
 
 
@@ -58,8 +59,7 @@ def is_new_pillar_or_reach_end(heights, curr_idx, last_pillar_idx):
 def check_answer(A):
     max = -1
     for i in range(len(A)):
-        left = i - 1
-        right = i + 1
+        left, right = i - 1, i + 1
         while left >= 0 and A[left] >= A[i]:
             left -= 1
         while right < len(A) and A[right] >= A[i]:

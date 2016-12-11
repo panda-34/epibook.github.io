@@ -21,7 +21,8 @@ def find_longest_subarray_less_equal_k(A, k):
 
     a = b = max_length = 0
     while a < len(A) and b < len(A):
-        min_curr_sum = min_prefix_sum[b] - prefix_sum[a - 1] if a > 0 else min_prefix_sum[b]
+        min_curr_sum = min_prefix_sum[b] - prefix_sum[
+            a - 1] if a > 0 else min_prefix_sum[b]
         if min_curr_sum <= k:
             curr_length = b - a + 1
             if curr_length > max_length:
@@ -30,6 +31,8 @@ def find_longest_subarray_less_equal_k(A, k):
         else:  # min_curr_sum > k.
             a += 1
     return max_length
+
+
 # @exclude
 
 

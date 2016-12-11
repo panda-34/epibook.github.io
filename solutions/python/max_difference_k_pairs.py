@@ -9,11 +9,13 @@ def max_k_pairs_profits(A, k):
     for i in range(len(A)):
         pre_k_sum = k_sum.copy()
         sign = -1
-        for j in range(min(len(k_sum), i+1)):
+        for j in range(min(len(k_sum), i + 1)):
             diff = sign * A[i] + (0 if j == 0 else pre_k_sum[j - 1])
             k_sum[j] = max(diff, pre_k_sum[j])
             sign *= -1
     return k_sum[-1]  # Returns the last selling profits as the answer.
+
+
 # @exclude
 
 
@@ -23,8 +25,9 @@ def check_ans_helper(A, l, k, pre, ans, max_ans):
         return max(max_ans, ans)
     else:
         for i in range(pre, len(A)):
-            max_ans = check_ans_helper(
-                A, l + 1, k, i + 1, ans + (A[i] if l & 1 else -A[i]), max_ans)
+            max_ans = check_ans_helper(A, l + 1, k, i + 1,
+                                       ans + (A[i]
+                                              if l & 1 else -A[i]), max_ans)
         return max_ans
 
 
@@ -38,9 +41,9 @@ def check_ans(A, k):
 
 
 def main():
-    n = 40
+    n = 30
     k = 4
-    # random tests n = 40, k = 4 for 100 times
+    # random tests n = 30, k = 4 for 100 times
     for _ in range(100):
         A = [random.randint(0, 99) for i in range(n)]
         print('n = %d, k = %d' % (n, k))

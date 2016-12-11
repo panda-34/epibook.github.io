@@ -4,7 +4,6 @@ import sortedcontainers
 
 # @include
 class ClientsCreditsInfo:
-
     def __init__(self):
         self._offset = 0
         self._client_to_credit = {}
@@ -13,7 +12,8 @@ class ClientsCreditsInfo:
     def insert(self, client_id, c):
         self.remove(client_id)
         self._client_to_credit[client_id] = c - self._offset
-        self._credit_to_clients.setdefault(c - self._offset, set()).add(client_id)
+        self._credit_to_clients.setdefault(c - self._offset,
+                                           set()).add(client_id)
 
     def remove(self, client_id):
         credit = self._client_to_credit.get(client_id)
@@ -37,6 +37,8 @@ class ClientsCreditsInfo:
             return ''
         clients = self._credit_to_clients.peekitem()[1]
         return '' if not clients else next(iter(clients))
+
+
 # @exclude
 
 

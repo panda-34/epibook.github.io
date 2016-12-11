@@ -14,13 +14,13 @@ class Name:
         return self.first_name == other.first_name
 
     def __lt__(self, other):
-        if self.first_name != other.first_name:
-            return self.first_name < other.first_name
-        return self.last_name < other.last_name
+        return self.first_name < other.first_name if self.first_name != other.first_name else self.last_name < other.last_name
 # @exclude
 
     def __repr__(self):
         return '%s %s' % (self.first_name, self.last_name)
+
+
 # @include
 
 
@@ -29,7 +29,9 @@ def eliminate_duplicate(A):
     i = 0
     for i, (key, _) in enumerate(itertools.groupby(A)):
         A[i] = key
-    del A[i+1:]
+    del A[i + 1:]
+
+
 # @exclude
 
 
@@ -50,8 +52,11 @@ def main():
         if len(sys.argv) == 2:
             n = int(sys.argv[1])
         else:
-            n = random.randint(0, 100000)
-        A = [Name(str(random.randrange(n)), str(random.randrange(n))) for i in range(n)]
+            n = random.randint(0, 1000)
+        A = [
+            Name(str(random.randrange(n)), str(random.randrange(n)))
+            for i in range(n)
+        ]
         eliminate_duplicate(A)
         check_ans(A)
 

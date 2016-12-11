@@ -27,11 +27,15 @@ def find_closest_elements_in_sorted_arrays(sorted_arrays):
             return min_distance_so_far
         iters.add((next_min, it))
         del iters[0]
+
+
 # @exclude
 
 
 def brute_force_gen_answer(sorted_arrays):
-    ans = min(max(values) - min(values) for values in itertools.product(*sorted_arrays))
+    ans = min(
+        max(values) - min(values)
+        for values in itertools.product(*sorted_arrays))
     print(ans)
     return ans
 
@@ -45,7 +49,8 @@ def main():
         sorted_arrays = []
         for i in range(n):
             size = random.randint(1, 40)
-            sorted_arrays.append(sorted(random.randrange(10000) for i in range(size)))
+            sorted_arrays.append(
+                sorted(random.randrange(10000) for i in range(size)))
         ans = find_closest_elements_in_sorted_arrays(sorted_arrays)
         print(ans)
         assert brute_force_gen_answer(sorted_arrays) == ans

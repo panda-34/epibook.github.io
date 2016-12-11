@@ -3,28 +3,24 @@ import sys
 import random
 import collections
 
-
 # @include
 Jug = collections.namedtuple('Jug', ('low', 'high'))
-VolumeRange = collections.namedtuple('VolumeRange', ('low', 'high'))
 
 
-def check_feasible(jugs, L, H):
-    cache = set()
-    return check_feasible_helper(jugs, L, H, cache)
-
-
-def check_feasible_helper(jugs, L, H, c):
+def check_feasible(jugs, L, H, c=set()):
+    VolumeRange = collections.namedtuple('VolumeRange', ('low', 'high'))
     if L > H or VolumeRange(L, H) in c or (L < 0 and H < 0):
         return False
 
     # Checks the volume for each jug to see if it is possible.
-    for j in jugs:
-        if ((L <= j.low and j.high <= H) or  # Base case: j is contained in [L, H]
-                check_feasible_helper(jugs, L - j.low, H - j.high, c)):
-            return True
+    if any((L <= j.low and j.high <= H) or check_feasible(jugs, L - j.low,
+                                                          H - j.high, c)
+           for j in jugs):
+        return True
     c.add(VolumeRange(L, H))  # Marks this as impossible.
     return False
+
+
 # @exclude
 
 

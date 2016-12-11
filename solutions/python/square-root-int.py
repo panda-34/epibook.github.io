@@ -6,8 +6,7 @@ import random
 
 # @include
 def square_root(k):
-    left = 0
-    right = k
+    left, right = 0, k
     # Candidate interval [left : right] where everything before left has
     # square <= k, everything after right has square > k.
     while left <= right:
@@ -18,6 +17,8 @@ def square_root(k):
         else:
             right = mid - 1
     return left - 1
+
+
 # @exclude
 
 

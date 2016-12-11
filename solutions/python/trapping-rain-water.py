@@ -13,13 +13,13 @@ def calculate_trapping_water(A):
     max_h = A.index(max(A))
 
     # Calculates the water within [1 : max_h - 1].
-    sum_ = 0
+    partial_sum = 0
     left = A[0]
     for i in range(1, max_h):
         if A[i] >= left:
             left = A[i]
         else:
-            sum_ += left - A[i]
+            partial_sum += left - A[i]
 
     # Calculates the water within [max_h + 1 : len(A) - 2].
     right = A[-1]
@@ -27,13 +27,15 @@ def calculate_trapping_water(A):
         if A[i] >= right:
             right = A[i]
         else:
-            sum_ += right - A[i]
-    return sum_
+            partial_sum += right - A[i]
+    return partial_sum
+
+
 # @exclude
 
-
 # Stack approach, O(n) time, O(n) space
-HeightBound = collections.namedtuple('HeightBound', ('left_bound', 'right_bound'))
+HeightBound = collections.namedtuple('HeightBound',
+                                     ('left_bound', 'right_bound'))
 
 
 def check_answer(A):

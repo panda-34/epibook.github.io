@@ -9,9 +9,8 @@ def postorder_traversal(tree):
     if not tree:  # Empty tree.
         return []
 
-    path_stack = []
+    path_stack = [tree]
     prev = None
-    path_stack.append(tree)
     postorder_sequence = []
     while path_stack:
         curr = path_stack[-1]
@@ -37,6 +36,8 @@ def postorder_traversal(tree):
             path_stack.pop()
         prev = curr
     return postorder_sequence
+
+
 # @exclude
 
 

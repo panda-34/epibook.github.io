@@ -5,8 +5,9 @@ from binary_tree_prototype import BinaryTreeNode
 # @include
 def rebuild_BST_from_preorder(preorder_sequence):
     root_idx = 0
-    return rebuild_BST_from_preorder_on_value_range(
-        preorder_sequence, float('-inf'), float('inf'), root_idx)[0]
+    return rebuild_BST_from_preorder_on_value_range(preorder_sequence,
+                                                    float('-inf'),
+                                                    float('inf'), root_idx)[0]
 
 
 # Builds a BST on the subtree rooted at root_idx from preorder_sequence on
@@ -27,6 +28,8 @@ def rebuild_BST_from_preorder_on_value_range(preorder_sequence, lower_bound,
     right_subtree, root_idx = rebuild_BST_from_preorder_on_value_range(
         preorder_sequence, root, upper_bound, root_idx)
     return BinaryTreeNode(root, left_subtree, right_subtree), root_idx
+
+
 # @exclude
 
 

@@ -2,7 +2,6 @@
 import collections
 from binary_tree_prototype import BinaryTreeNode
 
-
 # @include
 HeadAndTail = collections.namedtuple('HeadAndTail', ('head', 'tail'))
 
@@ -33,6 +32,8 @@ def BST_to_doubly_linked_list_helper(tree):
         right.head.left = tree
 
     return HeadAndTail(left.head or tree, right.tail or tree)
+
+
 # @exclude
 
 

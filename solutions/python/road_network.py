@@ -3,16 +3,15 @@ import sys
 import random
 import collections
 
-
 # @include
-HighwaySection = collections.namedtuple('HighwaySection', ('x', 'y', 'distance'))
+HighwaySection = collections.namedtuple('HighwaySection',
+                                        ('x', 'y', 'distance'))
 
 
 def find_best_proposals(H, P, n):
     # G stores the shortest path distances between all pairs of vertices.
-    G = [[float('inf')] * n for i in range(n)]
-    for i in range(n):
-        G[i][i] = 0
+    G = [[float('inf')] * (i - 1) + [0] + [float('inf')] * (n - i)
+         for i in range(n)]
     # Builds an undirected graph G based on existing highway sections H.
     for h in H:
         G[h.x][h.y] = G[h.y][h.x] = h.distance
@@ -39,18 +38,18 @@ def floyd_warshall(G):
     for k in range(len(G)):
         for i in range(len(G)):
             for j in range(len(G)):
-                if (G[i][k] != float('inf') and G[k][j] != float('inf')
-                        and G[i][j] > G[i][k] + G[k][j]):
+                if (G[i][k] != float('inf') and G[k][j] != float('inf') and
+                        G[i][j] > G[i][k] + G[k][j]):
                     G[i][j] = G[i][k] + G[k][j]
+
+
 # @exclude
 
 
 def simple_test():
-    H = (HighwaySection(0, 1, 10),
-         HighwaySection(1, 2, 10),
+    H = (HighwaySection(0, 1, 10), HighwaySection(1, 2, 10),
          HighwaySection(2, 3, 10))
-    P = (HighwaySection(0, 3, 1),
-         HighwaySection(0, 2, 2),
+    P = (HighwaySection(0, 3, 1), HighwaySection(0, 2, 2),
          HighwaySection(0, 1, 3))
     t = find_best_proposals(H, P, 4)
     assert t.x == 0 and t.y == 3 and t.distance == 1.0

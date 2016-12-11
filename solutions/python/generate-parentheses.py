@@ -10,10 +10,8 @@ def generate_balanced_parentheses(num_pairs):
     return result
 
 
-def directed_generate_balanced_parentheses(num_left_parens_needed,
-                                           num_right_parens_needed,
-                                           valid_prefix,
-                                           result):
+def directed_generate_balanced_parentheses(
+        num_left_parens_needed, num_right_parens_needed, valid_prefix, result):
     if not num_left_parens_needed and not num_right_parens_needed:
         result.append(valid_prefix)
         return
@@ -28,12 +26,13 @@ def directed_generate_balanced_parentheses(num_left_parens_needed,
         directed_generate_balanced_parentheses(num_left_parens_needed,
                                                num_right_parens_needed - 1,
                                                valid_prefix + ')', result)
+
+
 # @exclude
 
 
 def small_test():
-    result = generate_balanced_parentheses(1)
-    assert result == ['()']
+    assert generate_balanced_parentheses(1) == ['()']
     result = generate_balanced_parentheses(2)
     assert result == ['(())', '()()'] or result == ['()()', '(())']
 

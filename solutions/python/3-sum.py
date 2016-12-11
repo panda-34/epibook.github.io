@@ -1,41 +1,23 @@
 # 3-sum.cpp 848813e190b1b85a8e75107fe8513c3be38ad1a9
+import itertools
 import sys
 import random
+from two_sum import has_two_sum
 
 
 # @include
 def has_three_sum(A, t):
     A.sort()
+    # Finds if the sum of two numbers in A equals to t - a.
+    return any(has_two_sum(A, t - a) for a in A)
 
-    for a in A:
-        # Finds if the sum of two numbers in A equals to t - a.
-        if has_two_sum(A, t - a):
-            return True
-    return False
 
-def has_two_sum(A, t):
-    j = 0
-    k = len(A) - 1
-
-    while j <= k:
-        if A[j] + A[k] == t:
-            return True
-        elif A[j] + A[k] < t:
-            j += 1
-        else:  # A[j] + A[k] > t.
-            k -= 1
-    return False
 # @exclude
 
 
 # n^3 solution.
 def check_ans(A, t):
-    for i in A:
-        for j in A:
-            for k in A:
-                if i + j + k == t:
-                    return True
-    return False
+    return any(i + j + k == t for i, j, k in itertools.combinations(A, 3))
 
 
 def main():

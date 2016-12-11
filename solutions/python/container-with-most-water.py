@@ -1,13 +1,12 @@
 # container-with-most-water.cc 884568f491146065472fafc32923e8aa73dd8076
+import itertools
 import sys
 import random
 
 
 # @include
 def get_max_trapped_water(heights):
-    i = 0
-    j = len(heights) - 1
-    max_water = 0
+    i, j, max_water = 0, len(heights) - 1, 0
     while i < j:
         width = j - i
         max_water = max(max_water, width * min(heights[i], heights[j]))
@@ -19,16 +18,16 @@ def get_max_trapped_water(heights):
             i += 1
             j -= 1
     return max_water
+
+
 # @exclude
 
 
 # O(n^2) checking answer.
 def check_ans(heights):
-    res = 0
-    for i in range(len(heights)):
-        for j in range(i + 1, len(heights)):
-            res = max(res, min(heights[i], heights[j]) * (j - i))
-    return res
+    return max(
+        min(heights[i], heights[j]) * (j - i)
+        for i, j in itertools.combinations(range(len(heights)), 2) or [0])
 
 
 def small_test():

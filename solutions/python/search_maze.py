@@ -3,7 +3,6 @@ import sys
 import random
 import collections
 
-
 # @include
 WHITE, BLACK = range(2)
 
@@ -11,9 +10,8 @@ Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
 
 def search_maze(maze, s, e):
-    path = []
+    path = [s]
     maze[s.x][s.y] = BLACK
-    path.append(s)
     if not search_maze_helper(s, e, maze, path):
         del path[-1]
     return path  # Empty path means no path between s and e.
@@ -24,8 +22,7 @@ def search_maze_helper(cur, e, maze, path):
     if cur == e:
         return True
 
-    k_shift = (0, 1), (0, -1), (1, 0), (-1, 0)
-    for s in k_shift:
+    for s in (0, 1), (0, -1), (1, 0), (-1, 0):
         next = Coordinate(cur.x + s[0], cur.y + s[1])
         if is_feasible(next, maze):
             maze[next.x][next.y] = BLACK
@@ -38,7 +35,10 @@ def search_maze_helper(cur, e, maze, path):
 
 # Checks cur is within maze and is a white pixel.
 def is_feasible(cur, maze):
-    return 0 <= cur.x < len(maze) and 0 <= cur.y < len(maze[cur.x]) and maze[cur.x][cur.y] == WHITE
+    return 0 <= cur.x < len(maze) and 0 <= cur.y < len(maze[cur.x]) and maze[
+        cur.x][cur.y] == WHITE
+
+
 # @exclude
 
 
@@ -68,7 +68,8 @@ def main():
                 assert white[start] == path[0] and white[end] == path[-1]
             for i in range(len(path)):
                 if i > 0:
-                    assert abs(path[i - 1].x - path[i].x) + abs(path[i - 1].y - path[i].y) == 1
+                    assert abs(path[i - 1].x - path[i].x) + abs(path[i - 1].y -
+                                                                path[i].y) == 1
                 print('(%d,%d)' % path[i])
 
 

@@ -6,18 +6,9 @@ import copy
 
 # @include
 def rook_attack(A):
-    m = len(A)
-    n = len(A[0])
-    has_first_row_zero = False
-    for j in range(n):
-        if not A[0][j]:
-            has_first_row_zero = True
-            break
-    has_first_column_zero = False
-    for i in range(m):
-        if not A[i][0]:
-            has_first_column_zero = True
-            break
+    m, n = len(A), len(A[0])
+    has_first_row_zero = any(not A[0][j] for j in range(n))
+    has_first_column_zero = any(not A[i][0] for i in range(m))
 
     for i in range(1, m):
         for j in range(1, n):
@@ -41,17 +32,16 @@ def rook_attack(A):
     if has_first_column_zero:
         for i in range(m):
             A[i][0] = 0
+
+
 # @exclude
 
 
 def check_ans(A, ans):
-    for i in range(len(A)):
-        for j in range(len(A[i])):
-            if not A[i][j]:
-                for k in range(len(ans)):
-                    assert not ans[k][j]
-                for k in range(len(ans[i])):
-                    assert not ans[i][k]
+    assert all(not ans[k][j] for i in range(len(A)) for j in range(len(A[i]))
+               if not A[i][j] for k in range(len(ans)))
+    assert all(not ans[i][k] for i in range(len(A)) for j in range(len(A[i]))
+               if not A[i][j] for k in range(len(ans[i])))
 
 
 def main():

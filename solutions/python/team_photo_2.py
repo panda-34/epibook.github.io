@@ -1,7 +1,6 @@
 # Team_photo_2.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
 # @include
 class GraphVertex:
-
     def __init__(self):
         self.edges = []
         self.max_distance = 1
@@ -10,13 +9,15 @@ class GraphVertex:
 
     def __repr__(self):
         return ('*' if self.visited else '') + '(%d)%d(%s)' % (
-            self.max_distance, id(self), ','.join(str(id(x)) for x in self.edges))
+            self.max_distance, id(self), ','.join(
+                str(id(x)) for x in self.edges))
+
+
 # @include
 
 
 def find_largest_number_teams(G):
-    vertex_order = build_topological_ordering(G)
-    return find_longest_path(vertex_order)
+    return find_longest_path(build_topological_ordering(G))
 
 
 def build_topological_ordering(G):
@@ -43,6 +44,8 @@ def DFS(cur, vertex_order):
         if not next.visited:
             DFS(next, vertex_order)
     vertex_order.append(cur)
+
+
 # @exclude
 
 

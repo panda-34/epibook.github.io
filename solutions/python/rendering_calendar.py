@@ -1,41 +1,48 @@
 # Rendering_calendar.cpp 4a4c5f91493e5e482eaa79892816c1ccefa084f4
+import collections
 import sys
 import random
-
 
 # @include
 # interval is a tuple (start_time, end_time)
 # endpoint is a tuple (start_time, 0) or (end_time, 1)
 #   so that if times are equal, start_time comes first
+Event = collections.namedtuple('Event', ('start', 'finish'))
+
+Endpoint = collections.namedtuple('Endpoint', ('time', 'is_start'))
+
+
 def find_max_simultaneous_events(A):
     # Builds an array of all endpoints.
     E = []
-    for i in A:
-        E.append((i[0], 0))
-        E.append((i[1], 1))
+    for event in A:
+        E.append(Endpoint(event.start, True))
+        E.append(Endpoint(event.finish, False))
 
-    # Sorts the endpoint array according to the time, ties
-    # by putting start times before end times.
+    # Sorts the endpoint array according to the time, breaking ties by putting start times before end times.
     E.sort()
 
     # Track the number of simultaneous events, record the maximum
     # number of simultaneous events.
-    max_num_simultaneous_events = 0
-    num_simultaneous_events = 0
+    max_num_simultaneous_events, num_simultaneous_events = 0, 0
     for e in E:
-        if e[1] == 0:  # start_time
+        if e.is_start:
             num_simultaneous_events += 1
-            max_num_simultaneous_events = max(
-                num_simultaneous_events, max_num_simultaneous_events)
-        else:  # end_time
+            max_num_simultaneous_events = max(num_simultaneous_events,
+                                              max_num_simultaneous_events)
+        else:
             num_simultaneous_events -= 1
-
     return max_num_simultaneous_events
+
+
 # @exclude
 
 
 def simple_test():
-    A = [(1, 5), (2, 7), (4, 5), (6, 10), (8, 9), (9, 17), (11, 13), (12, 15), (14, 15)]
+    A = [
+        Event(1, 5), Event(2, 7), Event(4, 5), Event(6, 10), Event(8, 9),
+        Event(9, 17), Event(11, 13), Event(12, 15), Event(14, 15)
+    ]
     assert find_max_simultaneous_events(A) == 3
 
 
@@ -50,7 +57,7 @@ def main():
     for i in range(n):
         temp_start = random.randint(0, 99999)
         temp_finish = random.randint(temp_start + 1, temp_start + 10000)
-        A.append((temp_start, temp_finish))
+        A.append(Event(temp_start, temp_finish))
 
     ans = find_max_simultaneous_events(A)
     print(ans)

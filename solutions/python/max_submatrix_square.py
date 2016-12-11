@@ -27,13 +27,13 @@ def check_ans(A):
                     max = count
                 r += 1
     return max
+
+
 # @include
 
 
-MaxHW = collections.namedtuple('MaxHW', ('h', 'w'))
-
-
 def max_square_submatrix(A):
+    MaxHW = collections.namedtuple('MaxHW', ('h', 'w'))
     # DP table stores (h, w) for each (i, j).
     table = [[None] * len(A[0]) for i in A]
 
@@ -41,11 +41,10 @@ def max_square_submatrix(A):
         for j in range(len(A[i]) - 1, -1, -1):
             # Finds the largest h such that (i, j) to (i + h - 1, j) are feasible.
             # Finds the largest w such that (i, j) to (i, j + w - 1) are feasible.
-            table[i][j] = (
-                MaxHW(table[i + 1][j].h + 1 if i + 1 < len(A) else 1,
-                      table[i][j + 1].w + 1 if j + 1 < len(A[i]) else 1)
-                if A[i][j]
-                else MaxHW(0, 0))
+            table[i][j] = (MaxHW(table[i + 1][j].h + 1 if i + 1 < len(A) else
+                                 1, table[i][j + 1].w + 1
+                                 if j + 1 < len(A[i]) else 1)
+                           if A[i][j] else MaxHW(0, 0))
 
     # A table stores the length of the largest square for each (i, j).
     s = [[0] * len(A[0]) for i in A]
@@ -58,8 +57,10 @@ def max_square_submatrix(A):
                 if i + 1 < len(A) and j + 1 < len(A[i + 1]):
                     side = min(s[i + 1][j + 1] + 1, side)
                 s[i][j] = side
-                max_square_area = max(max_square_area, side ** 2)
+                max_square_area = max(max_square_area, side**2)
     return max_square_area
+
+
 # @exclude
 
 

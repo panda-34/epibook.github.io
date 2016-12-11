@@ -14,9 +14,12 @@ def build_min_height_BST_from_sorted_array_helper(A, start, end):
     if start >= end:
         return None
     mid = start + ((end - start) // 2)
-    return BinaryTreeNode(A[mid],
-                          build_min_height_BST_from_sorted_array_helper(A, start, mid),
-                          build_min_height_BST_from_sorted_array_helper(A, mid + 1, end))
+    return BinaryTreeNode(
+        A[mid],
+        build_min_height_BST_from_sorted_array_helper(A, start, mid),
+        build_min_height_BST_from_sorted_array_helper(A, mid + 1, end))
+
+
 # @exclude
 
 

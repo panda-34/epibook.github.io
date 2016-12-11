@@ -19,8 +19,9 @@ def main():
             s = rand_string(random.randint(1, 10))
         print(s)
         assert (can_string_be_palindrome_hash.can_string_be_a_palindrome(s) ==
-                can_string_be_palindrome_sorting.can_string_be_a_palindrome(s) ==
-                can_string_be_palindrome_sorting.can_string_be_a_palindrome_pythonic(s))
+                can_string_be_palindrome_sorting.can_string_be_a_palindrome(s)
+                == can_string_be_palindrome_sorting.
+                can_string_be_a_palindrome_pythonic(s))
 
 
 if __name__ == '__main__':

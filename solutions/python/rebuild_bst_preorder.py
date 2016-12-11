@@ -4,7 +4,8 @@ from binary_tree_prototype import BinaryTreeNode
 
 # @include
 def rebuild_BST_from_preorder(preorder_sequence):
-    return rebuild_BST_from_preorder_helper(preorder_sequence, 0, len(preorder_sequence))
+    return rebuild_BST_from_preorder_helper(preorder_sequence, 0,
+                                            len(preorder_sequence))
 
 
 # Builds a BST from preorder_sequence[start : end - 1].
@@ -17,8 +18,12 @@ def rebuild_BST_from_preorder_helper(preorder_sequence, start, end):
         transition_point += 1
 
     return BinaryTreeNode(preorder_sequence[start],
-        rebuild_BST_from_preorder_helper(preorder_sequence, start + 1, transition_point),
-        rebuild_BST_from_preorder_helper(preorder_sequence, transition_point, end))
+                          rebuild_BST_from_preorder_helper(
+                              preorder_sequence, start + 1, transition_point),
+                          rebuild_BST_from_preorder_helper(
+                              preorder_sequence, transition_point, end))
+
+
 # @exclude
 
 

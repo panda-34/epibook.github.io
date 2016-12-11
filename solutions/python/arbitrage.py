@@ -6,25 +6,21 @@ import random
 
 # @include
 def is_arbitrage_exist(G_in):
-    G = []
-    # Transforms each edge in G.
-    for edge_list in G_in:
-        G.append([-math.log10(edge) for edge in edge_list])
-
     # Uses Bellman-ford to find negative weight cycle.
-    return bellman_ford(G, 0)
+    return bellman_ford(
+        [[-math.log10(edge) for edge in edge_list] for edge_list in G_in], 0)
 
 
 def bellman_ford(G, source):
-    dis_to_source = [float('inf')] * len(G)
-    dis_to_source[source] = 0
+    dis_to_source = [float('inf')] * (source - 1) + [0] + [float('inf')] * (
+        len(G) - source)
 
     for times in range(1, len(G)):
         have_update = False
         for i in range(len(G)):
             for j in range(len(G[i])):
-                if (dis_to_source[i] != float('inf') and
-                        dis_to_source[j] > dis_to_source[i] + G[i][j]):
+                if dis_to_source[i] != float('inf') and dis_to_source[
+                        j] > dis_to_source[i] + G[i][j]:
                     have_update = True
                     dis_to_source[j] = dis_to_source[i] + G[i][j]
 
@@ -33,12 +29,11 @@ def bellman_ford(G, source):
             return False
 
     # Detects cycle if there is any further update.
-    for i in range(len(G)):
-        for j in range(len(G[i])):
-            if (dis_to_source[i] != float('inf') and
-                    dis_to_source[j] > dis_to_source[i] + G[i][j]):
-                return True
-    return False
+    return any(dis_to_source[i] != float('inf') and
+               dis_to_source[j] > dis_to_source[i] + G[i][j]
+               for i in range(len(G)) for j in range(len(G[i])))
+
+
 # @exclude
 
 
@@ -56,9 +51,7 @@ def main():
             G[j][i] = 1.0 / G[i][j]
     res = is_arbitrage_exist(G)
     print(res)
-    g = [[1.0, 2.0,  1.0],
-         [0.5, 1.0,  4.0],
-         [1.0, 0.25, 1.0]]
+    g = [[1.0, 2.0, 1.0], [0.5, 1.0, 4.0], [1.0, 0.25, 1.0]]
     res = is_arbitrage_exist(g)
     assert res == True
     print(is_arbitrage_exist(g))

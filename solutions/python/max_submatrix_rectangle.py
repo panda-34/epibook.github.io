@@ -4,11 +4,10 @@ import random
 import collections
 from max_submatrix_rectangle_brute_force import max_rectangle_submatrix_brute_force
 
+
 # @include
-MaxHW = collections.namedtuple('MaxHW', ('h', 'w'))
-
-
 def max_rectangle_submatrix(A):
+    MaxHW = collections.namedtuple('MaxHW', ('h', 'w'))
     # DP table stores (h, w) for each (i, j).
     table = [[None] * len(A[0]) for i in A]
 
@@ -16,11 +15,10 @@ def max_rectangle_submatrix(A):
         for j in range(len(A[i]) - 1, -1, -1):
             # Find the largest h such that (i, j) to (i + h - 1, j) are feasible.
             # Find the largest w such that (i, j) to (i, j + w - 1) are feasible.
-            table[i][j] = (
-                MaxHW(table[i + 1][j].h + 1 if i + 1 < len(A) else 1,
-                      table[i][j + 1].w + 1 if j + 1 < len(A[i]) else 1)
-                if A[i][j]
-                else MaxHW(0, 0))
+            table[i][j] = (MaxHW(table[i + 1][j].h + 1 if i + 1 < len(A) else
+                                 1, table[i][j + 1].w + 1
+                                 if j + 1 < len(A[i]) else 1)
+                           if A[i][j] else MaxHW(0, 0))
 
     max_rect_area = 0
     for i in range(len(A)):
@@ -33,6 +31,8 @@ def max_rectangle_submatrix(A):
                     min_width = min(min_width, table[i + a][j].w)
                     max_rect_area = max(max_rect_area, min_width * (a + 1))
     return max_rect_area
+
+
 # @exclude
 
 

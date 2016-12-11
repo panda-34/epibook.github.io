@@ -13,6 +13,8 @@ def find_first_greater_than_k(tree, k):
         else:  # Root and all keys in left subtree are <= k, so skip them.
             subtree = subtree.right
     return first_so_far
+
+
 # @exclude
 
 

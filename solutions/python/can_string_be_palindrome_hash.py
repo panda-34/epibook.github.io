@@ -4,16 +4,9 @@ import collections
 
 # @include
 def can_string_be_a_palindrome(s):
-    # Compute the frequency of each char in s.
-    char_frequencies = collections.Counter(s)
-
     # A string can be permuted as a palindrome if and only if the number of
     # chars whose frequencies is odd is at most 1.
-    odd_frequency_count = 0
-    for f in char_frequencies.values():
-        if f % 2:
-            odd_frequency_count += 1
-            if odd_frequency_count > 1:
-                return False
-    return True
+    return sum(v % 2 for v in collections.Counter(s).values()) <= 1
+
+
 # @exclude

@@ -7,18 +7,18 @@ import operator
 
 # @include
 def find_biggest_n_minus_one_product(A):
-    # Builds forward product L, backward product R.
-    L = list(itertools.accumulate(A, operator.mul))
-    R = list(itertools.accumulate(reversed(A), operator.mul))
-    R.reverse()
+    # Builds suffix products.
+    suffix_products = list(itertools.accumulate(A[::-1], operator.mul))[::-1]
 
     # Finds the biggest product of (n - 1) numbers.
-    max_product = float('-inf')
+    prefix_product, max_product = 1, float('-inf')
     for i in range(len(A)):
-        forward = L[i - 1] if i > 0 else 1
-        backward = R[i + 1] if i + 1 < len(A) else 1
-        max_product = max(max_product, forward * backward)
+        suffix_product = suffix_products[i + 1] if i + 1 < len(A) else 1
+        max_product = max(max_product, prefix_product * suffix_product)
+        prefix_product *= A[i]
     return max_product
+
+
 # @exclude
 
 

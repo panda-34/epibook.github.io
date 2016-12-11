@@ -14,19 +14,16 @@ def count_subarray_inversions(start, end, A):
         return 0
 
     mid = start + ((end - start) // 2)
-    return (count_subarray_inversions(start, mid, A) +
-            count_subarray_inversions(mid, end, A) +
-            merge_sort_and_count_inversions_across_subarrays(start, mid, end, A))
+    return count_subarray_inversions(
+        start, mid, A) + count_subarray_inversions(
+            mid, end, A) + merge_sort_and_count_inversions_across_subarrays(
+                start, mid, end, A)
 
 
-# Merge two sorted subarrays A[start : mid - 1] and A[mid : end - 1]
-# into A[start : end - 1] and return the number of inversions
-# across A[start : mid - 1] and A[mid : end - 1].
+# Merge two sorted subarrays A[start : mid - 1] and A[mid : end - 1] into A[start : end - 1] and return the number of inversions across A[start : mid - 1] and A[mid : end - 1].
 def merge_sort_and_count_inversions_across_subarrays(start, mid, end, A):
     sorted_A = []
-    left_start = start
-    right_start = mid
-    inversion_count = 0
+    left_start, right_start, inversion_count = start, mid, 0
 
     while left_start < mid and right_start < end:
         if A[left_start] <= A[right_start]:
@@ -44,6 +41,8 @@ def merge_sort_and_count_inversions_across_subarrays(start, mid, end, A):
     # Updates A with sorted_A.
     A[start:end] = sorted_A
     return inversion_count
+
+
 # @exclude
 
 

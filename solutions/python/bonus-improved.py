@@ -6,13 +6,15 @@ import random
 def check_ans(productivity, C):
     for i in range(len(productivity)):
         if i > 0:
-            assert ((productivity[i] > productivity[i - 1] and C[i] > C[i - 1]) or
-                    (productivity[i] < productivity[i - 1] and C[i] < C[i - 1]) or
-                    productivity[i] == productivity[i - 1])
+            assert (
+                (productivity[i] > productivity[i - 1] and C[i] > C[i - 1]) or
+                (productivity[i] < productivity[i - 1] and C[i] < C[i - 1]) or
+                productivity[i] == productivity[i - 1])
         if i + 1 < len(productivity):
-            assert ((productivity[i] > productivity[i + 1] and C[i] > C[i + 1]) or
-                    (productivity[i] < productivity[i + 1] and C[i] < C[i + 1]) or
-                    productivity[i] == productivity[i + 1])
+            assert (
+                (productivity[i] > productivity[i + 1] and C[i] > C[i + 1]) or
+                (productivity[i] < productivity[i + 1] and C[i] < C[i + 1]) or
+                productivity[i] == productivity[i + 1])
 
 
 # @include
@@ -28,6 +30,8 @@ def calculate_bonus(productivity):
         if productivity[i] > productivity[i + 1]:
             tickets[i] = max(tickets[i], tickets[i + 1] + 1)
     return tickets
+
+
 # @exclude
 
 

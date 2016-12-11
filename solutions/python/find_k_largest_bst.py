@@ -18,6 +18,8 @@ def find_k_largest_in_BST_helper(tree, k, k_largest_elements):
         if len(k_largest_elements) < k:
             k_largest_elements.append(tree.data)
             find_k_largest_in_BST_helper(tree.left, k, k_largest_elements)
+
+
 # @exclude
 
 
@@ -43,6 +45,7 @@ def main():
     ans = find_k_largest_in_BST(tree, 2)
     assert ans[0] == 6
     assert ans[1] == 5
+
     #      3
     #    3   4
     #  1    4 6
@@ -55,6 +58,7 @@ def main():
     ans = find_k_largest_in_BST(tree, 3)
     assert ans[0] == 6
     assert ans[1] == 4
+    assert ans[2] == 4
 
 
 if __name__ == '__main__':

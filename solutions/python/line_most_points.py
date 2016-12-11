@@ -4,7 +4,6 @@ import random
 import collections
 import fractions
 
-
 # @include
 Point = collections.namedtuple("Point", ("x", "y"))
 Rational = collections.namedtuple("Rational", ("numerator", "denominator"))
@@ -12,14 +11,14 @@ Rational = collections.namedtuple("Rational", ("numerator", "denominator"))
 
 def get_canonical_form(a, b):
     gcd = fractions.gcd(abs(a), abs(b))
-    a //= gcd; b //= gcd
+    a //= gcd
+    b //= gcd
     return Rational(-a, -b) if b < 0 else Rational(a, b)
 
 
 # Line function of two points, a and b, and the equation is
 # y = x(b.y - a.y) / (b.x - a.x) + (b.x * a.y - a.x * b.y) / (b.x - a.x).
 class Line:
-
     def __init__(self, a, b):
         # slope is a rational number. Note that if the line is parallel to y-axis
         # that we store 1/0.
@@ -39,15 +38,17 @@ class Line:
     def __hash__(self):
         return hash(self.slope) ^ hash(self.intercept)
 # @exclude
+
     def __repr__(self):
-        return ' '.join(map(str, (self.slope.numerator, self.slope.denominator,
-                                  self.intercept.numerator, self.intercept.denominator)))
+        return ' '.join(
+            map(str, (self.slope.numerator, self.slope.denominator,
+                      self.intercept.numerator, self.intercept.denominator)))
 
 
 # n^3 checking
 def check(P):
     max_count = 0
-    for i in range(len(P)-1):
+    for i in range(len(P) - 1):
         for j in range(i + 1, len(P)):
             count = 2
             temp = Line(P[i], P[j])
@@ -68,9 +69,13 @@ def find_line_with_most_points(P):
             table[l].add(P[i])
             table[l].add(P[j])
     line_max_points = max(table.items(), key=lambda x: len(x[1]))
+    # @exclude
     res = check(P)
     assert res == len(line_max_points[1])
+    # @include
     return line_max_points[0]
+
+
 # @exclude
 
 
@@ -80,7 +85,7 @@ def main():
         if len(sys.argv) == 2:
             n = int(sys.argv[1])
         else:
-            n = random.randint(1, 1000)
+            n = random.randint(1, 100)
         points = []
         t = set()
         while len(t) < n:

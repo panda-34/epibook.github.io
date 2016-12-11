@@ -7,21 +7,17 @@ import random
 def gray_code(num_bits):
     if num_bits == 0:
         return [0]
-    if num_bits == 1:
-        return [0, 1]
 
     # These implicitly begin with 0 at bit-index (num_bits - 1).
     gray_code_num_bits_minus_1 = gray_code(num_bits - 1)
-    # Now, add a 1 at bit-index (num_bits - 1) to all entries in
-    # grayCodeNumBitsMinus1.
+    # Now, add a 1 at bit-index (num_bits - 1) to all entries in grayCodeNumBitsMinus1.
     leading_bit_one = 1 << (num_bits - 1)
-    reflection = []
-    # Process in reverse order to achieve reflection of
-    # gray_code_num_bits_minus_1.
+    # Process in reverse order to achieve reflection of gray_code_num_bits_minus_1.
     for i in reversed(gray_code_num_bits_minus_1):
-        reflection.append(leading_bit_one | i)
-    result = gray_code_num_bits_minus_1 + reflection
-    return result
+        gray_code_num_bits_minus_1.append(leading_bit_one | i)
+    return gray_code_num_bits_minus_1
+
+
 # @exclude
 
 

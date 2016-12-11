@@ -28,6 +28,8 @@ def find_kth_in_two_sorted_arrays(A, B, k):
     A_b_1 = float('-inf') if b <= 0 else A[b - 1]
     B_k_b_1 = float('-inf') if k - b - 1 < 0 else B[k - b - 1]
     return max(A_b_1, B_k_b_1)
+
+
 # @exclude
 
 

@@ -7,33 +7,28 @@ import string
 # @include
 def palindrome_partitioning(input):
     result = []
-    partial_partition = []
-    directed_palindrome_partitioning(input, 0, partial_partition, result)
+    directed_palindrome_partitioning(input, 0, [], result)
     return result
 
 
 def directed_palindrome_partitioning(input, offset, partial_partition, result):
     if offset == len(input):
-        result.append(partial_partition.copy())
+        result.append(list(partial_partition))
         return
 
     for i in range(offset + 1, len(input) + 1):
-        prefix = input[offset : i]
+        prefix = input[offset:i]
         if is_palindrome(prefix):
             partial_partition.append(prefix)
-            directed_palindrome_partitioning(input, i, partial_partition, result)
+            directed_palindrome_partitioning(input, i, partial_partition,
+                                             result)
             del partial_partition[-1]
 
 
 def is_palindrome(s):
-    i = 0
-    j = len(s) - 1
-    while i < j:
-        if s[i] != s[j]:
-            return False
-        i += 1
-        j -= 1
-    return True
+    return s == ''.join(reversed(s))
+
+
 # @exclude
 
 

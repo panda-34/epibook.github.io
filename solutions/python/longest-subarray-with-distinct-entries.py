@@ -7,8 +7,7 @@ import random
 def longest_subarray_with_distinct_entries(A):
     # Records the most recent occurrences of each entry.
     most_recent_occurrence = {}
-    longest_dup_free_subarray_start_idx = 0
-    result = 0
+    longest_dup_free_subarray_start_idx, result = 0, 0
     for i, a in enumerate(A):
         # Defer updating dup_idx until we see a duplicate.
         if a in most_recent_occurrence:
@@ -20,6 +19,8 @@ def longest_subarray_with_distinct_entries(A):
         most_recent_occurrence[a] = i
     result = max(result, len(A) - longest_dup_free_subarray_start_idx)
     return result
+
+
 # @exclude
 
 
@@ -42,7 +43,8 @@ def simple_test():
     assert 1 == longest_subarray_with_distinct_entries([1, 1, 1])
     assert 2 == longest_subarray_with_distinct_entries([1, 2, 1])
     assert 3 == longest_subarray_with_distinct_entries([1, 2, 1, 3, 1, 2, 1])
-    assert 2 == longest_subarray_with_distinct_entries([1, 2, 2, 3, 3, 1, 1, 2, 1])
+    assert 2 == longest_subarray_with_distinct_entries(
+        [1, 2, 2, 3, 3, 1, 1, 2, 1])
 
 
 def main():

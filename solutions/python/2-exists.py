@@ -14,12 +14,16 @@ class GraphVertex:
 # @exclude
 
     def __repr__(self):
-        return '(%d)%d(%s)' % (self.color, id(self), ','.join(str(id(x)) for x in self.edges))
+        return '(%d)%d(%s)' % (self.color, id(self), ','.join(
+            str(id(x)) for x in self.edges))
+
+
 # @include
 
 
 def is_deadlocked(G):
-    return any(vertex.color == GraphVertex.white and has_cycle(vertex) for vertex in G)
+    return any(vertex.color == GraphVertex.white and has_cycle(vertex)
+               for vertex in G)
 
 
 def has_cycle(cur):
@@ -30,11 +34,12 @@ def has_cycle(cur):
     cur.color = GraphVertex.gray  # Marks current vertex as a gray one.
     # Traverse the neighbor vertices.
     for next in cur.edges:
-        if next.color != GraphVertex.black:
-            if has_cycle(next):
-                return True
+        if next.color != GraphVertex.black and has_cycle(next):
+            return True
     cur.color = GraphVertex.black  # Marks current vertex as black.
     return False
+
+
 # @exclude
 
 
@@ -42,10 +47,7 @@ def has_cycle_exclusion(cur):
     if cur.color == GraphVertex.black:
         return True
     cur.color = GraphVertex.black
-    for next in cur.edges:
-        if has_cycle_exclusion(next):
-            return True
-    return False
+    return any(has_cycle_exclusion(next) for next in cur.edges)
 
 
 # O(n^2) check answer.

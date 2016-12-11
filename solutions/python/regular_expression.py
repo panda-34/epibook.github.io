@@ -4,11 +4,7 @@ def is_match(regex, s):
     # Case (2.): regex starts with '^'.
     if regex[0] == '^':
         return is_match_here(regex, 1, s, 0)
-
-    for i in range(len(s) + 1):
-        if is_match_here(regex, 0, s, i):
-            return True
-    return False
+    return any(is_match_here(regex, 0, s, i) for i in range(len(s) + 1))
 
 
 def is_match_here(regex, regex_offset, s, s_offset):
@@ -22,8 +18,7 @@ def is_match_here(regex, regex_offset, s, s_offset):
 
     if len(regex) - regex_offset >= 2 and regex[regex_offset + 1] == '*':
         # Case (3.): A '*' match.
-        # Iterate through s, checking '*' condition, if '*' condition holds,
-        # performs the remaining checks.
+        # Iterate through s, checking '*' condition, if '*' condition holds, performs the remaining checks.
         i = s_offset + 1
         while i < len(s) and regex[regex_offset] in ('.', s[i - 1]):
             if is_match_here(regex, regex_offset + 2, s, i):
@@ -33,8 +28,11 @@ def is_match_here(regex, regex_offset, s, s_offset):
         return is_match_here(regex, regex_offset + 2, s, s_offset)
 
     # Case (4.): regex begins with single character match.
-    return (s_offset < len(s) and regex[regex_offset] in ('.', s[s_offset]) and
-            is_match_here(regex, regex_offset + 1, s, s_offset + 1))
+    return s_offset < len(s) and regex[regex_offset] in (
+        '.', s[s_offset]) and is_match_here(regex, regex_offset + 1, s,
+                                            s_offset + 1)
+
+
 # @exclude
 
 

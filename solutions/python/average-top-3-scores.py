@@ -27,6 +27,8 @@ def find_student_with_highest_best_of_three_scores(ifs):
                 current_top_three_scores_sum = current_scores_sum
                 top_student = name
     return top_student
+
+
 # @exclude
 
 
@@ -41,9 +43,10 @@ def find_student_with_highest_best_of_three_scores_pythionic(ifs):
         else:
             heapq.heappushpop(scores, -score)
 
-    sum_scores = ((-sum(scores), name) for name, scores in student_scores.items()
-                  if len(scores) == 3)
-    return max(sum_scores, key=operator.itemgetter(0), default='no such student')[1]
+    return max([(-sum(scores), name) for name, scores in student_scores.items()
+                if len(scores) == 3],
+               key=operator.itemgetter(0),
+               default='no such student')[1]
 
 
 def rand_string(length):
@@ -53,8 +56,7 @@ def rand_string(length):
 
 def simple_test():
     with open('scores.txt', 'w') as ofs:
-        ofs.write(
-            '''
+        ofs.write('''
 adnan 100
 amit 99
 adnan 98
@@ -86,7 +88,8 @@ def main():
     with open('scores.txt') as ifs:
         name = find_student_with_highest_best_of_three_scores(ifs)
         ifs.seek(0)
-        assert name == find_student_with_highest_best_of_three_scores_pythionic(ifs)
+        assert name == find_student_with_highest_best_of_three_scores_pythionic(
+            ifs)
     print('top student is', name)
 
 

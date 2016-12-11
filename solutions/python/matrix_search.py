@@ -5,8 +5,7 @@ import random
 
 # @include
 def matrix_search(A, x):
-    row = 0
-    col = len(A[0]) - 1  # Start from the top-right corner.
+    row, col = 0, len(A[0]) - 1  # Start from the top-right corner.
     # Keeps searching while there are unclassified rows and columns.
     while row < len(A) and col >= 0:
         if A[row][col] == x:
@@ -16,6 +15,8 @@ def matrix_search(A, x):
         else:  # A[row][col] > x.
             col -= 1  # Eliminate this column.
     return False
+
+
 # @exclude
 
 

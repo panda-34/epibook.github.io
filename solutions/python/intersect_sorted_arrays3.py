@@ -2,8 +2,7 @@
 # @include
 def intersect_two_sorted_arrays(A, B):
     intersection_A_B = []
-    i = 0
-    j = 0
+    i, j = 0, 0
     while i < len(A) and j < len(B):
         if A[i] == B[j]:
             if i == 0 or A[i] != A[i - 1]:
@@ -14,6 +13,5 @@ def intersect_two_sorted_arrays(A, B):
             i += 1
         else:  # A[i] > B[j].
             j += 1
-
     return intersection_A_B
 # @exclude

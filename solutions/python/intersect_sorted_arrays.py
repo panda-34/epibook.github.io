@@ -7,7 +7,6 @@ import intersect_sorted_arrays3
 
 
 def check_ans(a, b, c):
-    print(len(a), len(b), len(c))
     assert a == b == c
 
 

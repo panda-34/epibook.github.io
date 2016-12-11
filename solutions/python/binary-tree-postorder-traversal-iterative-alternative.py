@@ -5,23 +5,20 @@ from binary_tree_utils import generate_postorder
 
 # @include
 def postorder_traversal(tree):
-    sequence = inverted_preorder_traversal(tree)
-    sequence.reverse()
-    return sequence
+    return inverted_preorder_traversal(tree)[::-1]
 
 
 def inverted_preorder_traversal(tree):
-    path_stack = []
-    path_stack.append(tree)
-    result = []
+    path_stack, result = [tree], []
     while path_stack:
         curr = path_stack.pop()
         if not curr:
             continue
         result.append(curr.data)
-        path_stack.append(curr.left)
-        path_stack.append(curr.right)
+        path_stack.extend([curr.left, curr.right])
     return result
+
+
 # @exclude
 
 

@@ -16,7 +16,7 @@ def find_all_substrings(s, words):
 def match_all_words_in_dict(s, word_to_freq, start, num_words, unit_size):
     curr_string_to_freq = collections.Counter()
     for i in range(start, start + num_words * unit_size, unit_size):
-        curr_word = s[i : i + unit_size]
+        curr_word = s[i:i + unit_size]
         it = word_to_freq[curr_word]
         if it == 0:
             return False
@@ -25,6 +25,8 @@ def match_all_words_in_dict(s, word_to_freq, start, num_words, unit_size):
             # curr_word occurs too many times for a match to be possible.
             return False
     return True
+
+
 # @exclude
 
 

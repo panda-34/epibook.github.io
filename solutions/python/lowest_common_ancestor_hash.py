@@ -4,8 +4,7 @@ from binary_tree_with_parent_prototype import BinaryTreeNode
 
 # @include
 def LCA(node_0, node_1):
-    iter_0 = node_0
-    iter_1 = node_1
+    iter_0, iter_1 = node_0, node_1
     nodes_on_path_to_root = set()
     while iter_0 or iter_1:
         # Ascend tree in tandem for these two nodes.
@@ -20,6 +19,8 @@ def LCA(node_0, node_1):
             nodes_on_path_to_root.add(iter_1)
             iter_1 = iter_1.parent
     raise ValueError('node_0 and node_1 are not in the same tree')
+
+
 # @exclude
 
 

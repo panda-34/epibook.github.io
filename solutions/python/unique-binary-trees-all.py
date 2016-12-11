@@ -25,6 +25,8 @@ def clone(tree):
     if not tree:
         return None
     return BinaryTreeNode(tree.data, clone(tree.left), clone(tree.right))
+
+
 # @exclude
 
 

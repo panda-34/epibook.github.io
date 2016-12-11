@@ -5,9 +5,7 @@ import random
 
 # @include
 def merge_two_sorted_arrays(A, m, B, n):
-    a = m - 1
-    b = n - 1
-    write_idx = m + n - 1
+    a, b, write_idx = m - 1, n - 1, m + n - 1
     while a >= 0 and b >= 0:
         if A[a] > B[b]:
             A[write_idx] = A[a]
@@ -24,8 +22,7 @@ def merge_two_sorted_arrays(A, m, B, n):
 
 
 def check_ans(A):
-    for i in range(1, len(A)):
-        assert A[i - 1] <= A[i]
+    assert all(A[i - 1] <= A[i] for i in range(1, len(A)))
 
 
 def main():

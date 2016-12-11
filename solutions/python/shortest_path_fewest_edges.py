@@ -4,36 +4,36 @@ import random
 import collections
 import sortedcontainers
 
-
 # @include
 DistanceWithFewestEdges = collections.namedtuple('DistanceWithFewestEdges',
                                                  ('distance', 'min_num_edges'))
-VertexWithDistance = collections.namedtuple('VertexWithDistance', ('vertex', 'distance'))
+VertexWithDistance = collections.namedtuple('VertexWithDistance',
+                                            ('vertex', 'distance'))
 
 
 class GraphVertex:
-
     def __init__(self, id=0):
-        self.distance_with_fewest_edges = DistanceWithFewestEdges(float('inf'), 0)
+        self.distance_with_fewest_edges = DistanceWithFewestEdges(
+            float('inf'), 0)
         self.edges = []
         self.id = id  # The id of this vertex.
         self.pred = None  # The predecessor in the shortest path.
 # @exclude
 
     def __repr__(self):
-        return '%d:%s' % (
-            self.id, ','.join('%s(%d)' % (x.vertex.id, x.distance) for x in self.edges))
+        return '%d:%s' % (self.id,
+                          ','.join('%s(%d)' % (x.vertex.id, x.distance)
+                                   for x in self.edges))
+
+
 # @include
-
-
-def comp(vertex):
-    return vertex.distance_with_fewest_edges
 
 
 def dijkstra_shortest_path(s, t):
     # Initialization of the distance of starting point.
     s.distance_with_fewest_edges = DistanceWithFewestEdges(0, 0)
-    node_set = sortedcontainers.SortedSet(key=comp)
+    node_set = sortedcontainers.SortedSet(
+        key=lambda vertex: vertex.distance_with_fewest_edges)
     node_set.add(s)
 
     while node_set:
@@ -62,6 +62,8 @@ def output_shortest_path(v):
     if v:
         output_shortest_path(v.pred)
         print(v.id, end=' ')
+
+
 # @exclude
 
 
@@ -150,7 +152,8 @@ def main():
     print('source = %s, terminal = %s' % (s, t))
     dijkstra_shortest_path(G[s], G[t])
     print()
-    print(G[t].distance_with_fewest_edges.distance, G[t].distance_with_fewest_edges.min_num_edges)
+    print(G[t].distance_with_fewest_edges.distance,
+          G[t].distance_with_fewest_edges.min_num_edges)
     test()
 
 

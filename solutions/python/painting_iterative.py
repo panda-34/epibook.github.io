@@ -4,30 +4,25 @@ import random
 import collections
 
 
-def print_matrix(A):
-    for i in A:
-        print(*i)
-
-
 # @include
 def filp_color(x, y, A):
-    dirs = ((0, 1), (0, -1),
-            (1, 0), (-1, 0))
     color = A[x][y]
 
+    Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
     q = collections.deque()
     A[x][y] = 1 - A[x][y]  # Flips.
-    q.append((x, y))
+    q.append(Coordinate(x, y))
     while q:
         curr = q.popleft()
-        for d in dirs:
-            nx = curr[0] + d[0]
-            ny = curr[1] + d[1]
-            if (nx in range(len(A)) and ny in range(len(A[nx])) and
-                    A[nx][ny] == color):
+        for d in (0, 1), (0, -1), (1, 0), (-1, 0):
+            next_x, next_y = curr.x + d[0], curr.y + d[1]
+            if (0 <= next_x < len(A) and 0 <= next_y < len(A[next_x]) and
+                    A[next_x][next_y] == color):
                 # Flips the color.
-                A[nx][ny] = 1 - A[nx][ny]
-                q.append((nx, ny))
+                A[next_x][next_y] = 1 - A[next_x][next_y]
+                q.append(Coordinate(next_x, next_y))
+
+
 # @exclude
 
 
@@ -44,10 +39,10 @@ def main():
     i = random.randrange(n)
     j = random.randrange(n)
     print('color =', i, j, A[i][j])
-    print_matrix(A)
+    print(*A)
     filp_color(i, j, A)
     print()
-    print_matrix(A)
+    print(*A)
 
 
 if __name__ == '__main__':

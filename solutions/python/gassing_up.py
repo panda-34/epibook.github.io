@@ -3,24 +3,26 @@ import sys
 import random
 import collections
 
-
 # @include
-k_mPG = 20
-
-CityAndRemainingGas = collections.namedtuple('CityAndRemainingGas', ('city', 'remaining_gallons'))
+MPG = 20
 
 
 # gallons[i] is the amount of gas in city i, and distances[i] is the distance
 # city i to the next city.
 def find_ample_city(gallons, distances):
     remaining_gallons = 0
+    CityAndRemainingGas = collections.namedtuple('CityAndRemainingGas',
+                                                 ('city', 'remaining_gallons'))
     city_remaining_gallons_pair = CityAndRemainingGas(0, 0)
     num_cities = len(gallons)
     for i in range(1, num_cities):
-        remaining_gallons += gallons[i - 1] - distances[i - 1] // k_mPG
+        remaining_gallons += gallons[i - 1] - distances[i - 1] // MPG
         if remaining_gallons < city_remaining_gallons_pair.remaining_gallons:
-            city_remaining_gallons_pair = CityAndRemainingGas(i, remaining_gallons)
+            city_remaining_gallons_pair = CityAndRemainingGas(
+                i, remaining_gallons)
     return city_remaining_gallons_pair.city
+
+
 # @exclude
 
 
@@ -28,7 +30,7 @@ def check_ans(gallons, distances, c):
     s = c
     gas = 0
     while True:
-        gas += gallons[s] - distances[s] // k_mPG
+        gas += gallons[s] - distances[s] // MPG
         assert gas >= 0
         s = (s + 1) % len(gallons)
         if s == c:
@@ -38,10 +40,9 @@ def check_ans(gallons, distances, c):
 def small_test():
     # Example in the book.
     gallons = (20, 15, 15, 15, 35, 25, 30, 15, 65, 45, 10, 45, 25)
-    distances = (15 * k_mPG, 20 * k_mPG, 50 * k_mPG, 15 * k_mPG,
-                 15 * k_mPG, 30 * k_mPG, 20 * k_mPG, 55 * k_mPG,
-                 20 * k_mPG, 50 * k_mPG, 10 * k_mPG, 15 * k_mPG,
-                 15 * k_mPG)
+    distances = (15 * MPG, 20 * MPG, 50 * MPG, 15 * MPG, 15 * MPG, 30 * MPG,
+                 20 * MPG, 55 * MPG, 20 * MPG, 50 * MPG, 10 * MPG, 15 * MPG,
+                 15 * MPG)
     ans = find_ample_city(gallons, distances)
     assert ans == 8
     check_ans(gallons, distances, ans)

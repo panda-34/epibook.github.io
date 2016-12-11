@@ -6,9 +6,7 @@ import bisect
 
 # @include
 def search_first_of_k(A, k):
-    left = 0
-    right = len(A) - 1
-    result = -1
+    left, right, result = 0, len(A) - 1, -1
     # [left : right] is the candidate set.
     while left <= right:
         mid = left + ((right - left) // 2)
@@ -20,18 +18,41 @@ def search_first_of_k(A, k):
         else:  # A[mid] < k.
             left = mid + 1
     return result
+
+
 # @exclude
+
+
+def simple_test():
+    A = [0, 1, 2, 3, 4, 5, 6, 7]
+    assert 0 == search_first_of_k(A, 0)
+    assert 1 == search_first_of_k(A, 1)
+    assert 4 == search_first_of_k(A, 4)
+    assert 6 == search_first_of_k(A, 6)
+    assert 7 == search_first_of_k(A, 7)
+    assert -1 == search_first_of_k(A, 8)
+    assert -1 == search_first_of_k(A, -2**64)
+    A[0] = 1
+    assert 0 == search_first_of_k(A, 1)
+    A[5] = 4
+    A[6] = 4
+    assert 4 == search_first_of_k(A, 4)
+    A = [1, 1, 1, 1, 1, 2]
+    assert -1 == search_first_of_k(A, 0)
+    assert 0 == search_first_of_k(A, 1)
+    assert 5 == search_first_of_k(A, 2)
+    A[4] = 2
+    assert 4 == search_first_of_k(A, 2)
 
 
 # Pythonic solution
 def search_first_of_k_pythonic(A, k):
     i = bisect.bisect_left(A, k)
-    if i < len(A) and A[i] == k:
-        return i
-    return -1
+    return i if i < len(A) and A[i] == k else -1
 
 
 def main():
+    simple_test()
     for _ in range(1000):
         if len(sys.argv) == 2:
             n = int(sys.argv[1])
@@ -49,6 +70,7 @@ def main():
             it = -1
         assert it == ans
         assert it == search_first_of_k_pythonic(A, k)
+
 
 if __name__ == '__main__':
     main()

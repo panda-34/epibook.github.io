@@ -34,6 +34,7 @@ def main():
     assert 15 == evaluate('1,2,+,3,4,*,+')
     assert 42 == evaluate('1,2,3,4,5,+,*,+,+,3,4,*,+')
     assert -6 == evaluate('1,2,3,4,5,+,*,+,+,3,4,*,+,-7,/')
+    assert 0 == evaluate('1,-22,/')
 
 
 if __name__ == '__main__':

@@ -17,27 +17,22 @@ def check_ans(A):
 
 # @include
 def find_first_missing_positive(A):
-    # Record which values are present by writing A[i] to index A[i] - 1 if A[i]
-    # is between 1 and len(A), inclusive. We save the value at index
-    # A[i] - 1 by swapping it with the entry at i. If A[i] is negative or
-    # greater than n, we just advance i.
+    # Record which values are present by writing A[i] to index A[i] - 1 if A[i] is between 1 and len(A), inclusive. We save the value at index A[i] - 1 by swapping it with the entry at i. If A[i] is negative or greater than n, we just advance i.
     A = A.copy()
     i = 0
     while i < len(A):
         if A[i] > 0 and A[i] <= len(A) and A[A[i] - 1] != A[i]:
-            tmp = A[i]
-            A[i] = A[tmp-1]
-            A[tmp-1] = tmp
+            A[A[i] - 1], A[i] = A[i], A[A[i] - 1]
         else:
             i += 1
 
-    # Second pass through A to search for the first index i such that
-    # A[i] != i+1, indicating that i + 1 is absent. If all numbers between 1
-    # and len(A) are present, the smallest missing positive is len(A) + 1.
+    # Second pass through A to search for the first index i such that A[i] != i+1, indicating that i + 1 is absent. If all numbers between 1 and len(A) are present, the smallest missing positive is len(A) + 1.
     for i in range(len(A)):
         if A[i] != i + 1:
             return i + 1
     return len(A) + 1
+
+
 # @exclude
 
 
@@ -57,4 +52,3 @@ def main():
 
 if __name__ == '__main__':
     main()
- 

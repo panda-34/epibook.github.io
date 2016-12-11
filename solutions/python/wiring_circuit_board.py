@@ -6,27 +6,25 @@ import collections
 
 # @include
 class GraphVertex:
-
     def __init__(self):
         self.d = -1
         self.edges = []
 # @exclude
 
     def __repr__(self):
-        return '(%d)%d(%s)' % (self.d, id(self), ','.join(str(id(x)) for x in self.edges))
+        return '(%d)%d(%s)' % (self.d, id(self), ','.join(
+            str(id(x)) for x in self.edges))
+
+
 # @include
 
 
 def is_any_placement_feasible(G):
-    for v in G:
-        if v.d == -1:  # Unvisited vertex.
-            v.d = 0
-            if not BFS(v):
-                return False
-    return True
+    return not any(not BFS(v) for v in G if v.d == -1)
 
 
 def BFS(s):
+    s.d = 0
     q = collections.deque()
     q.append(s)
 
@@ -39,6 +37,8 @@ def BFS(s):
                 return False
         q.popleft()
     return True
+
+
 # @exclude
 
 

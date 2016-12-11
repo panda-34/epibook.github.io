@@ -14,7 +14,7 @@ def copy_postings_list(L):
     #          list to the copied list.
     it = L
     while it:
-        new_node = ListNode(it.data, it.next, None)
+        new_node = ListNode(it.order, it.next, None)
         it.next = new_node
         it = new_node.next
 
@@ -34,17 +34,19 @@ def copy_postings_list(L):
         it.next = temp.next
         it = temp
     return new_list_head
+
+
 # @exclude
 
 
 def check_postings_list_equal(a, b):
     while a and b:
-        print(a.data, end=' ')
-        assert a.data == b.data
+        print(a.order, end=' ')
+        assert a.order == b.order
         assert ((a.jump is None and b.jump is None) or
-                (a.jump and b.jump and a.jump.data == b.jump.data))
+                (a.jump and b.jump and a.jump.order == b.jump.order))
         if a.jump:
-            print(a.jump.data, end='')
+            print(a.jump.order, end='')
         print()
         a = a.next
         b = b.next

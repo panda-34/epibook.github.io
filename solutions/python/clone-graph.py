@@ -6,14 +6,16 @@ import collections
 
 # @include
 class GraphVertex:
-
     def __init__(self, label):
         self.label = label
         self.edges = []
 # @exclude
 
     def __repr__(self):
-        return '%d(%s)' % (self.label, ','.join(str(x.label) for x in self.edges))
+        return '%d(%s)' % (self.label, ','.join(
+            str(x.label) for x in self.edges))
+
+
 # @include
 
 
@@ -35,12 +37,13 @@ def clone_graph(G):
             # Copy edge v->e.
             vertex_map[v].edges.append(vertex_map[e])
     return vertex_map[G]
+
+
 # @exclude
 
 
 def copy_labels(edges):
-    labels = [e.label for e in edges]
-    return labels
+    return [e.label for e in edges]
 
 
 def check_graph(node, G):

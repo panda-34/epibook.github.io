@@ -1,28 +1,13 @@
 # View_from_above.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
+import collections
 import sortedcontainers
 
-
 # @include
-class LineSegment:
-
-    def __init__(self, left, right, color, height):
-        self.left = left
-        self.right = right  # Specifies the interval.
-        self.color = color
-        self.height = height
-# @exclude
-
-    def __eq__(self, other):
-        return (self.left == other.left and self.right == other.right and
-                self.color == other.color and self.height == other.height)
-
-    def __repr__(self):
-        return '%s->%s:%s(%s)' % (self.left, self.right, self.color, self.height)
-# @include
+LineSegment = collections.namedtuple('LineSegment',
+                                     ('left', 'right', 'color', 'height'))
 
 
 class Endpoint:
-
     def __init__(self, is_left, line):
         self.is_left = is_left
         self.line = line
@@ -32,11 +17,6 @@ class Endpoint:
 
     def value(self):
         return self.line.left if self.is_left else self.line.right
-# @exclude
-
-    def __repr__(self):
-        return '%s: %s' % (('Right', 'Left')[self.is_left], self.line)
-# @include
 
 
 def calculate_view_from_above(A):
@@ -54,17 +34,19 @@ def calculate_view_from_above(A):
         if active_line_segments and prev_xaxis != endpoint.value():
             active_segment = active_line_segments.peekitem()[1]
             if prev is None:  # Found first segment.
-                prev = LineSegment(prev_xaxis, endpoint.value(),
-                                   active_segment.color, active_segment.height)
+                prev = LineSegment(prev_xaxis,
+                                   endpoint.value(), active_segment.color,
+                                   active_segment.height)
             else:
                 if (prev.height == active_segment.height and
                         prev.color == active_segment.color and
                         prev_xaxis == prev.right):
-                    prev.right = endpoint.value()
+                    prev = prev._replace(right=endpoint.value())
                 else:
                     result.append(prev)
-                    prev = LineSegment(prev_xaxis, endpoint.value(),
-                                       active_segment.color, active_segment.height)
+                    prev = LineSegment(prev_xaxis,
+                                       endpoint.value(), active_segment.color,
+                                       active_segment.height)
         prev_xaxis = endpoint.value()
 
         if endpoint.is_left:  # Left end point.
@@ -89,21 +71,23 @@ def simple_test():
 def main():
     simple_test()
     A = [
-        LineSegment(0, 4, 0, 0),   LineSegment(1, 3, 1, 2),
-        LineSegment(2, 7, 2, 1),   LineSegment(4, 5, 3, 3),
-        LineSegment(5, 7, 3, 0),   LineSegment(6, 10, 0, 2),
-        LineSegment(8, 9, 0, 1),   LineSegment(9, 18, 4, 0),
+        LineSegment(0, 4, 0, 0), LineSegment(1, 3, 1, 2),
+        LineSegment(2, 7, 2, 1), LineSegment(4, 5, 3, 3),
+        LineSegment(5, 7, 3, 0), LineSegment(6, 10, 0, 2),
+        LineSegment(8, 9, 0, 1), LineSegment(9, 18, 4, 0),
         LineSegment(11, 13, 3, 2), LineSegment(12, 15, 4, 1),
-        LineSegment(14, 15, 2, 2), LineSegment(16, 17, 3, 2)]
+        LineSegment(14, 15, 2, 2), LineSegment(16, 17, 3, 2)
+    ]
     result = calculate_view_from_above(A)
     golden_result = [
-        LineSegment(0, 1, 0, 0),   LineSegment(1, 3, 1, 2),
-        LineSegment(3, 4, 2, 1),   LineSegment(4, 5, 3, 3),
-        LineSegment(5, 6, 2, 1),   LineSegment(6, 10, 0, 2),
+        LineSegment(0, 1, 0, 0), LineSegment(1, 3, 1, 2),
+        LineSegment(3, 4, 2, 1), LineSegment(4, 5, 3, 3),
+        LineSegment(5, 6, 2, 1), LineSegment(6, 10, 0, 2),
         LineSegment(10, 11, 4, 0), LineSegment(11, 13, 3, 2),
         LineSegment(13, 14, 4, 1), LineSegment(14, 15, 2, 2),
         LineSegment(15, 16, 4, 0), LineSegment(16, 17, 3, 2),
-        LineSegment(17, 18, 4, 0)]
+        LineSegment(17, 18, 4, 0)
+    ]
     assert result == golden_result
 
 

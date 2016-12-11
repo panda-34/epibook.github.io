@@ -3,8 +3,7 @@ from binary_tree_prototype import BinaryTreeNode
 
 
 # @include
-# Input nodes are not nonempty and the key at s is less than or equal to that
-# at b.
+# Input nodes are not nonempty and the key at s is less than or equal to that at b.
 def find_LCA(tree, s, b):
     p = tree
     while p.data < s.data or p.data > b.data:
@@ -15,6 +14,8 @@ def find_LCA(tree, s, b):
             p = p.left  # LCA must be in p's left child.
     # Now, s->data <= p->data && p->data <= b->data.
     return p
+
+
 # @exclude
 
 

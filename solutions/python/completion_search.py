@@ -10,10 +10,13 @@ def find_salary_cap(target_payroll, current_salaries):
     for i, current_salary in enumerate(current_salaries):
         adjusted_salary_sum = current_salary * (len(current_salaries) - i)
         if unadjusted_salary_sum + adjusted_salary_sum >= target_payroll:
-            return (target_payroll - unadjusted_salary_sum) / (len(current_salaries) - i)
+            return (target_payroll - unadjusted_salary_sum) / (
+                len(current_salaries) - i)
         unadjusted_salary_sum += current_salary
     # No solution, since target_payroll > existing payroll.
     return -1.0
+
+
 # @exclude
 
 

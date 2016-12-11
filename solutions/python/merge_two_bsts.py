@@ -70,11 +70,12 @@ def count_length(L):
 
 # @include
 def merge_two_BSTs(A, B):
-    A = BST_to_doubly_list(A)
-    B = BST_to_doubly_list(B)
-    A_length = count_length(A)
-    B_length = count_length(B)
-    return build_BST_from_sorted_doubly_list(merge_two_sorted_lists(A, B), A_length + B_length)
+    A, B = BST_to_doubly_list(A), BST_to_doubly_list(B)
+    A_length, B_length = count_length(A), count_length(B)
+    return build_BST_from_sorted_doubly_list(
+        merge_two_sorted_lists(A, B), A_length + B_length)
+
+
 # @exclude
 
 

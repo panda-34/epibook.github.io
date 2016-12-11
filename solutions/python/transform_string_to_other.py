@@ -6,16 +6,14 @@ import collections
 
 
 def rand_string(length):
-    ret = (random.choice(string.ascii_lowercase) for i in range(length))
-    return ''.join(ret)
+    return ''.join(random.choice(string.ascii_lowercase) for i in range(length))
 
 
 # @include
-StringWithDistance = collections.namedtuple('StringWithDistance', ('candidate_string', 'distance'))
-
-
 # Uses BFS to find the least steps of transformation.
 def transform_string(D, s, t):
+    StringWithDistance = collections.namedtuple('StringWithDistance', (
+        'candidate_string', 'distance'))
     q = collections.deque()
     D.remove(s)  # Marks s as visited by erasing it in D.
     q.append(StringWithDistance(s, 0))
@@ -29,11 +27,13 @@ def transform_string(D, s, t):
         # Tries all possible transformations of f.candidate_string.
         for i in range(len(f.candidate_string)):
             for j in string.ascii_lowercase:  # Iterates through 'a' ~ 'z'.
-                st = f.candidate_string[:i] + j + f.candidate_string[i+1:]
-                if st in D:
-                    D.remove(st)
-                    q.append(StringWithDistance(st, f.distance + 1))
+                cand = f.candidate_string[:i] + j + f.candidate_string[i + 1:]
+                if cand in D:
+                    D.remove(cand)
+                    q.append(StringWithDistance(cand, f.distance + 1))
     return -1  # Cannot find a possible transformations.
+
+
 # @exclude
 
 

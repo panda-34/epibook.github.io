@@ -6,6 +6,7 @@ from binary_tree_prototype import BinaryTreeNode
 def is_binary_tree_BST(tree):
     return are_keys_in_range(tree, float('-inf'), float('inf'))
 
+
 def are_keys_in_range(tree, low_range, high_range):
     if not tree:
         return True
@@ -13,6 +14,8 @@ def are_keys_in_range(tree, low_range, high_range):
         return False
     return (are_keys_in_range(tree.left, low_range, tree.data) and
             are_keys_in_range(tree.right, tree.data, high_range))
+
+
 # @exclude
 
 

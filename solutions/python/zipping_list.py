@@ -32,6 +32,8 @@ def zipping_linked_list(L):
         first_half_iter = first_half_iter.next.next
         second_half_iter = temp
     return first_half_head
+
+
 # @exclude
 
 

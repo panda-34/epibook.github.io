@@ -20,22 +20,23 @@ def find_max_subarray(A):
 # Calculates the solution which is circular.
 def find_circular_max_subarray(A):
     # Maximum subarray sum starts at index 0 and ends at or before index i.
-    sum_ = A[0]
-    maximum_begin = [sum_]
+    partial_sum = A[0]
+    maximum_begin = [partial_sum]
     for i in range(1, len(A)):
-        sum_ += A[i]
-        maximum_begin.append(max(maximum_begin[-1], sum_))
+        partial_sum += A[i]
+        maximum_begin.append(max(maximum_begin[-1], partial_sum))
 
     # Maximum subarray sum starts at index i + 1 and ends at the last element.
     maximum_end = [0] * len(A)
-    sum_ = 0
+    partial_sum = 0
     for i in range(len(A) - 2, -1, -1):
-        sum_ += A[i + 1]
-        maximum_end[i] = max(maximum_end[i + 1], sum_)
+        partial_sum += A[i + 1]
+        maximum_end[i] = max(maximum_end[i + 1], partial_sum)
 
     # Calculates the maximum subarray which is circular.
-    circular_max = max(begin + end for begin, end in zip(maximum_begin, maximum_end))
-    return circular_max
+    return max(begin + end for begin, end in zip(maximum_begin, maximum_end))
+
+
 # @exclude
 
 

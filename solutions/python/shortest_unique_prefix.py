@@ -11,16 +11,14 @@ def rand_string(length):
 
 
 # @include
-class TrieNode:
-    def __init__(self):
-        self.is_string = False
-        self.leaves = collections.defaultdict(TrieNode)
-
-
 class Trie:
+    class TrieNode:
+        def __init__(self):
+            self.is_string = False
+            self.leaves = collections.defaultdict(Trie.TrieNode)
 
     def __init__(self):
-        self._root = TrieNode()
+        self._root = self.TrieNode()
 
     def insert(self, s):
         p = self._root
@@ -51,6 +49,8 @@ def find_shortest_prefix(s, D):
     for word in D:
         T.insert(word)
     return T.get_shortest_unique_prefix(s)
+
+
 # @exclude
 
 
@@ -67,7 +67,7 @@ def check_ans(s, D):
     if length == len(s):
         return ''
     else:
-        return s[:length+1]
+        return s[:length + 1]
 
 
 def main():

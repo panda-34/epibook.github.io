@@ -6,16 +6,17 @@ import random
 
 # @include
 def permutations(A):
-    A.sort()
-    result = list(itertools.permutations(A))
-    return result
+    return list(itertools.permutations(sorted(A)))
+
+
 # @exclude
 
 
 def small_test():
     A = [1, 2, 3]
     result = permutations(A)
-    golden_result = [(1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), (3, 2, 1)]
+    golden_result = [(1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), (
+        3, 2, 1)]
     assert result == golden_result
 
 

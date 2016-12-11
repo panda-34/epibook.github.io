@@ -10,7 +10,6 @@ import sortedcontainers
 # numbers. It is also called quadratic integer rings.
 # @include
 class ABSqrt2:
-
     def __init__(self, a, b):
         self.a = a
         self.b = b
@@ -28,6 +27,8 @@ class ABSqrt2:
 
     def __repr__(self):
         return r'%d + %d \/2' % (self.a, self.b)
+
+
 # @include
 
 
@@ -46,6 +47,8 @@ def generate_first_k_a_b_sqrt2(k):
         candidates.add(ABSqrt2(next_smallest.a, next_smallest.b + 1))
         candidates.remove(next_smallest)
     return result
+
+
 # @exclude
 
 

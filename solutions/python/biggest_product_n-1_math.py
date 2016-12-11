@@ -1,57 +1,34 @@
 # Biggest_product_n-1_math.cpp b4b3a70d8ab942579f85b4416f980d05831af969
+import functools
 import sys
 import random
 
 
 # @include
 def find_biggest_n_minus_one_product(A):
-    zero_count = 0
-    zero_idx = -1
-    positive_count = 0
-    smallest_positive_idx = -1
-    negative_count = 0
-    smallest_negative_idx = -1
-    biggest_negative_idx = -1
+    number_of_negatives = 0
+    least_nonnegative_idx = least_negative_idx = greatest_negative_idx = None
 
+    # Identify the least negative, greatest negative, and least nonnegative #entries.
     for i in range(len(A)):
         if A[i] < 0:
-            negative_count += 1
-            if smallest_negative_idx == -1 or A[i] < A[smallest_negative_idx]:
-                smallest_negative_idx = i
-            if biggest_negative_idx == -1 or A[biggest_negative_idx] < A[i]:
-                biggest_negative_idx = i
-        elif A[i] == 0:
-            zero_idx = i
-            zero_count += 1
-        else:  # A[i] > 0.
-            positive_count += 1
-            if smallest_positive_idx == -1 or A[i] < A[smallest_positive_idx]:
-                smallest_positive_idx = i
+            number_of_negatives += 1
+            if least_negative_idx is None or A[least_negative_idx] < A[i]:
+                least_negative_idx = i
+            if greatest_negative_idx is None or A[i] < A[
+                    greatest_negative_idx]:
+                greatest_negative_idx = i
+        else:  # A[i] >= 0.
+            if least_nonnegative_idx is None or A[i] < A[
+                    least_nonnegative_idx]:
+                least_nonnegative_idx = i
 
-    # Try to find a number whose elimination could maximize the product of
-    # the remaining (n - 1) numbers.
-    # x stores the idx of eliminated one.
-    if zero_count >= 2:
-        return 0
-    elif zero_count == 1:
-        if negative_count & 1:  # Odd number of negatives.
-            return 0
-        else:
-            x = zero_idx
-    else:  # No zero in A.
-        if negative_count & 1:  # Odd number of negatives.
-            x = biggest_negative_idx
-        else:  # Even number of negatives.
-            if positive_count > 0:
-                x = smallest_positive_idx
-            else:
-                x = smallest_negative_idx
+    idx_to_skip = least_negative_idx if number_of_negatives % 2 else least_nonnegative_idx if least_nonnegative_idx is not None else greatest_negative_idx
+    return functools.reduce(lambda product, a: product * a,
+                            [a for i, a in enumerate(A) if i != idx_to_skip],
+                            1)
 
-    product = 1
-    for i, a in enumerate(A):
-        if i != x:
-            product *= a
-    return product
+
 # @exclude
 
 

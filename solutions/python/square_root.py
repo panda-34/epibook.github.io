@@ -3,18 +3,16 @@ import sys
 import math
 import random
 
-
 # @include
 SMALLER, EQUAL, LARGER = range(3)
+
 
 def square_root(x):
     # Decides the search range according to x's value relative to 1.0.
     if x < 1.0:
-        left = x
-        right = 1.0
+        left, right = x, 1.0
     else:  # x >= 1.0.
-        left = 1.0
-        right = x
+        left, right = 1.0, x
 
     # Keeps searching as long as left < right, within tolerance.
     while compare(left, right) == SMALLER:
@@ -40,6 +38,8 @@ def compare(a, b):
         return LARGER
     else:
         return EQUAL
+
+
 # @exclude
 
 
@@ -48,7 +48,8 @@ def simple_test():
     assert compare(square_root(2.0), math.sqrt(2.0) == EQUAL)
     assert compare(square_root(0.001), math.sqrt(0.001) == EQUAL)
     assert compare(square_root(0.5), math.sqrt(0.5) == EQUAL)
-    assert compare(square_root(100000000.001), math.sqrt(100000000.001) == EQUAL)
+    assert compare(
+        square_root(100000000.001), math.sqrt(100000000.001) == EQUAL)
     assert compare(square_root(1024.0), math.sqrt(1024.0) == EQUAL)
 
 

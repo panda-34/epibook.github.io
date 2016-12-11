@@ -7,6 +7,8 @@ import heapq
 # @include
 def find_kth_largest_unknown_length(sin, k):
     return heapq.nlargest(k, sin)[-1]
+
+
 # @exclude
 
 
@@ -16,14 +18,14 @@ def simple_test_array(A):
         print('i =', i)
         k = i + 1
         result = find_kth_largest_unknown_length(A, k)
-        assert result == A_sorted[k-1]
+        assert result == A_sorted[k - 1]
 
 
 def simple_test():
     A = [5, 6, 2, 1, 3, 0, 4]
     simple_test_array(A)
     A = [5, -1, 2, 1, 3, 1, 4, 2 << 31 - 1, 5]
-    simple_test_array(A);
+    simple_test_array(A)
     N = 1000
     A = [random.randrange(10) for i in range(N)]
     simple_test_array(A)
@@ -46,8 +48,8 @@ def main():
         A = [random.randrange(10000000) for i in range(n)]
         result = find_kth_largest_unknown_length(A, k)
         A.sort(reverse=True)
-        print(result, A[k-1])
-        assert result == A[k-1]
+        print(result, A[k - 1])
+        assert result == A[k - 1]
 
 
 if __name__ == '__main__':

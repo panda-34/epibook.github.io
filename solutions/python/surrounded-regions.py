@@ -9,16 +9,14 @@ def fill_surrounded_regions(board):
     if not board:
         return
 
-    visited = [[False] * len(board[0]) for i in board]
-    # Identifies the regions that are reachable via white path starting from
-    # the first or last columns.
+    visited = [[False] * len(board[0]) for _ in board]
+    # Identifies the regions that are reachable via white path starting from the first or last columns.
     for i in range(len(board)):
         if board[i][0] == 'W' and not visited[i][0]:
             mark_boundary_region(i, 0, board, visited)
         if board[i][-1] == 'W' and not visited[i][-1]:
             mark_boundary_region(i, len(board[i]) - 1, board, visited)
-    # Identifies the regions that are reachable via white path starting from
-    # the first or last rows.
+    # Identifies the regions that are reachable via white path starting from the first or last rows.
     for j in range(len(board[0])):
         if board[0][j] == 'W' and not visited[0][j]:
             mark_boundary_region(0, j, board, visited)
@@ -32,36 +30,32 @@ def fill_surrounded_regions(board):
                 board[i][j] = 'B'
 
 
-Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
-
-
 def mark_boundary_region(i, j, board, visited):
+    Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
     q = collections.deque()
     q.append(Coordinate(i, j))
     visited[i][j] = True
     # Uses BFS to traverse this region.
-    k_dirs = (0, 1), (0, -1), (1, 0), (-1, 0)
     while q:
         curr = q.popleft()
-        for d in k_dirs:
+        for d in (0, 1), (0, -1), (1, 0), (-1, 0):
             next = Coordinate(curr.x + d[0], curr.y + d[1])
-            if (0 <= next.x < len(board) and 0 <= next.y < len(board[next.x]) and
-                    board[next.x][next.y] == 'W' and not visited[next.x][next.y]):
+            if (0 <= next.x < len(board) and 0 <= next.y < len(board[next.x])
+                    and board[next.x][next.y] == 'W' and
+                    not visited[next.x][next.y]):
                 visited[next.x][next.y] = True
                 q.append(next)
+
+
 # @exclude
 
 
 def simple_test():
-    A = [['B', 'B', 'B', 'B'],
-         ['W', 'B', 'W', 'B'],
-         ['B', 'W', 'W', 'B'],
+    A = [['B', 'B', 'B', 'B'], ['W', 'B', 'W', 'B'], ['B', 'W', 'W', 'B'],
          ['B', 'B', 'B', 'B']]
     fill_surrounded_regions(A)
-    golden = [['B', 'B', 'B', 'B'],
-              ['W', 'B', 'B', 'B'],
-              ['B', 'B', 'B', 'B'],
-              ['B', 'B', 'B', 'B']]
+    golden = [['B', 'B', 'B', 'B'], ['W', 'B', 'B', 'B'],
+              ['B', 'B', 'B', 'B'], ['B', 'B', 'B', 'B']]
     assert A == golden
 
 

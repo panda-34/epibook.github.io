@@ -17,6 +17,8 @@ def majority_search(input_stream):
         else:
             candidate_count -= 1
     return candidate
+
+
 # @exclude
 
 

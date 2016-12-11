@@ -8,10 +8,11 @@ import rotate_array_permutation
 # @include
 def rotate_array(i, A):
     i %= len(A)
-    if i > 0:
-        A[:] = A[::-1]  # reverse whole list
-        A[:i] = A[i - 1 : : -1]  # reverse [:i] part
-        A[i:] = A[ : i - 1 : -1]  # reverse [i:] part
+    A[:] = A[::-1]  # reverse whole list
+    A[:i] = A[:i][::-1]  # reverse [:i] part
+    A[i:] = A[i:][::-1]  # reverse [i:] part
+
+
 # @exclude
 
 

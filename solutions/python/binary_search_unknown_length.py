@@ -20,8 +20,7 @@ def binary_search_unknown_length(A, k):
         p += 1
 
     # Binary search between indices 2^(p - 1) and 2^p - 2, inclusive.
-    left = 1 << max(0, (p - 1))
-    right = (1 << p) - 2
+    left, right = 1 << max(0, (p - 1)), (1 << p) - 2
     while left <= right:
         mid = left + (right - left) // 2
         try:
@@ -34,6 +33,8 @@ def binary_search_unknown_length(A, k):
         except IndexError:
             right = mid - 1  # Search the left part if out-of-bound.
     return -1  # Nothing matched k.
+
+
 # @exclude
 
 

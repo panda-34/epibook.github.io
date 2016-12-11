@@ -2,17 +2,17 @@
 import sys
 import random
 
+
 # @include
 def combinations(n, k):
     result = []
-    partial_combination = []
-    directed_combinations(n, k, 1, partial_combination, result)
+    directed_combinations(n, k, 1, [], result)
     return result
 
 
 def directed_combinations(n, k, offset, partial_combination, result):
     if len(partial_combination) == k:
-        result.append(partial_combination.copy())
+        result.append(list(partial_combination))
         return
 
     # Generate remaining combinations over {offset, ..., n - 1} of size
@@ -24,13 +24,14 @@ def directed_combinations(n, k, offset, partial_combination, result):
         directed_combinations(n, k, i + 1, partial_combination, result)
         del partial_combination[-1]
         i += 1
+
+
 # @exclude
 
 
 def small_test():
-    result = combinations(4, 2)
-    golden_result = [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
-    assert result == golden_result
+    assert combinations(4,
+                        2) == [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
 
 
 def main():

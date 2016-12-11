@@ -2,13 +2,13 @@
 import collections
 from binary_tree_prototype import BinaryTreeNode
 
-
 # @include
-QNode = collections.namedtuple('QNode', ('node', 'lower', 'upper'))
+QueueEntry = collections.namedtuple('QueueEntry', ('node', 'lower', 'upper'))
+
 
 def is_binary_tree_BST(tree):
     BFS_queue = collections.deque()
-    BFS_queue.append(QNode(tree, float('-inf'), float('inf')))
+    BFS_queue.append(QueueEntry(tree, float('-inf'), float('inf')))
 
     while BFS_queue:
         front = BFS_queue.popleft()
@@ -16,10 +16,14 @@ def is_binary_tree_BST(tree):
             if not front.lower < front.node.data < front.upper:
                 return False
 
-            BFS_queue.append(QNode(front.node.left, front.lower, front.node.data))
-            BFS_queue.append(QNode(front.node.right, front.node.data, front.upper))
+            BFS_queue.append(
+                QueueEntry(front.node.left, front.lower, front.node.data))
+            BFS_queue.append(
+                QueueEntry(front.node.right, front.node.data, front.upper))
 
     return True
+
+
 # @exclude
 
 

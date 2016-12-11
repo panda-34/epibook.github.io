@@ -1,4 +1,5 @@
 # Find_element_appears_once.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
+import functools
 import sys
 import random
 
@@ -11,10 +12,10 @@ def find_element_appears_once(A):
             if x & (1 << i):
                 counts[i] += 1
 
-    result = 0
-    for i in range(32):
-        result |= (counts[i] % 3) * (1 << i)
-    return result
+    return functools.reduce(
+        lambda result, i: result | (counts[i] % 3) * (1 << i), range(32), 0)
+
+
 # @exclude
 
 
@@ -22,7 +23,8 @@ def find_element_appears_once_alternative(A):
     # ones denotes whether a bit-position has been set once (modulo 3) so far.
     # twos denotes whether a bit-position has been set twice (modulo 3) so far.
     ones = twos = 0
-    for i in A:  # After reading A[i], bit-position j has a count of 1 modulo 3
+    for i in A:
+        # After reading A[i], bit-position j has a count of 1 modulo 3
         # if it had a count of 1 modulo 3 (the j-th bit in ones is set)
         # and the j-th bit in A[i] is 0 or the count was 0 modulo 3
         # (the j-th bit is not set in ones and in not set in twos) and

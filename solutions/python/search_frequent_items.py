@@ -37,8 +37,9 @@ def search_frequent_items(k, sin):
             hash[buf] += 1
 
     # Selects the word which occurs > n / k times.
-    ret = [it for it, value in hash.items() if value > n / k]
-    return ret
+    return [it for it, value in hash.items() if value > n / k]
+
+
 # @exclude
 
 

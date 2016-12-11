@@ -1,8 +1,8 @@
 # Height_determination.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
 # @include
 def get_height(cases, drops):
-    F = [[-1] * (drops + 1) for i in range(cases + 1)]
-    return get_height_helper(cases, drops, F)
+    return get_height_helper(cases, drops,
+                             [[-1] * (drops + 1) for i in range(cases + 1)])
 
 
 def get_height_helper(cases, drops, F):
@@ -15,6 +15,8 @@ def get_height_helper(cases, drops, F):
             F[cases][drops] = (get_height_helper(cases, drops - 1, F) +
                                get_height_helper(cases - 1, drops - 1, F) + 1)
         return F[cases][drops]
+
+
 # @exclude
 
 

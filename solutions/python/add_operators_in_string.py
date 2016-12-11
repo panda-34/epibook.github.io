@@ -1,13 +1,14 @@
 # Add_operators_in_string.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
+import functools
+
+
 # @include
 def expression_synthesis(digits, target):
-    operators = []
-    operands = []
-    return directed_expression_synthesis(digits, target, 0, 0, operands, operators)
+    return directed_expression_synthesis(digits, target, 0, 0, [], [])
 
 
-def directed_expression_synthesis(digits, target, current_term,
-                                  offset, operands, operators):
+def directed_expression_synthesis(digits, target, current_term, offset,
+                                  operands, operators):
     current_term = current_term * 10 + digits[offset]
     if offset == len(digits) - 1:
         operands.append(current_term)
@@ -30,15 +31,16 @@ def directed_expression_synthesis(digits, target, current_term,
     # Tries multiplication operator '*'.
     operands.append(current_term)
     operators.append('*')
-    if directed_expression_synthesis(digits, target, 0, offset + 1,
-                                     operands, operators):
+    if directed_expression_synthesis(digits, target, 0, offset + 1, operands,
+                                     operators):
         return True
     del operands[-1]
     del operators[-1]
     # Tries addition operator '+'.
     operands.append(current_term)
     # First check feasibility of plus operator.
-    if target - evaluate(operands, operators) <= remaining_int(digits, offset + 1):
+    if target - evaluate(operands, operators) <= remaining_int(digits,
+                                                               offset + 1):
         operators.append('+')
         if directed_expression_synthesis(digits, target, 0, offset + 1,
                                          operands, operators):
@@ -50,10 +52,7 @@ def directed_expression_synthesis(digits, target, current_term,
 
 # Calculates the int represented by digits[idx:].
 def remaining_int(digits, idx):
-    val = 0
-    for i in range(idx, len(digits)):
-        val = val * 10 + digits[i]
-    return val
+    return functools.reduce(lambda val, d: val * 10 + d, digits[idx:], 0)
 
 
 def evaluate(operands, operators):
@@ -70,6 +69,8 @@ def evaluate(operands, operators):
 
     # Evaluates '+' second.
     return sum(intermediate_operands)
+
+
 # @exclude
 
 

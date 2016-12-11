@@ -5,6 +5,7 @@ import random
 
 # @include
 class Rectangle:
+
     def __init__(self, left, right, height):
         self.left = left
         self.right = right
@@ -13,8 +14,6 @@ class Rectangle:
 
     def __repr__(self):
         return '%d..%d:%d' % (self.left, self.right, self.height)
-
-
 # @include
 
 
@@ -43,11 +42,9 @@ def merge_skylines(left_skyline, right_skyline):
             merged.append(right_skyline[j])
             j += 1
         elif left_skyline[i].left <= right_skyline[j].left:
-            i, j = merge_intersect_skylines(merged, left_skyline[i], i,
-                                            right_skyline[j], j)
+            i, j = merge_intersect_skylines(merged, left_skyline[i], i, right_skyline[j], j)
         else:  # left_skyline[i].left > right_skyline[j].left.
-            j, i = merge_intersect_skylines(merged, right_skyline[j], j,
-                                            left_skyline[i], i)
+            j, i = merge_intersect_skylines(merged, right_skyline[j], j, left_skyline[i], i)
 
     merged += left_skyline[i:]
     merged += right_skyline[j:]
@@ -80,8 +77,6 @@ def merge_intersect_skylines(merged, a, a_idx, b, b_idx):
             merged.append(b)
             b_idx += 1
     return a_idx, b_idx
-
-
 # @exclude
 
 
@@ -91,8 +86,7 @@ def check_answer(ans):
         assert ans[i].left <= ans[i].right
         if i > 0:
             assert ans[i - 1].right <= ans[i].left
-            assert ans[i - 1].right != ans[i].left or ans[i - 1].height != ans[
-                i].height
+            assert ans[i - 1].right != ans[i].left or ans[i - 1].height != ans[i].height
 
 
 def main():

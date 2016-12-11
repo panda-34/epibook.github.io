@@ -5,8 +5,7 @@ import random
 
 # @include
 def search_smallest(A):
-    left = 0
-    right = len(A) - 1
+    left, right = 0, len(A) - 1
     while left < right:
         mid = left + (right - left) // 2
         if A[mid] > A[right]:

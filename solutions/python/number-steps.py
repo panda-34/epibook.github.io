@@ -5,8 +5,7 @@ import random
 
 # @include
 def number_of_ways_to_top(top, maximum_step):
-    number_of_ways_to_h = [0] * (top + 1)
-    return compute_number_of_ways_to_h(top, maximum_step, number_of_ways_to_h)
+    return compute_number_of_ways_to_h(top, maximum_step, [0] * (top + 1))
 
 
 def compute_number_of_ways_to_h(h, maximum_step, number_of_ways_to_h):
@@ -20,6 +19,8 @@ def compute_number_of_ways_to_h(h, maximum_step, number_of_ways_to_h):
                 h - i, maximum_step, number_of_ways_to_h)
             i += 1
     return number_of_ways_to_h[h]
+
+
 # @exclude
 
 

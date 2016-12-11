@@ -4,8 +4,7 @@ import sys
 
 # @include
 def longest_valid_parentheses(s):
-    max_length = 0
-    end = -1
+    max_length, end = 0, -1
     left_parentheses_indices = []
     for i in range(len(s)):
         if s[i] == '(':
@@ -14,9 +13,12 @@ def longest_valid_parentheses(s):
             end = i
         else:
             left_parentheses_indices.pop()
-            start = left_parentheses_indices[-1] if left_parentheses_indices else end
+            start = left_parentheses_indices[
+                -1] if left_parentheses_indices else end
             max_length = max(max_length, i - start)
     return max_length
+
+
 # @exclude
 
 

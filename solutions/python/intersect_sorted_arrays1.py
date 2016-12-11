@@ -9,4 +9,6 @@ def intersect_two_sorted_arrays(A, B):
                     intersection_A_B.append(A[i])
                     break
     return intersection_A_B
+
+
 # @exclude
