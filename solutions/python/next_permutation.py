@@ -26,8 +26,10 @@ def next_permutation(p):
 
     # Since p[k + 1 : ] is in decreasing order, we can build the
     # smallest dictionary ordering of this subarray by reversing it.
-    p[k + 1 : ] = p[len(p) - 1 : k : -1]
+    p[k + 1:] = p[len(p) - 1:k:-1]
     return True
+
+
 # @exclude
 
 
@@ -40,8 +42,10 @@ def main():
             print('This is the last permutation')
     else:
         for _ in range(1000):
-            n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 15)
-            p = sorted(random.randrange(n) for i in range(n))  # first permutation
+            n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1,
+                                                                           15)
+            p = sorted(random.randrange(n)
+                       for i in range(n))  # first permutation
             p_last = sorted(p, reverse=True)  # last permutation
             ms = collections.Counter(p)  # elements' multiplicities
             # multinomial coefficient = n! / (m1! * m2! * ...)

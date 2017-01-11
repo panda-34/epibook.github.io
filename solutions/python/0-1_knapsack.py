@@ -15,8 +15,9 @@ Item = collections.namedtuple('Item', ('weight', 'value'))
 def optimum_subjec_to_capacity(items, capacity):
     # V[i][j] holds the optimum value when we choose from items[0 : i] and have
     # a capacity of j.
-    V = [[-1] * (capacity + 1) for i in items]
-    return optimum_subject_to_item_and_capacity(items, len(items) - 1, capacity, V)
+    return optimum_subject_to_item_and_capacity(
+        items,
+        len(items) - 1, capacity, [[-1] * (capacity + 1) for i in items])
 
 
 # Returns the optimum value when we choose from items[0 : k] and have a
@@ -34,16 +35,19 @@ def optimum_subject_to_item_and_capacity(items, k, available_capacity, V):
                 items, k - 1, available_capacity - items[k].weight, V))
         V[k][available_capacity] = max(without_curr_item, with_curr_item)
     return V[k][available_capacity]
+
+
 # @exclude
 
 
 def small_test():
     # The example in the book.
-    items = [Item(w, v) for w, v in (
-        (20, 65), (8, 35), (60, 245), (55, 195),
-        (40, 65), (70, 150), (85, 275), (25, 155),
-        (30, 120), (65, 320), (75, 75), (10, 40),
-        (95, 200), (50, 100), (40, 220), (10, 99))]
+    items = [
+        Item(w, v)
+        for w, v in ((20, 65), (8, 35), (60, 245), (55, 195), (40, 65), (
+            70, 150), (85, 275), (25, 155), (30, 120), (65, 320), (75, 75), (
+                10, 40), (95, 200), (50, 100), (40, 220), (10, 99))
+    ]
     assert 695 == optimum_subjec_to_capacity(items, 130)
 
     items = (Item(5, 60), Item(3, 50), Item(4, 70), Item(2, 30))

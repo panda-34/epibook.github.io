@@ -56,10 +56,8 @@ def simple_test():
 def main():
     simple_test()
     for _ in range(10000):
-        if len(sys.argv) == 2:
-            n = int(sys.argv[1])
-        else:
-            n = random.randint(1, 10000)
+        n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1,
+                                                                       10000)
         A = [random.randrange(1000000) for i in range(n)]
         res = find_min_max(A)
         assert res == MinMax(min(A), max(A))

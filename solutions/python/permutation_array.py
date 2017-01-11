@@ -10,17 +10,12 @@ def permute(P, A):
     for _ in range(len(P)):
         for i in range(len(P)):
             A[i], A[P[i]] = A[P[i]], A[i]
-            p_i = P[i]
-            P[i] = P[p_i]
-            P[p_i] = p_i
+            P[P[i]], P[i] = P[i], P[P[i]]
 
 
 def main():
     for _ in range(1000):
-        if len(sys.argv) == 2:
-            n = int(sys.argv[1])
-        else:
-            n = random.randint(1, 100)
+        n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 100)
 
         A = list(range(n))
         perm = A.copy()

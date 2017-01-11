@@ -1,6 +1,8 @@
 # @include
 def GCD(x, y):
-    if x == 0:
+    if x == y:
+        return x
+    elif x == 0:
         return y
     elif y == 0:
         return x

@@ -5,8 +5,8 @@ import random
 
 # @include
 def compute_binomial_coefficient(n, k):
-    x_choose_y = [[0] * (k + 1) for i in range(n + 1)]
-    return compute_x_choose_y(n, k, x_choose_y)
+    return compute_x_choose_y(n, k, [[0] * (k + 1) for i in range(n + 1)])
+
 
 def compute_x_choose_y(x, y, x_choose_y):
     if y == 0 or x == y:
@@ -17,6 +17,8 @@ def compute_x_choose_y(x, y, x_choose_y):
         with_y = compute_x_choose_y(x - 1, y - 1, x_choose_y)
         x_choose_y[x][y] = without_y + with_y
     return x_choose_y[x][y]
+
+
 # @exclude
 
 

@@ -44,8 +44,8 @@ class BinarySearchTree:
         if not curr:
             # There's no node with key in this tree.
             return False
-        key_node = curr
 
+        key_node = curr
         if key_node.right:
             # Finds the minimum of the right subtree.
             r_key_node = key_node.right

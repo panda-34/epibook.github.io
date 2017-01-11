@@ -148,7 +148,7 @@ def main():
     test_directed_line_tree()
     test_directed_binary_tree()
     test_directed_two_separate_cycles()
-    for times in range(100):
+    for _ in range(100):
         if len(sys.argv) == 2:
             n = int(sys.argv[1])
         else:

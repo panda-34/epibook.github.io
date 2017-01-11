@@ -5,8 +5,8 @@ import string
 
 
 def rand_string(length):
-    ret = (random.choice(string.ascii_lowercase) for i in range(length))
-    return ''.join(ret)
+    return ''.join(
+        random.choice(string.ascii_lowercase) for _ in range(length))
 
 
 # @include
@@ -27,7 +27,7 @@ def decompose_into_dictionary_words(domain, dictionary):
         # last_length[i].
         if last_length[i] == -1:
             for j in range(i):
-                if last_length[j] != -1 and domain[j + 1 : i + 1] in dictionary:
+                if last_length[j] != -1 and domain[j + 1:i + 1] in dictionary:
                     last_length[i] = i - j
                     break
 
@@ -36,10 +36,12 @@ def decompose_into_dictionary_words(domain, dictionary):
         # domain can be assembled by dictionary words.
         idx = len(domain) - 1
         while idx >= 0:
-            decompositions.append(domain[idx + 1 - last_length[idx] : idx + 1])
+            decompositions.append(domain[idx + 1 - last_length[idx]:idx + 1])
             idx -= last_length[idx]
         decompositions = decompositions[::-1]
     return decompositions
+
+
 # @exclude
 
 
@@ -103,7 +105,7 @@ def small_case():
 
 def main():
     small_case()
-    for times in range(1000):
+    for _ in range(1000):
         if len(sys.argv) >= 3:
             target = sys.argv[1]
             dictionary = set(sys.argv[2:])

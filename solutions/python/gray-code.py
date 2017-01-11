@@ -42,10 +42,7 @@ def check_ans(A):
 
 def main():
     small_test()
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(1, 9)
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 9)
     print('n =', n)
     vec = gray_code(n)
     print(*vec)

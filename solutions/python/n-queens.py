@@ -6,15 +6,14 @@ import random
 # @include
 def n_queens(n):
     result = []
-    placement = []
-    solve_n_queens(n, 0, placement, result)
+    solve_n_queens(n, 0, [], result)
     return result
 
 
 def solve_n_queens(n, row, col_placement, result):
     if row == n:
         # All queens are legally placed.
-        result.append(col_placement.copy())
+        result.append(list(col_placement))
     else:
         for col in range(n):
             col_placement.append(col)
@@ -23,16 +22,15 @@ def solve_n_queens(n, row, col_placement, result):
             del col_placement[-1]
 
 
-# Test if a newly placed queen will conflict any earlier queens
-# placed before.
+# Test if a newly placed queen will conflict any earlier queens placed before.
 def is_valid(col_placement):
     row_id = len(col_placement) - 1
-    for i in range(row_id):
-        diff = abs(col_placement[i] - col_placement[row_id])
-        if diff == 0 or diff == row_id - i:
-            # A column or diagonal constraint is violated.
-            return False
-    return True
+    # A column or diagonal constraint is violated.
+    return not any(
+        abs(col_placement[i] - col_placement[row_id]) in [0, row_id - i]
+        for i in range(row_id))
+
+
 # @exclude
 
 
@@ -64,16 +62,14 @@ def simple_test():
 
 def main():
     simple_test()
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(1, 15)
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 15)
     print('n =', n)
     result = n_queens(n)
     for vec in result:
         text_rep = to_text_representation(vec)
         print(*text_rep, sep='\n')
         print()
+
 
 if __name__ == '__main__':
     main()

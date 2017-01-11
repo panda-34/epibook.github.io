@@ -33,7 +33,7 @@ def sort_approximately_sorted_array(sequence, k):
     # @exclude
 
 
-    # It should print 1, 2, 3, 4, 5, 6, 7, 8, 9.
+# It should print 1, 2, 3, 4, 5, 6, 7, 8, 9.
 def simple_test():
     A = [2, 1, 5, 4, 3, 9, 8, 7, 6]
     sort_approximately_sorted_array(iter(A), 3)

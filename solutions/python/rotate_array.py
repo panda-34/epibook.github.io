@@ -18,17 +18,15 @@ def rotate_array(i, A):
 
 def check_answer(A, i, rotated):
     assert len(A) == len(rotated)
-    for idx in range(len(A)):
-        assert rotated[(idx + i) % len(rotated)] == A[idx]
+    assert all(rotated[(idx + i) % len(rotated)] == A[idx]
+               for idx in range(len(A)))
 
 
 def main():
     for _ in range(1000):
-        if len(sys.argv) == 2:
-            n = int(sys.argv[1])
-        else:
-            n = random.randint(1, 10000)
-        A = [random.randint(0, n) for i in range(n)]
+        n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1,
+                                                                       10000)
+        A = [random.randint(0, n) for _ in range(n)]
         i = random.randrange(n)
         B = A.copy()
         rotate_array(i, B)

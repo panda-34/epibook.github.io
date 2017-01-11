@@ -4,8 +4,7 @@ from binary_tree_with_parent_prototype import BinaryTreeNode
 
 # @include
 def LCA(node_0, node_1):
-    depth_0 = get_depth(node_0)
-    depth_1 = get_depth(node_1)
+    depth_0, depth_1 = get_depth(node_0), get_depth(node_1)
     # Makes node_0 as the deeper node in order to simplify the code.
     if depth_1 > depth_0:
         node_0, node_1 = node_1, node_0

@@ -3,12 +3,11 @@
 class GraphVertex:
     def __init__(self):
         self.edges = []
-        self.max_distance = 1
-        self.visited = False
+        self.max_distance = 0
 # @exclude
 
     def __repr__(self):
-        return ('*' if self.visited else '') + '(%d)%d(%s)' % (
+        return ('*' if self.max_distance else '') + '(%d)%d(%s)' % (
             self.max_distance, id(self), ','.join(
                 str(id(x)) for x in self.edges))
 
@@ -23,7 +22,7 @@ def find_largest_number_teams(G):
 def build_topological_ordering(G):
     vertex_order = []
     for g in G:
-        if not g.visited:
+        if not g.max_distance:
             DFS(g, vertex_order)
     return vertex_order
 
@@ -39,9 +38,9 @@ def find_longest_path(vertex_order):
 
 
 def DFS(cur, vertex_order):
-    cur.visited = True
+    cur.max_distance = 1
     for next in cur.edges:
-        if not next.visited:
+        if not next.max_distance:
             DFS(next, vertex_order)
     vertex_order.append(cur)
 

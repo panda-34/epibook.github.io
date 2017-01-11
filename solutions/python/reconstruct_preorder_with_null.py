@@ -10,16 +10,17 @@ def reconstruct_preorder(preorder):
     return reconstruct_preorder_helper(iter(preorder))
 
 
-def reconstruct_preorder_helper(it_preorder):
-    subtree_key = next(it_preorder)
+def reconstruct_preorder_helper(preorder_iter):
+    subtree_key = next(preorder_iter)
     if subtree_key is None:
         return None
 
-    # Note that reconstruct_preorder_helper updates it_preorder. So the order of
-    # following two calls are critical.
-    left_subtree = reconstruct_preorder_helper(it_preorder)
-    right_subtree = reconstruct_preorder_helper(it_preorder)
+    # Note that reconstruct_preorder_helper updates preorder_iter. So the order of following two calls are critical.
+    left_subtree = reconstruct_preorder_helper(preorder_iter)
+    right_subtree = reconstruct_preorder_helper(preorder_iter)
     return BinaryTreeNode(subtree_key, left_subtree, right_subtree)
+
+
 # @exclude
 
 
@@ -33,7 +34,22 @@ def gen_preorder_with_null(n, p):
     gen_preorder_with_null(n.right, p)
 
 
+def simple_test():
+    preorder = [1, None, None]
+    result = reconstruct_preorder(preorder)
+    assert result.data == 1 and not result.left and not result.right
+
+    preorder = [1, None, 2, None, None]
+    result = reconstruct_preorder(preorder)
+    assert result.data == 1 and not result.left and result.right.data == 2
+
+    preorder = [1, None, 2, 3, None, None, None]
+    result = reconstruct_preorder(preorder)
+    assert result.data == 1 and not result.left and result.right.data == 2 and result.right.left.data == 3 and not result.right.right
+
+
 def main():
+    simple_test()
     for times in range(1000):
         print(times)
         if len(sys.argv) == 2:

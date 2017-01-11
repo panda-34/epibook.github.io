@@ -4,16 +4,18 @@ import random
 
 
 # @include
-def random_sampling(A, k):
+def random_sampling(k, A):
     for i in range(k):
         # Generate a random index in [i, len(A) - 1].
         r = random.randint(i, len(A) - 1)
         A[i], A[r] = A[r], A[i]
+
+
 # @exclude
 
 
 # Pythonic solution
-def random_sampling_pythonic(A, k):
+def random_sampling_pythonic(k, A):
     A[:] = random.sample(A, k)
 
 
@@ -30,10 +32,10 @@ def main():
 
     A = list(range(n))
     print(n, k)
-    random_sampling(A, k)
+    random_sampling(k, A)
     print(*A)
     A = list(range(n))
-    random_sampling_pythonic(A, k)
+    random_sampling_pythonic(k, A)
     print(*A)
 
 

@@ -3,20 +3,14 @@ import collections
 
 
 # @include
-class Edge:
-
-    def __init__(self, root, length):
-        self.root = root
-        self.length = length
-
-
 class TreeNode:
-
     def __init__(self):
         self.edges = []
 
 
-HeightAndDiameter = collections.namedtuple('HeightAndDiameter', ('height', 'diameter'))
+Edge = collections.namedtuple('Edge', ('root', 'length'))
+HeightAndDiameter = collections.namedtuple('HeightAndDiameter',
+                                           ('height', 'diameter'))
 
 
 def compute_diameter(T):
@@ -34,7 +28,10 @@ def compute_height_and_diameter(r):
         elif h_d.height + e.length > heights[1]:
             heights[1] = h_d.height + e.length
         diameter = max(diameter, h_d.diameter)
-    return HeightAndDiameter(heights[0], max(diameter, heights[0] + heights[1]))
+    return HeightAndDiameter(heights[0],
+                             max(diameter, heights[0] + heights[1]))
+
+
 # @exclude
 
 

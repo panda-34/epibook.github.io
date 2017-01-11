@@ -11,10 +11,11 @@ def max_rectangle_submatrix(A):
     max_rect_area = 0
     # Find the maximum among all instances of the largest rectangle.
     for i in range(len(A)):
-        for j in range(len(A[i])):
-            table[j] = table[j] + 1 if A[i][j] else 0
+        table = [table[j] + 1 if A[i][j] else 0 for j in range(len(A[i]))]
         max_rect_area = max(max_rect_area, calculate_largest_rectangle(table))
     return max_rect_area
+
+
 # @exclude
 
 
@@ -27,11 +28,10 @@ def main():
             n = random.randint(1, 60)
             m = random.randint(1, 60)
         A = [[bool(random.randrange(2)) for j in range(m)] for i in range(n)]
-##        for i in range(n):
-##            print(*map(int, A[i]))
         print(max_rectangle_submatrix(A))
         print(max_rectangle_submatrix_brute_force(A))
-        assert max_rectangle_submatrix_brute_force(A) == max_rectangle_submatrix(A)
+        assert max_rectangle_submatrix_brute_force(
+            A) == max_rectangle_submatrix(A)
 
 
 if __name__ == '__main__':

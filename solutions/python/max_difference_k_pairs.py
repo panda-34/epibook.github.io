@@ -7,7 +7,7 @@ import random
 def max_k_pairs_profits(A, k):
     k_sum = [float('-inf')] * (2 * k)
     for i in range(len(A)):
-        pre_k_sum = k_sum.copy()
+        pre_k_sum = list(k_sum)
         sign = -1
         for j in range(min(len(k_sum), i + 1)):
             diff = sign * A[i] + (0 if j == 0 else pre_k_sum[j - 1])

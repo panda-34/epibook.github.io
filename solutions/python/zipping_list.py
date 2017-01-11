@@ -44,10 +44,7 @@ def main():
             curr = ListNode(int(i), head)
             head = curr
     else:
-        if len(sys.argv) == 2:
-            n = int(sys.argv[1])
-        else:
-            n = random.randint(1, 1000)
+        n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 1000)
         for i in range(n, -1, -1):
             curr = ListNode(i, head)
             head = curr

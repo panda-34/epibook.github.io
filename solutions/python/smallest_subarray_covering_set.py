@@ -4,6 +4,7 @@
 import sys
 import collections
 import random
+from smallest_subarray_covering_set_stream import find_smallest_subarray_covering_subset
 import string
 from linked_list_prototype import LinkedList
 
@@ -36,32 +37,12 @@ def find_smallest_subarray_covering_set(paragraph, keywords):
     return result
 
 
-def find_smallest_subarray_covering_subset(sin, query_strings):
-    # Tracks the last occurrence (index) of each string in query_strings.
-    loc = LinkedList()
-    d = {s: None for s in query_strings}
-    res = (-1, -1)
-    for idx, s in enumerate(sin):
-        if s in d:
-            it = d[s]
-            if it is not None:
-                # Explicitly remove s so that when we add it, it's the string most
-                # recently added to loc.
-                loc.erase(it)
-            loc.emplace_back(idx)
-            d[s] = loc.end()
-
-            if len(loc) == len(query_strings):
-                # We have seen all strings in query_strings, let's get to work.
-                if res == (-1, -1) or idx - loc.front() < res[1] - res[0]:
-                    res = (loc.front(), idx)
-    return res
 # @exclude
 
 
 def rand_string(length):
-    ret = (random.choice(string.ascii_lowercase) for i in range(length))
-    return ''.join(ret)
+    return ''.join(
+        random.choice(string.ascii_lowercase) for i in range(length))
 
 
 # O(n^2) solution
@@ -119,10 +100,10 @@ def main():
         inp = set(Q)
         res = find_smallest_subarray_covering_set(A, inp)
         print(*res, sep=', ')
-        assert not inp.difference(A[res[0]:res[1]+1])
+        assert not inp.difference(A[res[0]:res[1] + 1])
         res2 = find_smallest_subarray_covering_subset(iter(A), Q)
         print(*res2, sep=', ')
-        assert not inp.difference(A[res[0]:res[1]+1])
+        assert not inp.difference(A[res[0]:res[1] + 1])
         assert res[1] - res[0] == res2[1] - res2[0]
         assert res[1] - res[0] == check_ans(A, Q)
 
