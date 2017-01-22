@@ -10,16 +10,18 @@ def justify_text(words, L):
         # curr_line_start is the first word in the current line, and i is used to
         # identify the last word.
         num_words_curr_line += 1
-        lookahead_line_length = (
-            curr_line_length + len(word) + (num_words_curr_line - 1))
+        lookahead_line_length = curr_line_length + len(word) + (
+            num_words_curr_line - 1)
         if lookahead_line_length == L:
-            result.append(join_a_line_with_space(
-                words, curr_line_start, i, i - curr_line_start))
+            result.append(
+                join_a_line_with_space(words, curr_line_start, i, i -
+                                       curr_line_start))
             curr_line_start = i + 1
             num_words_curr_line = curr_line_length = 0
         elif lookahead_line_length > L:
-            result.append(join_a_line_with_space(
-                words, curr_line_start, i - 1, L - curr_line_length))
+            result.append(
+                join_a_line_with_space(words, curr_line_start, i - 1, L -
+                                       curr_line_length))
             curr_line_start = i
             num_words_curr_line = 1
             curr_line_length = len(word)
@@ -28,8 +30,8 @@ def justify_text(words, L):
 
     # Handles the last line. Last line is to be left-aligned.
     if num_words_curr_line > 0:
-        line = join_a_line_with_space(words, curr_line_start, len(words) - 1,
-                                      num_words_curr_line - 1)
+        line = join_a_line_with_space(words, curr_line_start,
+                                      len(words) - 1, num_words_curr_line - 1)
         line += ' ' * (L - curr_line_length - (num_words_curr_line - 1))
         result.append(line)
     return result
@@ -45,8 +47,7 @@ def join_a_line_with_space(words, start, end, num_spaces):
         num_curr_space = math.ceil(num_spaces / num_words_curr_line)
         line.append(' ' * num_curr_space)
         num_spaces -= num_curr_space
-    line.append(words[end])
-    line.append(' ' * num_spaces)
+    line.append(words[end] + ' ' * num_spaces)
     return ''.join(line)
 
 
@@ -62,10 +63,10 @@ def test_case(words, L, golden):
 
 
 def main():
-    words = ['Text', 'justification', 'is', 'trickier', 'than',
-             'it',   'seems!']
-    golden = ['Text          ', 'justification ',
-              'is    trickier', 'than it seems!']
+    words = ['Text', 'justification', 'is', 'trickier', 'than', 'it', 'seems!']
+    golden = [
+        'Text          ', 'justification ', 'is    trickier', 'than it seems!'
+    ]
     L = 14
     print('L =', L)
     test_case(words, L, golden)
@@ -74,10 +75,14 @@ def main():
     L = 6
     print('L =', L)
     test_case(words, L, golden)
-    words = ['The',  'quick', 'brown', 'fox', 'jumped',
-             'over', 'the',   'lazy',  'dogs.']
-    golden = ['The   quick', 'brown   fox', 'jumped over', 'the    lazy',
-              'dogs.      ']
+    words = [
+        'The', 'quick', 'brown', 'fox', 'jumped', 'over', 'the', 'lazy',
+        'dogs.'
+    ]
+    golden = [
+        'The   quick', 'brown   fox', 'jumped over', 'the    lazy',
+        'dogs.      '
+    ]
     L = 11
     print('L =', L)
     test_case(words, L, golden)

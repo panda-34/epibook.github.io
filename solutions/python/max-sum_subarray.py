@@ -7,11 +7,11 @@ import itertools
 # @include
 def find_maximum_subarray(A):
     min_sum = max_sum = 0
-    for sum_ in itertools.accumulate(A):
-        if sum_ < min_sum:
-            min_sum = sum_
-        if sum_ - min_sum > max_sum:
-            max_sum = sum_ - min_sum
+    for running_sum in itertools.accumulate(A):
+        if running_sum < min_sum:
+            min_sum = running_sum
+        if running_sum - min_sum > max_sum:
+            max_sum = running_sum - min_sum
     return max_sum
 
 
@@ -24,10 +24,10 @@ def rand_vector(length):
 
 def check_max_sum(A, max_sum):
     for i in range(len(A)):
-        sum_ = 0
+        running_sum = 0
         for j in range(i, len(A)):
-            sum_ += A[j]
-            assert sum_ <= max_sum
+            running_sum += A[j]
+            assert running_sum <= max_sum
 
 
 def small_test():

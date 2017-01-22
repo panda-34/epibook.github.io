@@ -1,5 +1,5 @@
 # Convert_base.cpp b4b3a70d8ab942579f85b4416f980d05831af969
-from functools import reduce
+import functools
 import sys
 import random
 import string
@@ -8,7 +8,7 @@ import string
 # @include
 def convert_base(num_as_string, b1, b2):
     is_negative = num_as_string[0] == '-'
-    num_as_int = reduce(
+    num_as_int = functools.reduce(
         lambda x, c: x * b1 + (ord(c) - ord('0') if c.isdigit() else ord(c) - ord('A') + 10),
         num_as_string[1 if is_negative else 0:], 0)
     return ('-' if is_negative else '') + ('0' if num_as_int == 0 else
@@ -20,6 +20,8 @@ def construct_from_base(num_as_int, base):
         num_as_int // base, base) + chr(
             ord('A') + num_as_int % base - 10
             if num_as_int % base >= 10 else ord('0') + num_as_int % base)
+
+
 # @exclude
 
 
