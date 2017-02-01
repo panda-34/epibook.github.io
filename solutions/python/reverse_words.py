@@ -16,9 +16,9 @@ def rand_string(length):
 
 
 # @include
+# Assume s is a string encoded as bytearray.
 def reverse_words(s):
-    # As python strings are immutable, we'll use bytearray instead of a string.
-    # Reverses the whole string first.
+    # First, reverse the whole string.
     s.reverse()
 
     start = 0
@@ -31,6 +31,8 @@ def reverse_words(s):
         start = end + 1
     # Reverses the last word.
     s[start:] = reversed(s[start:])
+
+
 # @exclude
 
 

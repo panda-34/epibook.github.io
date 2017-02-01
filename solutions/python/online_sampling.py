@@ -7,13 +7,15 @@ import random
 def online_sampling(n, k):
     changed_elements = {}
     for i in range(k):
-        # Generate a random index in [i, n - 1].
+        # Generate a random index between i and n - 1, inclusive.
         rand_idx = random.randrange(i, n)
         rand_idx_mapped, i_mapped = changed_elements.get(
             rand_idx, rand_idx), changed_elements.get(i, i)
         changed_elements[rand_idx], changed_elements[
             i] = i_mapped, rand_idx_mapped
     return [changed_elements[i] for i in range(k)]
+
+
 # @exclude
 
 

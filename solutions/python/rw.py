@@ -12,17 +12,19 @@ def do_something_else():
 # They serve as read and write locks. The integer
 # variable read_count in RW tracks the number of readers.
 class Reader(threading.Thread):
-# @exclude
+    # @exclude
     def __init__(self, name):
         super().__init__(name=name, daemon=True)
 # @include
+
     def run(self):
         while True:
             with RW.LR:
                 RW.read_count += 1
+
 # @exclude
             print('Reader', self.name, 'is about to read')
-# @include
+            # @include
             print(RW.data)
             with RW.LR:
                 RW.read_count -= 1
@@ -31,10 +33,11 @@ class Reader(threading.Thread):
 
 
 class Writer(threading.Thread):
-# @exclude
+    # @exclude
     def __init__(self, name):
         super().__init__(name=name, daemon=True)
 # @include
+
     def run(self):
         while True:
             with RW.LW:
@@ -42,9 +45,9 @@ class Writer(threading.Thread):
                 while not done:
                     with RW.LR:
                         if RW.read_count == 0:
-# @exclude
+                            # @exclude
                             print('Writer', self.name, 'is about to write')
-# @include
+                            # @include
                             RW.data += 1
                             done = True
                         else:
@@ -52,6 +55,8 @@ class Writer(threading.Thread):
                             while RW.read_count != 0:
                                 RW.LR.wait()
             do_something_else()
+
+
 # @exclude
 
 
@@ -67,8 +72,10 @@ def main():
     r1 = Reader('r1')
     w0 = Writer('w0')
     w1 = Writer('w1')
-    r0.start(); r1.start()
-    w0.start(); w1.start()
+    r0.start()
+    r1.start()
+    w0.start()
+    w1.start()
     time.sleep(10)
 
 

@@ -13,10 +13,17 @@ def minimum_path_weight(triangle):
 
 # @exclude
 
+import functools
+
+
+def minimum_path_weight_pythonic(triangle):
+    return min(functools.reduce(lambda res, tri: [r + min(a, b) for r, a, b in zip(
+        tri, [float('inf')] + res, res + [float('inf')])], triangle, [0]))
+
 
 def main():
     A = [[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]
-    assert 11 == minimum_path_weight(A)
+    assert 11 == minimum_path_weight(A) == minimum_path_weight_pythonic(A)
 
 
 if __name__ == '__main__':

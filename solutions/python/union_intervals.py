@@ -1,7 +1,6 @@
 # Union_intervals.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
 import sys
 import collections
-import copy
 import random
 
 # @include
@@ -28,7 +27,7 @@ def union_of_intervals(intervals):
 
     # Sort intervals according to left endpoints of intervals.
     intervals.sort()
-    curr = copy.copy(intervals[0])
+    curr = Interval(intervals[0].left, intervals[0].right)
     result = []
     for i in range(1, len(intervals)):
         if (intervals[i].left.val < curr.right.val or
@@ -40,7 +39,7 @@ def union_of_intervals(intervals):
                 curr.right = intervals[i].right
         else:
             result.append(curr)
-            curr = copy.copy(intervals[i])
+            curr = Interval(intervals[i].left, intervals[i].right)
     result.append(curr)
     return result
 

@@ -20,21 +20,24 @@ def snake_string(s):
         result.append(s[i])
 
     return ''.join(result)
-# @exclude
 
 
 def snake_string_pythonic(s):
     return s[1::4] + s[::2] + s[3::4]
 
 
+# @exclude
+
+
 def rand_string(length):
-    ret = (random.choice(string.ascii_uppercase) for i in range(length))
-    return ''.join(ret)
+    return ''.join(
+        random.choice(string.ascii_uppercase) for _ in range(length))
 
 
 def small_test():
-    assert snake_string('Hello World!') == 'e lHloWrdlo!'
-    assert snake_string_pythonic('Hello World!') == 'e lHloWrdlo!'
+    assert snake_string(
+        'Hello World!') == 'e lHloWrdlo!' == snake_string_pythonic(
+            'Hello World!') == 'e lHloWrdlo!'
 
 
 def main():

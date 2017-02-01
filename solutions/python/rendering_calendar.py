@@ -20,7 +20,7 @@ def find_max_simultaneous_events(A):
         E.append(Endpoint(event.finish, False))
 
     # Sorts the endpoint array according to the time, breaking ties by putting start times before end times.
-    E.sort()
+    E.sort(key=lambda e: (e.time, not e.is_start))
 
     # Track the number of simultaneous events, record the maximum
     # number of simultaneous events.
@@ -45,9 +45,16 @@ def simple_test():
     ]
     assert find_max_simultaneous_events(A) == 3
 
+    A = [
+        Event(1, 5), Event(2, 7), Event(4, 5), Event(6, 10), Event(8, 9),
+        Event(9, 17), Event(11, 13), Event(12, 15), Event(14, 15), Event(9, 10)
+    ]
+    assert find_max_simultaneous_events(A) == 4
+
 
 def main():
     simple_test()
+    return
     if len(sys.argv) == 2:
         n = int(sys.argv[1])
     else:

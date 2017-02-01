@@ -1,0 +1,3 @@
+[style]
+based_on_style = pep8
+BLANK_LINE_BEFORE_NESTED_CLASS_OR_DEF=False

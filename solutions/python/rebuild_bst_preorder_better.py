@@ -1,33 +1,35 @@
 # Rebuild_BST_preorder_better.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
 from binary_tree_prototype import BinaryTreeNode
 
-
 # @include
+# Global variable, tracks current subtree.
+root_idx = 0
+
+
 def rebuild_BST_from_preorder(preorder_sequence):
-    root_idx = 0
-    return rebuild_BST_from_preorder_on_value_range(preorder_sequence,
-                                                    float('-inf'),
-                                                    float('inf'), root_idx)[0]
+    return rebuild_BST_from_preorder_on_value_range(
+        preorder_sequence, float('-inf'), float('inf'))
 
 
 # Builds a BST on the subtree rooted at root_idx from preorder_sequence on
 # keys in (lower_bound, upper_bound).
 def rebuild_BST_from_preorder_on_value_range(preorder_sequence, lower_bound,
-                                             upper_bound, root_idx):
+                                             upper_bound):
+    global root_idx
     if root_idx == len(preorder_sequence):
-        return None, root_idx
+        return None
 
     root = preorder_sequence[root_idx]
     if root < lower_bound or root > upper_bound:
-        return None, root_idx
+        return None
     root_idx += 1
     # Note that rebuild_BST_from_preorder_on_value_range updates root_idx. So the
     # order of following two calls are critical.
-    left_subtree, root_idx = rebuild_BST_from_preorder_on_value_range(
-        preorder_sequence, lower_bound, root, root_idx)
-    right_subtree, root_idx = rebuild_BST_from_preorder_on_value_range(
-        preorder_sequence, root, upper_bound, root_idx)
-    return BinaryTreeNode(root, left_subtree, right_subtree), root_idx
+    left_subtree = rebuild_BST_from_preorder_on_value_range(preorder_sequence,
+                                                            lower_bound, root)
+    right_subtree = rebuild_BST_from_preorder_on_value_range(preorder_sequence,
+                                                             root, upper_bound)
+    return BinaryTreeNode(root, left_subtree, right_subtree)
 
 
 # @exclude

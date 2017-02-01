@@ -13,11 +13,7 @@ class Team:
     @staticmethod
     def valid_placement_exists(A, B):
         return all(a < b
-                   for a, b in zip(A._sort_players_by_height(),
-                                   B._sort_players_by_height()))
-
-    def _sort_players_by_height(self):
-        return sorted(self._players)
+                   for a, b in zip(sorted(A._players), sorted(B._players)))
 
 
 # @exclude

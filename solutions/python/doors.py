@@ -6,15 +6,8 @@ import math
 
 # @include
 def is_door_open(i):
-    sqrt_i = math.sqrt(i)
-    floor_sqrt_i = math.floor(sqrt_i)
-    return floor_sqrt_i ** 2 == i
-# @exclude
-
-
-# Pythonic solution
-def is_door_open_pythonic(i):
     return math.sqrt(i).is_integer()
+# @exclude
 
 
 def check_answer(n):
@@ -26,7 +19,7 @@ def check_answer(n):
             doors[start] = not doors[start]
 
     for i in range(1, n+1):
-        assert doors[i] == is_door_open(i) == is_door_open_pythonic(i)
+        assert doors[i] == is_door_open(i)
 
 
 def main():

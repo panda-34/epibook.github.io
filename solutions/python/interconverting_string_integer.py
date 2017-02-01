@@ -1,5 +1,5 @@
 # Interconverting_string_integer.cpp 69dab7578339012270872ba200cfff02f59ce894
-from functools import reduce
+import functools
 import string
 import sys
 import random
@@ -37,13 +37,45 @@ def int_to_string(x):
 
 
 def string_to_int(s):
-    result = reduce(lambda x, c: x * 10 + ord(c) - ord('0'),
-                    s[1 if s[0] == '-' else 0:], 0)
+    result = functools.reduce(
+        lambda running_sum, c: running_sum * 10 + ord(c) - ord('0'),
+        s[1 if s[0] == '-' else 0:], 0)
     return -result if s[0] == '-' else result
+
+
 # @exclude
 
 
+def directed_tests():
+    assert '0' == int_to_string(0)
+    assert '-1' == int_to_string(-1)
+    assert '1' == int_to_string(1)
+    assert '2' == int_to_string(2)
+    assert '-2' == int_to_string(-2)
+    assert '9' == int_to_string(9)
+    assert '10' == int_to_string(10)
+    assert '123' == int_to_string(123)
+    assert '2147483646' == int_to_string(2147483646)
+    assert '2147483647' == int_to_string(2147483647)
+    assert '-2147483647' == int_to_string(-2147483647)
+    assert '-2147483648' == int_to_string(-2147483648)
+
+    assert 0 == string_to_int('0')
+    assert -1 == string_to_int('-1')
+    assert 1 == string_to_int('1')
+    assert 2 == string_to_int('2')
+    assert -2 == string_to_int('-2')
+    assert 9 == string_to_int('9')
+    assert 10 == string_to_int('10')
+    assert 123 == string_to_int('123')
+    assert 2147483646 == string_to_int('2147483646')
+    assert 2147483647 == string_to_int('2147483647')
+    assert -2147483648 == string_to_int('-2147483648')
+    assert -2147483647 == string_to_int('-2147483647')
+
+
 def main():
+    directed_tests()
     if len(sys.argv) == 2:
         print(string_to_int(sys.argv[1]))
     else:

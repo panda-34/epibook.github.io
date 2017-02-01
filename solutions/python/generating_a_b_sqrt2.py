@@ -17,10 +17,11 @@ class ABSqrt2:
 
     def __lt__(self, other):
         return self.val < other.val
-# @exclude
 
     def __eq__(self, other):
         return self.val == other.val
+
+# @exclude
 
     def __hash__(self):
         return self.a ^ self.b
@@ -87,6 +88,7 @@ def simple_test():
 
 def main():
     simple_test()
+    return
     for times in range(1000):
         if len(sys.argv) == 2:
             k = int(sys.argv[1])

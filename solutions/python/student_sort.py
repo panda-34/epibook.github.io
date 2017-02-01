@@ -1,7 +1,11 @@
-import collections
-
 # @include
-Student = collections.namedtuple('Student', ('name', 'grade_point_average'))
+class Student(object):
+    def __init__(self, name, grade_point_average):
+        self.name = name
+        self.grade_point_average = grade_point_average
+
+    def __lt__(self, other):
+        return self.name < other.name
 
 
 def sort_by_gpa(students):
@@ -9,7 +13,7 @@ def sort_by_gpa(students):
 
 
 def sort_by_name(students):
-    students[:] = sorted(students, key=lambda student: student.name)
+    students[:] = sorted(students)
 
 
 # @exclude

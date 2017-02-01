@@ -5,39 +5,39 @@ class BinaryTreeNode:
         self.left = None
         self.right = None
         self.parent = None
-        self.__locked = False
-        self.__num_locked_descendants = 0
+        self._locked = False
+        self._num_locked_descendants = 0
 
     def is_locked(self):
-        return self.__locked
+        return self._locked
 
     def lock(self):
         # We cannot lock if any of this node's descendants are locked.
-        if self.__num_locked_descendants > 0 or self.__locked:
+        if self._num_locked_descendants > 0 or self._locked:
             return False
 
         # We cannot lock if any of this node's ancestors are locked.
         it = self.parent
         while it:
-            if it.__locked:
+            if it._locked:
                 return False
             it = it.parent
 
         # Lock this node and increments all its ancestors's descendant counts.
-        self.__locked = True
+        self._locked = True
         it = self.parent
         while it:
-            it.__num_locked_descendants += 1
+            it._num_locked_descendants += 1
             it = it.parent
         return True
 
     def unlock(self):
-        if self.__locked:
+        if self._locked:
             # Unlocks itself and decrements its ancestors's lock counts.
-            self.__locked = False
+            self._locked = False
             it = self.parent
             while it:
-                it.__num_locked_descendants -= 1
+                it._num_locked_descendants -= 1
                 it = it.parent
 
 

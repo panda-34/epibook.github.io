@@ -13,40 +13,18 @@ def find_student_with_highest_best_of_three_scores(ifs):
     for line in ifs:
         name, score = line.split()
         score = int(score)
-        scores = student_scores[name]
-        heapq.heappush(scores, -score)
-        if len(scores) > 3:
-            heapq.heappop(scores)
-
-    top_student = 'no such student'
-    current_top_three_scores_sum = 0
-    for name, scores in student_scores.items():
-        if len(scores) == 3:
-            current_scores_sum = -sum(scores)
-            if current_scores_sum > current_top_three_scores_sum:
-                current_top_three_scores_sum = current_scores_sum
-                top_student = name
-    return top_student
-
-
-# @exclude
-
-
-def find_student_with_highest_best_of_three_scores_pythionic(ifs):
-    student_scores = collections.defaultdict(list)
-    for line in ifs:
-        name, score = line.split()
-        score = int(score)
-        scores = student_scores[name]
-        if len(scores) < 3:
-            heapq.heappush(scores, -score)
+        if len(student_scores[name]) < 3:
+            heapq.heappush(student_scores[name], score)
         else:
-            heapq.heappushpop(scores, -score)
+            heapq.heappushpop(student_scores[name], score)
 
-    return max([(-sum(scores), name) for name, scores in student_scores.items()
+    return max([(sum(scores), name) for name, scores in student_scores.items()
                 if len(scores) == 3],
                key=operator.itemgetter(0),
                default='no such student')[1]
+
+
+# @exclude
 
 
 def rand_string(length):
@@ -56,8 +34,7 @@ def rand_string(length):
 
 def simple_test():
     with open('scores.txt', 'w') as ofs:
-        ofs.write('''
-adnan 100
+        ofs.write('''adnan 100
 amit 99
 adnan 98
 thl 90
@@ -65,8 +42,9 @@ adnan 10
 amit 100
 thl 99
 thl 95
-adnan 95
-''')
+dd 100
+dd 100
+adnan 95''')
     with open('scores.txt') as ifs:
         result = find_student_with_highest_best_of_three_scores(ifs)
     print('result =', result)
@@ -74,6 +52,7 @@ adnan 95
 
 
 def main():
+    simple_test()
     if len(sys.argv) == 2:
         n = int(sys.argv[1])
     else:
@@ -88,8 +67,6 @@ def main():
     with open('scores.txt') as ifs:
         name = find_student_with_highest_best_of_three_scores(ifs)
         ifs.seek(0)
-        assert name == find_student_with_highest_best_of_three_scores_pythionic(
-            ifs)
     print('top student is', name)
 
 

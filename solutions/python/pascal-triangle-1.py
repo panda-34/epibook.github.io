@@ -5,12 +5,14 @@ import random
 
 # @include
 def generate_pascal_triangle(n):
-    pascal_triangle = [[1] * (i + 1) for i in range(n)]
+    result = [[1] * (i + 1) for i in range(n)]
     for i in range(n):
         for j in range(1, i):
-            pascal_triangle[i][j] = pascal_triangle[i - 1][
-                j - 1] + pascal_triangle[i - 1][j]
-    return pascal_triangle
+            # Sets this entry to the sum of the two above adjacent entries.
+            result[i][j] = result[i - 1][j - 1] + result[i - 1][j]
+    return result
+
+
 # @exclude
 
 

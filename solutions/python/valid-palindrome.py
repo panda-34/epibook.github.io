@@ -21,6 +21,7 @@ def is_palindrome(s):
 # @exclude
 
 
+# Use O(n) additional space by storing another filered string.
 def is_palindrome_pythonic(s):
     ss = [c.lower() for c in s if c.isalnum()]
     return ss == ss[::-1]
