@@ -1,14 +1,15 @@
 # triangle.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
 # @include
 def minimum_path_weight(triangle):
-    result = [0]
+    min_weight_to_curr_row = [0]
     for row in triangle:
-        result = [
-            row[i] + min(result[max(i - 1, 0)],
-                         result[min(i, len(result) - 1)])
-            for i in range(len(row))
+        min_weight_to_curr_row = [
+            row[j] + min(min_weight_to_curr_row[max(j - 1, 0)],
+                         min_weight_to_curr_row[min(
+                             j, len(min_weight_to_curr_row) - 1)])
+            for j in range(len(row))
         ]
-    return min(result)
+    return min(min_weight_to_curr_row)
 
 
 # @exclude

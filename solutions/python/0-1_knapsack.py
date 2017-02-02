@@ -5,7 +5,7 @@ import collections
 
 
 def rand_vector(length):
-    return [random.randrange(100) for i in range(length)]
+    return [random.randrange(100) for _ in range(length)]
 
 
 # @include
@@ -13,28 +13,25 @@ Item = collections.namedtuple('Item', ('weight', 'value'))
 
 
 def optimum_subjec_to_capacity(items, capacity):
+    # Returns the optimum value when we choose from items[0 : k] and have a capacity of available_capacity.
+    def optimum_subject_to_item_and_capacity(k, available_capacity):
+        if k < 0:
+            # No items can be chosen.
+            return 0
+
+        if V[k][available_capacity] == -1:
+            without_curr_item = optimum_subject_to_item_and_capacity(
+                k - 1, available_capacity)
+            with_curr_item = 0 if available_capacity < items[k].weight else (
+                items[k].value + optimum_subject_to_item_and_capacity(
+                    k - 1, available_capacity - items[k].weight))
+            V[k][available_capacity] = max(without_curr_item, with_curr_item)
+        return V[k][available_capacity]
+
     # V[i][j] holds the optimum value when we choose from items[0 : i] and have
     # a capacity of j.
-    return optimum_subject_to_item_and_capacity(
-        items,
-        len(items) - 1, capacity, [[-1] * (capacity + 1) for i in items])
-
-
-# Returns the optimum value when we choose from items[0 : k] and have a
-# capacity of available_capacity.
-def optimum_subject_to_item_and_capacity(items, k, available_capacity, V):
-    if k < 0:
-        # No items can be chosen.
-        return 0
-
-    if V[k][available_capacity] == -1:
-        without_curr_item = optimum_subject_to_item_and_capacity(
-            items, k - 1, available_capacity, V)
-        with_curr_item = 0 if available_capacity < items[k].weight else (
-            items[k].value + optimum_subject_to_item_and_capacity(
-                items, k - 1, available_capacity - items[k].weight, V))
-        V[k][available_capacity] = max(without_curr_item, with_curr_item)
-    return V[k][available_capacity]
+    V = [[-1] * (capacity + 1) for _ in items]
+    return optimum_subject_to_item_and_capacity(len(items) - 1, capacity)
 
 
 # @exclude

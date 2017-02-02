@@ -8,7 +8,6 @@ import sortedcontainers
 
 # @include
 class ABSqrt2:
-
     def __init__(self, a, b):
         self.a = a
         self.b = b
@@ -16,16 +15,19 @@ class ABSqrt2:
 
     def __lt__(self, other):
         return self.val < other.val
-# @exclude
 
     def __eq__(self, other):
         return self.val == other.val
+
+# @exclude
 
     def __hash__(self):
         return self.a ^ self.b
 
     def __repr__(self):
         return r'%d + %d \/2' % (self.a, self.b)
+
+
 # @include
 
 
@@ -42,6 +44,8 @@ def generate_first_k_a_b_sqrt2(k):
         if result_j_plus_sqrt2.val == result[-1].val:
             j += 1
     return result
+
+
 # @exclude
 
 

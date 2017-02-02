@@ -53,24 +53,21 @@ class BinarySearchTree:
             while r_key_node.left:
                 r_parent = r_key_node
                 r_key_node = r_key_node.left
+            key_node.data = r_key_node.data
             # Moves links to erase the node.
-            r_key_node.left = key_node.left
-            key_node.left = None
-            if r_parent.left is r_key_node:
+            if r_parent.left == r_key_node:
                 r_parent.left = r_key_node.right
-                r_key_node.right = key_node.right
-            key_node.right = None
-            self._replace_parent_child_link(parent, key_node, r_key_node)
-
-            # Updates _root link if needed.
-            if self._root is key_node:
-                self._root = r_key_node
+            else:  # r_parent.right == r_key_node.
+                r_parent.right = r_key_node.right
         else:
             # Updates _root link if needed.
-            if self._root is key_node:
+            if self._root == key_node:
                 self._root = key_node.left
-            self._replace_parent_child_link(parent, key_node, key_node.left)
-            key_node.left = None
+            else:
+                if parent.left == key_node:
+                    parent.left == key_node.left
+                else:  # parent.right == key_node.
+                    parent.right = key_node.left
         return True
 
     # @exclude
@@ -79,20 +76,7 @@ class BinarySearchTree:
         return self._root.data
 
     # @include
-
-    # Replaces the link between parent and child by new_link.
-    @staticmethod
-    def _replace_parent_child_link(parent, child, new_link):
-        if not parent:
-            return
-
-        if parent.left is child:
-            parent.left = new_link
-        else:  # parent.right is child.
-            parent.right = new_link
-
-
-# @exclude
+    # @exclude
 
 
 def main():

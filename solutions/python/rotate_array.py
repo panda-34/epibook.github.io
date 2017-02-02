@@ -8,6 +8,20 @@ import rotate_array_permutation
 # @include
 def rotate_array(i, A):
     i %= len(A)
+
+    def reverse(begin, end):
+        while begin < end:
+            A[begin], A[end] = A[end], A[begin]
+            begin, end = begin + 1, end - 1
+
+    reverse(0, len(A) - 1)
+    reverse(0, i - 1)
+    reverse(i, len(A) - 1)
+
+
+# Though natural, use of sublists leads to copy from original list, and therefore linear space complexity.
+def rotate_array_naive(i, A):
+    i %= len(A)
     A[:] = A[::-1]  # reverse whole list
     A[:i] = A[:i][::-1]  # reverse [:i] part
     A[i:] = A[i:][::-1]  # reverse [i:] part

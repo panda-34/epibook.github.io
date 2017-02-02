@@ -1,30 +1,35 @@
 # Sorted_list_to_BST.cc bd9b3e8c6bc4755e176bbf01d16d2a77b2bf5147
 from linked_list_prototype import ListNode
 
-
 # @include
 # Returns the root of the corresponding BST. The prev and next fields of the
 # list nodes are used as the BST nodes left and right fields, respectively.
 # The length of the list is given.
+head = None
+
+
 def build_BST_from_sorted_doubly_list(L, n):
-    return Build_BST_from_sorted_doubly_list_helper(L, 0, n)[0]
+    global head
+    head = L
+    return build_BST_from_sorted_doubly_list_helper(0, n)
 
 
 # Builds a BST from the (start + 1)-th to the end-th node, inclusive, in L,
 # and returns the root.
-def Build_BST_from_sorted_doubly_list_helper(L, start, end):
+def build_BST_from_sorted_doubly_list_helper(start, end):
     if start >= end:
-        return None, L
+        return None
 
     mid = start + ((end - start) // 2)
-    left, L = Build_BST_from_sorted_doubly_list_helper(L, start, mid)
+    left = build_BST_from_sorted_doubly_list_helper(start, mid)
     # The last function call sets L to the successor of the maximum node in
     # the tree rooted at left.
-    curr = L
-    L = L.next
+    global head
+    curr = head
+    head = head.next
     curr.prev = left
-    curr.next, L = Build_BST_from_sorted_doubly_list_helper(L, mid + 1, end)
-    return curr, L
+    curr.next = build_BST_from_sorted_doubly_list_helper(mid + 1, end)
+    return curr
 
 
 # @exclude

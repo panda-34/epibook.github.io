@@ -33,16 +33,15 @@ import collections
 
 
 def is_valid_sudoku_pythonic(partial_assignment):
-    return max(
-        list(
-            collections.Counter(
-                k
-                for i, row in enumerate(partial_assignment)
-                for j, c in enumerate(row)
-                if c != 0 for k in ((i, c), (c, j), (i / int(
-                    math.sqrt(len(partial_assignment))), j / int(
-                        math.sqrt(len(partial_assignment))), c)))
-            .values()) + [0]) <= 1
+    region_size = int(math.sqrt(len(partial_assignment)))
+    return max(list(
+        collections.Counter(k
+                            for i, row in enumerate(partial_assignment)
+                            for j, c in enumerate(row)
+                            if c != 0 for k in ((i, str(c)), (str(c), j), (
+                                i / region_size, j / region_size, str(c))))
+        .values()),
+               default=0) <= 1
 
 
 def main():
