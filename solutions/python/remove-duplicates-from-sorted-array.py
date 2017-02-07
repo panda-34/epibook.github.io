@@ -15,12 +15,13 @@ def delete_duplicates(A):
             write_index += 1
 
     return write_index
+
+
 # @exclude
 
 
 def check_ans(A, n):
-    for i in range(1, n):
-        assert A[i - 1] != A[i]
+    all(A[i - 1] != A[i] for i in range(1, n))
 
 
 def small_test():
@@ -30,11 +31,7 @@ def small_test():
 
 def main():
     small_test()
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(0, 10000)
-
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(0, 10000)
     for _ in range(1000):
         A = sorted(random.randint(-1000, 1000) for i in range(n))
         B = sorted(set(A))

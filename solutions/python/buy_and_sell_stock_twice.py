@@ -31,19 +31,20 @@ def buy_and_sell_stock_twice(prices):
 
 def check_ans(A):
     cap = max(0,
-              max([A[i] - A[j] for i in range(1, len(A)) for j in range(i)] or
-                  [0]))
+              max([A[i] - A[j] for i in range(1, len(A)) for j in range(i)],
+                  default=0))
     return max(cap,
                max([
                    A[d] - A[c] + A[b] - A[a]
                    for a, b, c, d in itertools.combinations(range(len(A)), 4)
-               ] or [0]))
+               ],
+                   default=0))
 
 
 def main():
     for _ in range(1000):
         n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 100)
-        a = [random.uniform(0, 10000) for i in range(n)]
+        a = [random.uniform(0, 10000) for _ in range(n)]
         assert math.isclose(check_ans(a), buy_and_sell_stock_twice(a))
 
 

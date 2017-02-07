@@ -47,10 +47,8 @@ def small_test():
 
 def main():
     small_test()
-    if len(sys.argv) == 2:
-        x = int(sys.argv[1])
-    else:
-        x = random.randint(0, sys.maxsize)
+    x = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(0,
+                                                                   sys.maxsize)
     try:
         res = closest_int_same_bit_count(x)
         print(x, res)

@@ -17,14 +17,14 @@ def buy_and_sell_stock_once(prices):
 
 def check_ans(h):
     """O(n^2) checking answer."""
-    return max([h[i] - h[j] for i in range(1, len(h)) for j in range(i)] or
-               [0])
+    return max([h[i] - h[j] for i in range(1, len(h)) for j in range(i)],
+               default=0)
 
 
 def main():
     for _ in range(1000):
         n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 1000)
-        a = [random.uniform(0, n) for i in range(n)]
+        a = [random.uniform(0, n) for _ in range(n)]
         print(buy_and_sell_stock_once(a))
         assert check_ans(a) == buy_and_sell_stock_once(a)
 

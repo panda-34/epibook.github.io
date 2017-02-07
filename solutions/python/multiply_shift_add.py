@@ -5,33 +5,29 @@ import random
 
 # @include
 def multiply(x, y):
+    def add(a, b):
+        sum, carryin, k, temp_a, temp_b = 0, 0, 1, a, b
+        while temp_a or temp_b:
+            ak, bk = a & k, b & k
+            carryout = (ak & bk) | (ak & carryin) | (bk & carryin)
+            sum |= ak ^ bk ^ carryin
+            carryin, k, temp_a, temp_b = carryout << 1, k << 1, temp_a >> 1, temp_b >> 1
+        return sum | carryin
+
     sum = 0
     while x:  # Examines each bit of x.
         if x & 1:
             sum = add(sum, y)
-        x >>= 1
-        y <<= 1
+        x, y = x >> 1, y << 1
     return sum
 
 
-def add(a, b):
-    sum, carryin, k, temp_a, temp_b = 0, 0, 1, a, b
-    while temp_a or temp_b:
-        ak, bk = a & k, b & k
-        carryout = (ak & bk) | (ak & carryin) | (bk & carryin)
-        sum |= ak ^ bk ^ carryin
-        carryin = carryout << 1
-        k <<= 1
-        temp_a >>= 1
-        temp_b >>= 1
-    return sum | carryin
 # @exclude
 
 
 def main():
     if len(sys.argv) == 3:
-        x = int(sys.argv[1])
-        y = int(sys.argv[2])
+        x, y = int(sys.argv[1]), int(sys.argv[2])
         res = multiply(x, y)
         assert res == x * y
         print('x = %d, y = %d, prod = %d' % (x, y, res))

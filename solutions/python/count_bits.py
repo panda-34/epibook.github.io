@@ -14,6 +14,10 @@ def count_bits(x):
 # @exclude
 
 
+def count_bits_pythonic(x):
+    return bin(x).count('1')
+
+
 def main():
     if len(sys.argv) == 4:
         x = int(sys.argv[1])

@@ -16,7 +16,7 @@ def check_answer(s):
 
 def rand_string(length):
     return ''.join(
-        random.choice(string.ascii_lowercase) for i in range(length))
+        random.choice(string.ascii_lowercase) for _ in range(length))
 
 
 def main():

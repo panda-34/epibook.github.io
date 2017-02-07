@@ -16,6 +16,8 @@ def plus_one(A):
         A[0] = 0
         A.insert(0, 1)
     return A
+
+
 # @exclude
 
 
@@ -23,7 +25,7 @@ def rand_vector(length):
     if not length:
         return [0]
     A = [random.randint(1, 9)]
-    A += [random.randint(0, 9) for i in range(length - 1)]
+    A += [random.randint(0, 9) for _ in range(length - 1)]
     return A
 
 
@@ -36,10 +38,7 @@ def small_test():
 
 def main():
     small_test()
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(0, 1000)
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(0, 1000)
     A = rand_vector(n)
     print(*A, sep='')
     result = plus_one(A)

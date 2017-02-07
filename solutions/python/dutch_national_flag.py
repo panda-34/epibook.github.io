@@ -19,8 +19,7 @@ def dutch_flag_partition(pivot_index, A):
         # A[equal] is the incoming unclassified element.
         if A[equal] < pivot:
             A[smaller], A[equal] = A[equal], A[smaller]
-            smaller += 1
-            equal += 1
+            smaller, equal = smaller + 1, equal + 1
         elif A[equal] == pivot:
             equal += 1
         else:  # A[equal] > pivot.

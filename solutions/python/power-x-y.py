@@ -6,17 +6,16 @@ import random
 
 # @include
 def power_x_y(x, y):
-    result = 1.0
-    power = y
+    result, power = 1.0, y
     if y < 0:
-        power = -power
-        x = 1.0 / x
+        power, x = -power, 1.0 / x
     while power:
         if power & 1:
             result *= x
-        x *= x
-        power >>= 1
+        x, power = x * x, power >> 1
     return result
+
+
 # @exclude
 
 

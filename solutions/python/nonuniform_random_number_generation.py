@@ -13,14 +13,13 @@ def nonuniform_random_number_generation(values, probabilities):
     interval_idx = bisect.bisect(prefix_sum_of_probabilities,
                                  random.random()) - 1
     return values[interval_idx]
+
+
 # @exclude
 
 
 def main():
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(1, 50)
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 50)
     T = [float(i) for i in range(n)]
     P = []
     full_prob = 1.0

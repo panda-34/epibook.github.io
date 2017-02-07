@@ -18,13 +18,14 @@ def is_palindrome_number(x):
         x //= 10  # Remove the least significant digit of x.
         msd_mask //= 100
     return True
+
+
 # @exclude
 
 
 def check_ans(x):
     s = str(x)
-    i = 0
-    j = len(s) - 1
+    i, j = 0, len(s) - 1
     while i < j:
         if s[i] != s[j]:
             return False

@@ -37,6 +37,8 @@ def divide(x, y):
         result += 1 << power
         x -= y_power
     return result
+
+
 # @exclude
 
 
@@ -63,8 +65,7 @@ def simple_test():
 def main():
     simple_test()
     if len(sys.argv) == 3:
-        x = int(sys.argv[1])
-        y = int(sys.argv[2])
+        x, y = int(sys.argv[1]), int(sys.argv[2])
         assert x // y == divide(x, y) == divide_bsearch(x, y)
     else:
         for times in range(100000):

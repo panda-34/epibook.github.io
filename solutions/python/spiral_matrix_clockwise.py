@@ -24,6 +24,8 @@ def matrix_layer_in_clockwise(square_matrix, offset, spiral_ordering):
     spiral_ordering.extend(square_matrix[-1 - offset][-1 - offset:offset:-1])
     spiral_ordering.extend(
         list(zip(*square_matrix))[offset][-1 - offset:offset:-1])
+
+
 # @exclude
 
 
@@ -36,7 +38,7 @@ def main():
     simple_test()
     N = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 50)
     k = itertools.count(1)
-    A = [[next(k) for j in range(N)] for i in range(N)]
+    A = [[next(k) for _ in range(N)] for _ in range(N)]
     matrix_in_spiral_order(A)
 
 

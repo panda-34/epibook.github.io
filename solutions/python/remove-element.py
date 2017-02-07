@@ -12,6 +12,8 @@ def delete_key(k, A):
             A[write_idx] = a
             write_idx += 1
     return write_idx
+
+
 # @exclude
 
 
@@ -26,13 +28,9 @@ def check_ans(A, n, k):
 
 
 def main():
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(0, 10000)
-
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(0, 10000)
     for _ in range(1000):
-        A = [random.randint(-1000, 1000) for i in range(n)]
+        A = [random.randint(-1000, 1000) for _ in range(n)]
         copy_A = A.copy()
         target = random.randint(-1000, 1000)
         size = delete_key(target, A)

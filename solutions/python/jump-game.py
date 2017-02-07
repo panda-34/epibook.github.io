@@ -11,6 +11,8 @@ def can_reach_end(A):
         furthest_reach_so_far = max(furthest_reach_so_far, A[i] + i)
         i += 1
     return furthest_reach_so_far >= last_index
+
+
 # @exclude
 
 
@@ -24,12 +26,8 @@ def small_test():
 
 def main():
     small_test()
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(1, 1000)
-
-    A = [random.randint(1, 10) for i in range(n)]
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 1000)
+    A = [random.randint(1, 10) for _ in range(n)]
     print(can_reach_end(A))
 
 

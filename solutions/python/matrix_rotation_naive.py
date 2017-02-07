@@ -28,6 +28,8 @@ def rotate_matrix(square_matrix):
                     square_matrix[j][-1 - i], square_matrix[i][j])
             square_matrix[i][j], square_matrix[-1 - j][i], square_matrix[
                 -1 - i][-1 - j], square_matrix[j][-1 - i] = temp
+
+
 # @exclude
 
 
@@ -36,8 +38,8 @@ def main():
         n = int(sys.argv[1])
         k = itertools.count(1)
         A = []
-        for i in range(1 << n):
-            A.append([next(k) for j in range(1 << n)])
+        for _ in range(1 << n):
+            A.append([next(k) for _ in range(1 << n)])
         print_matrix(A)
         rotate_matrix(A)
         check_answer(A)
@@ -48,8 +50,8 @@ def main():
             n = random.randint(1, 10)
             k = itertools.count(1)
             A = []
-            for i in range(1 << n):
-                A.append([next(k) for j in range(1 << n)])
+            for _ in range(1 << n):
+                A.append([next(k) for _ in range(1 << n)])
             rotate_matrix(A)
             check_answer(A)
 

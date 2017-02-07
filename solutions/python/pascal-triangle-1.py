@@ -23,10 +23,7 @@ def small_test():
 
 def main():
     small_test()
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(0, 10)
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(0, 10)
     print('n =', n)
     result = generate_pascal_triangle(n)
     for i in result:

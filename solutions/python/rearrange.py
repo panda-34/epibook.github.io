@@ -28,7 +28,7 @@ def main():
     for _ in range(10000):
         n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1,
                                                                        10000)
-        A = [random.randint(-n, n) for i in range(n)]
+        A = [random.randint(-n, n) for _ in range(n)]
         rearrange(A)
         check_answer(A)
 

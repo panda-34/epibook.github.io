@@ -5,13 +5,14 @@ import random
 
 # @include
 def smallest_nonconstructible_value(A):
-    A.sort()
     max_constructible_value = 0
-    for a in A:
+    for a in sorted(A):
         if a > max_constructible_value + 1:
             break
         max_constructible_value += a
     return max_constructible_value + 1
+
+
 # @exclude
 
 
@@ -36,11 +37,8 @@ def small_test():
 
 def main():
     small_test()
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(1, 1000)
-    A = [random.randint(1, 1000) for i in range(n)]
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 1000)
+    A = [random.randint(1, 1000) for _ in range(n)]
     print(*A)
     ans = smallest_nonconstructible_value(A)
     print(ans)

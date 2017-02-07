@@ -18,13 +18,15 @@ def rotate_matrix(A):
 # @include
 class RotatedMatrix:
     def __init__(self, square_matrix):
-        self.__square_matrix = copy.deepcopy(square_matrix)
+        self._square_matrix = copy.deepcopy(square_matrix)
 
     def read_entry(self, i, j):
-        return self.__square_matrix[-1 - j][i]
+        return self._square_matrix[-1 - j][i]
 
     def write_entry(self, i, j, v):
-        self.__square_matrix[-1 - j][i] = v
+        self._square_matrix[-1 - j][i] = v
+
+
 # @exclude
 
 

@@ -10,6 +10,8 @@ def max_profit_unlimited_pairs(A):
         delta = A[i] - A[i - 1]
         profit += max(delta, 0)
     return profit
+
+
 # @exclude
 
 
@@ -29,7 +31,7 @@ def check_ans(A):
 def main():
     n = 5
     for _ in range(100):
-        A = [random.randint(0, 99) for i in range(n)]
+        A = [random.randint(0, 99) for _ in range(n)]
         print('n =', n)
         print(check_ans(A))
         print(max_profit_unlimited_pairs(A))
@@ -37,11 +39,8 @@ def main():
             A) == max_profit_unlimited_pairs_pythonic(A)
 
     # For input
-    if len(sys.argv) == 2:
-        n = int(sys.argv[1])
-    else:
-        n = random.randint(1, 10000)
-    A = [random.randint(0, 99) for i in range(n)]
+    n = int(sys.argv[1]) if len(sys.argv) == 2 else random.randint(1, 10000)
+    A = [random.randint(0, 99) for _ in range(n)]
     print('n =', n)
     print(max_profit_unlimited_pairs(A))
 

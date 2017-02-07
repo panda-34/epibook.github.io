@@ -6,7 +6,6 @@ import sys
 
 # @include
 def multiply(num1, num2):
-    print(num1, num2)
     sign = -1 if (num1[0] < 0) ^ (num2[0] < 0) else 1
     num1[0], num2[0] = abs(num1[0]), abs(num2[0])
 
@@ -18,14 +17,12 @@ def multiply(num1, num2):
             result[i + j + 1] %= 10
 
     # Remove the leading zeroes.
-    first_not_zero = 0
-    while first_not_zero < len(result) and result[first_not_zero] == 0:
-        first_not_zero += 1
-    result = result[first_not_zero:]
-    if not result:
-        return [0]
+    result = result[next((i for i, x in enumerate(result) if x != 0),
+                         len(result)):] or [0]
     result[0] *= sign
     return result
+
+
 # @exclude
 
 

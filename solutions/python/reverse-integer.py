@@ -10,15 +10,14 @@ def reverse(x):
         result = result * 10 + x_remaining % 10
         x_remaining //= 10
     return -result if x < 0 else result
+
+
 # @exclude
 
 
 def check_ans(x):
     s = str(x)
-    if s[0] == '-':
-        s = '-' + s[:0:-1]
-    else:
-        s = s[::-1]
+    s = '-' + s[:0:-1] if s[0] == '-' else s[::-1]
     return int(s)
 
 
